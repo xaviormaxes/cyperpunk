@@ -343,6 +343,16 @@ btw = {
         BeyondTheWall:ExecuteDebugCommand("depth", {tostring(value)})
     end,
 
+    -- Teleport to depth
+    teleport = function(depth)
+        BeyondTheWall:ExecuteDebugCommand("teleport", {tostring(depth)})
+    end,
+
+    -- Show zone information
+    zone = function()
+        BeyondTheWall:ExecuteDebugCommand("zone_info")
+    end,
+
     -- Add XP
     addxp = function(amount)
         BeyondTheWall:ExecuteDebugCommand("add_xp", {tostring(amount)})

@@ -1,0 +1,358 @@
+# Blackwall Facility Area Configuration
+# Beyond the Wall Mod - Phase 2
+# Defines the Militech Research Facility 7-B layout and zones
+
+# ==================================================
+# Facility Overview
+# ==================================================
+# Name: Militech Research Facility 7-B
+# Location: Badlands (repurposed interior)
+# Purpose: Blackwall Interface Research
+# Status: ABANDONED - Containment Breach 2073
+# Current State: Rogue AI infestation
+
+# ==================================================
+# Depth Zones
+# ==================================================
+
+Zones:
+  Depth1_SurfaceContact:
+    name: "Surface Contact"
+    depth: 1
+    description: "Outer facility entrance and security checkpoint"
+    position:
+      x: -100.0
+      y: 50.0
+      z: 10.0
+    radius: 30.0
+    corruptionMultiplier: 1.0
+    ambientCorruptionRate: 0.1  # Per second
+
+    features:
+      - Stabilizer nodes: 2
+      - Terminals: 1 (entry log)
+      - Data shards: 1 (Dr. Chen's first log)
+      - Enemy spawn: Light (possessed guards)
+      - Visual effects: Minimal flickering
+
+    lighting:
+      color: [0.8, 0.9, 1.0]  # Slight blue tint
+      intensity: 0.9
+      flickerChance: 0.05
+
+  Depth2_ProtocolBreach:
+    name: "Protocol Breach"
+    depth: 2
+    description: "Server rooms with active Blackwall connections"
+    position:
+      x: -150.0
+      y: 50.0
+      z: 10.0
+    radius: 25.0
+    corruptionMultiplier: 1.2
+    ambientCorruptionRate: 0.2
+
+    features:
+      - Stabilizer nodes: 2
+      - Terminals: 2 (security logs, system status)
+      - Data shards: 2 (Ramirez report, Chen's concerns)
+      - Enemy spawn: Moderate (possessed technicians)
+      - Visual effects: Screen distortion, HUD glitches
+
+    lighting:
+      color: [0.6, 0.7, 1.0]  # Stronger blue
+      intensity: 0.7
+      flickerChance: 0.15
+      glitchEffects: true
+
+  Depth3_DeepDive:
+    name: "Deep Dive"
+    depth: 3
+    description: "Experimental labs with heavy Blackwall corruption"
+    position:
+      x: -200.0
+      y: 50.0
+      z: 5.0
+    radius: 25.0
+    corruptionMultiplier: 1.5
+    ambientCorruptionRate: 0.3
+
+    features:
+      - Stabilizer nodes: 2
+      - Terminals: 2 (corrupted logs, AI messages)
+      - Data shards: 2 (Evacuation order, containment breach)
+      - Enemy spawn: Heavy (fully possessed, cyberpsychos)
+      - Visual effects: Vision blackouts, strong distortion
+
+    lighting:
+      color: [0.4, 0.5, 1.0]  # Deep blue
+      intensity: 0.5
+      flickerChance: 0.25
+      glitchEffects: true
+      geometryDistortion: true
+
+  Depth4_OldNetInterface:
+    name: "Old Net Interface"
+    depth: 4
+    description: "Blackwall containment core - reality barrier weakens"
+    position:
+      x: -250.0
+      y: 50.0
+      z: 0.0
+    radius: 20.0
+    corruptionMultiplier: 2.0
+    ambientCorruptionRate: 0.5
+
+    features:
+      - Stabilizer nodes: 1
+      - Terminals: 2 (AI communications, warnings)
+      - Data shards: 1 (Martinez's final message)
+      - Enemy spawn: Very Heavy (AI-controlled enemies)
+      - Visual effects: Reality warping, cyberware malfunction
+
+    lighting:
+      color: [0.2, 0.3, 1.0]  # Dark blue
+      intensity: 0.3
+      flickerChance: 0.40
+      glitchEffects: true
+      geometryDistortion: true
+      timeDistortion: true
+
+  Depth5_BeyondTheVeil:
+    name: "Beyond the Veil"
+    depth: 5
+    description: "Breach point - the edge of reality"
+    position:
+      x: -300.0
+      y: 50.0
+      z: -5.0
+    radius: 15.0
+    corruptionMultiplier: 3.0
+    ambientCorruptionRate: 1.0
+
+    features:
+      - Stabilizer nodes: 1 (critical placement)
+      - Terminals: 1 (completely corrupted)
+      - Data shards: 1 (Songbird connection)
+      - Enemy spawn: Extreme (rogue AI entities)
+      - Visual effects: Full corruption, reality breakdown
+
+    lighting:
+      color: [0.0, 0.1, 1.0]  # Pure dark blue/black
+      intensity: 0.1
+      flickerChance: 0.60
+      glitchEffects: true
+      geometryDistortion: true
+      timeDistortion: true
+      voidEffects: true
+
+# ==================================================
+# Stabilizer Node Placements
+# ==================================================
+
+StabilizerNodes:
+  - id: "STAB_D1_A"
+    depth: 1
+    position: { x: -120.0, y: 60.0, z: 10.0 }
+    uses: 3
+    cooldown: 60.0
+    reduction: 25.0
+
+  - id: "STAB_D1_B"
+    depth: 1
+    position: { x: -130.0, y: 40.0, z: 10.0 }
+    uses: 3
+    cooldown: 60.0
+    reduction: 25.0
+
+  - id: "STAB_D2_A"
+    depth: 2
+    position: { x: -170.0, y: 55.0, z: 10.0 }
+    uses: 3
+    cooldown: 60.0
+    reduction: 25.0
+
+  - id: "STAB_D2_B"
+    depth: 2
+    position: { x: -180.0, y: 45.0, z: 10.0 }
+    uses: 3
+    cooldown: 60.0
+    reduction: 25.0
+
+  - id: "STAB_D3_A"
+    depth: 3
+    position: { x: -220.0, y: 60.0, z: 5.0 }
+    uses: 3
+    cooldown: 60.0
+    reduction: 25.0
+
+  - id: "STAB_D3_B"
+    depth: 3
+    position: { x: -230.0, y: 40.0, z: 5.0 }
+    uses: 3
+    cooldown: 60.0
+    reduction: 25.0
+
+  - id: "STAB_D4_A"
+    depth: 4
+    position: { x: -270.0, y: 50.0, z: 0.0 }
+    uses: 2  # Fewer uses at deeper levels
+    cooldown: 90.0  # Longer cooldown
+    reduction: 30.0  # More powerful
+
+  - id: "STAB_D5_A"
+    depth: 5
+    position: { x: -290.0, y: 50.0, z: -5.0 }
+    uses: 1  # Critical placement, limited use
+    cooldown: 120.0
+    reduction: 50.0  # Emergency stabilizer
+
+# ==================================================
+# Terminal Placements
+# ==================================================
+
+Terminals:
+  - id: "TERM_ENTRANCE"
+    depth: 1
+    position: { x: -105.0, y: 50.0, z: 10.0 }
+    content: "Depth1Content"
+    requiresHack: false
+
+  - id: "TERM_SECURITY"
+    depth: 2
+    position: { x: -160.0, y: 55.0, z: 10.0 }
+    content: "Depth2Content"
+    requiresHack: true
+    hackDifficulty: "Easy"
+
+  - id: "TERM_SERVERS"
+    depth: 2
+    position: { x: -165.0, y: 45.0, z: 10.0 }
+    content: "Depth2Content"
+    requiresHack: true
+    hackDifficulty: "Easy"
+
+  - id: "TERM_LAB_A"
+    depth: 3
+    position: { x: -210.0, y: 55.0, z: 5.0 }
+    content: "Depth3Content"
+    requiresHack: true
+    hackDifficulty: "Medium"
+    corrupted: true
+
+  - id: "TERM_LAB_B"
+    depth: 3
+    position: { x: -215.0, y: 45.0, z: 5.0 }
+    content: "Depth3Content"
+    requiresHack: true
+    hackDifficulty: "Medium"
+    corrupted: true
+
+  - id: "TERM_CONTAINMENT_A"
+    depth: 4
+    position: { x: -260.0, y: 55.0, z: 0.0 }
+    content: "Depth4Content"
+    requiresHack: true
+    hackDifficulty: "Hard"
+    corrupted: true
+    dangerous: true  # Can damage player
+
+  - id: "TERM_CONTAINMENT_B"
+    depth: 4
+    position: { x: -265.0, y: 45.0, z: 0.0 }
+    content: "Depth4Content"
+    requiresHack: true
+    hackDifficulty: "Hard"
+    corrupted: true
+    dangerous: true
+
+  - id: "TERM_BREACH"
+    depth: 5
+    position: { x: -295.0, y: 50.0, z: -5.0 }
+    content: "Depth5Content"
+    requiresHack: true
+    hackDifficulty: "Very Hard"
+    corrupted: true
+    dangerous: true
+    addsMastery: 10.0  # Reward for reading
+
+# ==================================================
+# Data Shard Placements
+# ==================================================
+
+DataShards:
+  - id: "BTW_SHARD_001"
+    name: "Dr. Chen's Personal Log"
+    depth: 1
+    position: { x: -115.0, y: 52.0, z: 10.5 }
+    hidden: false
+
+  - id: "BTW_SHARD_002"
+    name: "Security Incident Report"
+    depth: 2
+    position: { x: -175.0, y: 58.0, z: 10.5 }
+    hidden: false
+
+  - id: "BTW_SHARD_003"
+    name: "Evacuation Order (Never Sent)"
+    depth: 3
+    position: { x: -225.0, y: 62.0, z: 5.5 }
+    hidden: true  # Hidden in corpse or container
+
+  - id: "BTW_SHARD_004"
+    name: "Martinez's Final Message"
+    depth: 4
+    position: { x: -275.0, y: 48.0, z: 0.5 }
+    hidden: true
+
+  - id: "BTW_SHARD_005"
+    name: "The Truth About Songbird"
+    depth: 5
+    position: { x: -298.0, y: 51.0, z: -4.5 }
+    hidden: true
+    requiresDepth5Unlocked: true
+
+# ==================================================
+# Entry Points
+# ==================================================
+
+EntryPoints:
+  Main:
+    name: "Facility Main Entrance"
+    position: { x: -95.0, y: 50.0, z: 11.0 }
+    description: "Heavy blast doors, still sealed from the inside"
+    requiresQuest: false  # Can be entered anytime
+
+  Emergency:
+    name: "Emergency Exit"
+    position: { x: -305.0, y: 60.0, z: -4.0 }
+    description: "Collapsed tunnel, only accessible after reaching Depth 5"
+    requiresDepth5: true
+
+# ==================================================
+# Notes for Implementation
+# ==================================================
+
+Implementation:
+  Phase2_Complete:
+    - Zone trigger system (REDscript)
+    - Stabilizer nodes (interactive devices)
+    - Terminal content (environmental storytelling)
+    - Depth progression tracking
+
+  Phase3_Possession:
+    - AI possession system for enemies
+    - Possession visual effects
+    - Spread mechanics
+
+  Phase4_Visual:
+    - Glitch shaders
+    - Screen distortion effects
+    - Reality warping visuals
+    - Lighting and atmosphere
+
+  Phase5_Content:
+    - Unique loot/weapons
+    - Boss encounters
+    - Side quests
+    - Expanded facility areas

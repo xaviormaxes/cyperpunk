@@ -49,6 +49,8 @@ function Debug:cmd_help()
     print("  corruption <value> - Set corruption to value (0-100)")
     print("  mastery <value> - Set mastery to value (0-100)")
     print("  depth <value> - Unlock depth level (1-5)")
+    print("  teleport <depth> - Teleport to depth zone (1-5)")
+    print("  zone_info - Show current zone information")
     print("  reset_corruption - Reset corruption to 0")
     print("  reset_mastery - Reset mastery to 0")
     print("  reset_all - Reset all systems")
@@ -201,6 +203,71 @@ function Debug:cmd_simulate_hack(args)
     print(string.format("[BTW Debug] Simulated %s quickhack (%s)",
         hackName,
         success and "SUCCESS" or "FAILED"))
+end
+
+-- Teleport to depth command (triggers REDscript side)
+function Debug:cmd_teleport(args)
+    local depth = tonumber(args[1])
+    if not depth or depth < 1 or depth > 5 then
+        print("[BTW Debug] Usage: teleport <1-5>")
+        return
+    end
+
+    print(string.format("[BTW Debug] Teleporting to Depth %d...", depth))
+    print("[BTW Debug] NOTE: This requires REDscript integration")
+    print("[BTW Debug] In-game, use console: Game.TeleportPlayerToNode(\"BTW_Depth" .. depth .. "\")")
+
+    -- For testing, just simulate entering the zone
+    self.corruption:SetInDeepZone(true, depth)
+    print(string.format("[BTW Debug] Simulated entry to Depth %d zone", depth))
+end
+
+-- Show zone information command
+function Debug:cmd_zone_info()
+    local currentDepth = self.corruption:GetDepth()
+    local inZone = self.corruption.isInDeepZone
+
+    print("=== Zone Information ===")
+    if inZone then
+        local zoneName = self:GetZoneName(currentDepth)
+        print(string.format("Current Zone: Depth %d - %s", currentDepth, zoneName))
+        print(string.format("In Facility: YES"))
+
+        -- Show zone details from configuration
+        local zoneDetails = self:GetZoneDetails(currentDepth)
+        if zoneDetails then
+            print(string.format("Corruption Multiplier: %.1fx", zoneDetails.corruptionMultiplier))
+            print(string.format("Ambient Corruption: %.2f/sec", zoneDetails.ambientRate))
+        end
+    else
+        print("Current Zone: Outside Facility")
+        print("In Facility: NO")
+        print("Corruption is decaying normally")
+    end
+end
+
+-- Helper: Get zone name
+function Debug:GetZoneName(depth)
+    local zoneNames = {
+        [1] = "Surface Contact",
+        [2] = "Protocol Breach",
+        [3] = "Deep Dive",
+        [4] = "Old Net Interface",
+        [5] = "Beyond the Veil"
+    }
+    return zoneNames[depth] or "Unknown"
+end
+
+-- Helper: Get zone details
+function Debug:GetZoneDetails(depth)
+    local zoneDetails = {
+        [1] = { corruptionMultiplier = 1.0, ambientRate = 0.1 },
+        [2] = { corruptionMultiplier = 1.2, ambientRate = 0.2 },
+        [3] = { corruptionMultiplier = 1.5, ambientRate = 0.3 },
+        [4] = { corruptionMultiplier = 2.0, ambientRate = 0.5 },
+        [5] = { corruptionMultiplier = 3.0, ambientRate = 1.0 }
+    }
+    return zoneDetails[depth]
 end
 
 -- Get command history
