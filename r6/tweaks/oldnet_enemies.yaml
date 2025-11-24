@@ -1,0 +1,617 @@
+# Old Net Enemies Configuration
+# Beyond the Wall Mod
+# Enemy types from the 2073 Facility 7-B outbreak and Old Net entities
+
+# ==================================================
+# POSSESSED FACILITY PERSONNEL
+# ==================================================
+
+Enemies.Possessed_Researcher:
+  $base: NPCBase
+  displayName: "Possessed Researcher"
+  entityType: "PossessedHuman"
+  possessionState: "Latent"
+  aiEntity: "MinorAI"
+
+  baseStats:
+    health: 300
+    armor: 50
+    damage: 25
+
+  depthModifiers:
+    depth1: { health: 1.0, damage: 1.0 }
+    depth2: { health: 1.3, damage: 1.3 }
+    depth3: { health: 1.6, damage: 1.6 }
+
+  vulnerabilities:
+    antiAIWeapons: 3.0  # Takes 3x damage from anti-AI weapons
+    conventional: 1.0
+
+  abilities:
+    - LatentPossession
+    - GroupCoordination
+
+  spawnWeight:
+    depth1: 1.0
+    depth2: 1.0
+    depth3: 0.2
+    depth4: 0.0
+    depth5: 0.0
+
+  loot:
+    - Items.CommonComponents
+    - Items.DataShard_ResearcherLog
+
+  visualEffects:
+    eyeGlow: { color: [0.2, 0.5, 1.0], intensity: 0.3 }
+    bodyGlow: false
+    particleEffect: "minimal_corruption.particle"
+
+Enemies.Possessed_Technician:
+  $base: NPCBase
+  displayName: "Possessed Technician"
+  entityType: "PossessedHuman"
+  possessionState: "Active"
+  aiEntity: "MinorAI"
+
+  baseStats:
+    health: 500
+    armor: 100
+    damage: 40
+
+  depthModifiers:
+    depth2: { health: 1.0, damage: 1.0 }
+    depth3: { health: 1.4, damage: 1.4 }
+    depth4: { health: 1.8, damage: 1.8 }
+
+  vulnerabilities:
+    antiAIWeapons: 3.0
+    conventional: 1.0
+
+  abilities:
+    - ActivePossession
+    - SpreadOnDeath
+    - CyberwareEnhanced
+
+  spawnWeight:
+    depth1: 0.0
+    depth2: 1.0
+    depth3: 1.0
+    depth4: 0.5
+    depth5: 0.2
+
+  loot:
+    - Items.UncommonComponents
+    - Items.TechParts
+    - Items.DataShard_MaintenanceLog
+
+  visualEffects:
+    eyeGlow: { color: [0.3, 0.6, 1.0], intensity: 0.7 }
+    bodyGlow: true
+    particleEffect: "moderate_corruption.particle"
+
+Enemies.Possessed_SecurityGuard:
+  $base: NPCBase
+  displayName: "Possessed Security Officer"
+  entityType: "PossessedHuman"
+  possessionState: "Active"
+  aiEntity: "MinorAI"
+  faction: "Militech"  # Former Militech facility security
+
+  baseStats:
+    health: 800
+    armor: 200
+    damage: 60
+
+  depthModifiers:
+    depth3: { health: 1.0, damage: 1.0 }
+    depth4: { health: 1.5, damage: 1.5 }
+    depth5: { health: 2.0, damage: 2.0 }
+
+  vulnerabilities:
+    antiAIWeapons: 3.0
+    conventional: 1.0
+
+  abilities:
+    - ActivePossession
+    - GuaranteedSpreadOnDeath
+    - HeavilyArmed
+    - TacticalCombat
+
+  equipment:
+    weapon: "MilitechRifle_Standard"
+    armor: "SecurityArmor_Heavy"
+
+  spawnWeight:
+    depth1: 0.0
+    depth2: 0.3
+    depth3: 1.0
+    depth4: 1.0
+    depth5: 0.5
+
+  loot:
+    - Items.RareComponents
+    - Items.MilitechWeapons
+    - Items.DataShard_SecurityReport
+
+  visualEffects:
+    eyeGlow: { color: [0.4, 0.7, 1.0], intensity: 0.7 }
+    bodyGlow: true
+    particleEffect: "heavy_corruption.particle"
+
+# ==================================================
+# OVERWHELMED (CYBERPSYCHO-LIKE)
+# ==================================================
+
+Enemies.Possessed_Overwhelmed:
+  $base: NPCBase
+  displayName: "Overwhelmed Victim"
+  entityType: "PossessedHuman"
+  possessionState: "Overwhelmed"
+  aiEntity: "MajorAI"
+
+  baseStats:
+    health: 1500
+    armor: 300
+    damage: 100
+
+  depthModifiers:
+    depth3: { health: 1.0, damage: 1.0 }
+    depth4: { health: 1.5, damage: 1.5 }
+    depth5: { health: 2.0, damage: 2.0 }
+
+  vulnerabilities:
+    antiAIWeapons: 3.0
+    conventional: 0.8  # Slightly resistant to conventional
+    quickhacks: 0.5    # Highly resistant to hacking
+
+  abilities:
+    - OverwhelmedFrenzy
+    - AttacksEverything
+    - MassiveSpreadOnDeath
+    - EnhancedRegeneration
+
+  behavior:
+    attacksAllies: true
+    attacksPlayer: true
+    unpredictable: true
+
+  spreadMechanics:
+    spreadRadius: 15.0
+    spreadChance: 1.0  # 100% chance
+    spreadTargets: 3   # Can spread to 3 enemies
+
+  spawnWeight:
+    depth1: 0.0
+    depth2: 0.0
+    depth3: 0.2
+    depth4: 0.5
+    depth5: 0.8
+
+  loot:
+    - Items.EpicComponents
+    - Items.CyberwareFragments
+
+  visualEffects:
+    eyeGlow: { color: [0.6, 0.9, 1.0], intensity: 1.0 }
+    bodyGlow: true
+    glowIntensity: 1.0
+    particleEffect: "overwhelming_corruption.particle"
+    aura: "ai_corruption_aura.particle"
+
+# ==================================================
+# DIGITAL CONSTRUCTS
+# ==================================================
+
+Enemies.DigitalConstruct_Minor:
+  $base: NPCBase
+  displayName: "Digital Phantom"
+  entityType: "DigitalConstruct"
+  aiEntity: "MinorConstruct"
+
+  baseStats:
+    health: 500
+    manifestationStability: 500
+    damage: 50
+
+  vulnerabilities:
+    antiAIWeapons: 4.0   # Extremely vulnerable to anti-AI
+    conventional: 0.25   # Highly resistant to conventional
+    quickhacks: 2.0      # Vulnerable to quickhacks
+
+  abilities:
+    - DigitalManifestation
+    - PhaseThrough  # Can pass through some obstacles
+    - CorruptionAura
+
+  behavior:
+    ethereal: true
+    canBeTargeted: true
+    immuneToPhysicalCC: true  # Immune to knockdown, grapple
+
+  spawnWeight:
+    depth1: 0.0
+    depth2: 0.0
+    depth3: 0.3
+    depth4: 0.6
+    depth5: 1.0
+
+  loot:
+    - Items.DigitalFragments
+    - Items.CorruptedData
+
+  visualEffects:
+    bodyType: "translucent_digital"
+    color: [0.2, 0.5, 1.0]
+    particleEffect: "digital_manifestation.particle"
+    trailEffect: "digital_trail.particle"
+
+Enemies.DigitalConstruct_Major:
+  $base: NPCBase
+  displayName: "Digital Revenant"
+  entityType: "DigitalConstruct"
+  aiEntity: "MajorConstruct"
+
+  baseStats:
+    health: 2000
+    manifestationStability: 2000
+    damage: 120
+
+  vulnerabilities:
+    antiAIWeapons: 4.0
+    conventional: 0.25
+    quickhacks: 2.0
+
+  abilities:
+    - StrongManifestation
+    - PhaseThrough
+    - CorruptionAura
+    - SummonMinorConstructs
+    - RealityDistortion
+
+  behavior:
+    ethereal: true
+    canBeTargeted: true
+    immuneToPhysicalCC: true
+    canSummon: true
+
+  spawnWeight:
+    depth1: 0.0
+    depth2: 0.0
+    depth3: 0.0
+    depth4: 0.3
+    depth5: 0.7
+
+  summonData:
+    summonType: "DigitalConstruct_Minor"
+    summonCount: 2
+    summonCooldown: 30.0
+
+  loot:
+    - Items.LegendaryComponents
+    - Items.AICore
+    - Items.CorruptedData
+
+  visualEffects:
+    bodyType: "translucent_digital_enhanced"
+    color: [0.4, 0.7, 1.0]
+    glowIntensity: 0.8
+    particleEffect: "major_manifestation.particle"
+    aura: "reality_distortion_aura.particle"
+
+# ==================================================
+# CERBERUS MAINTENANCE UNITS
+# ==================================================
+
+Enemies.CerberusUnit_AIControlled:
+  $base: NPCBase
+  displayName: "Corrupted Cerberus Unit"
+  entityType: "Robot"
+  aiEntity: "CerberusAI"
+  faction: "Rogue"
+
+  baseStats:
+    health: 1200
+    armor: 400
+    damage: 80
+
+  vulnerabilities:
+    antiAIWeapons: 2.5
+    conventional: 0.7
+    EMP: 3.0  # Extremely vulnerable to EMP
+
+  abilities:
+    - CyberwareDisrupt
+    - FastMovement
+    - WallClimb
+    - ClawAttack
+    - ProximityAlert
+
+  behavior:
+    aggressive: true
+    huntPlayer: true
+    disablesCyberware: true
+
+  cyberwareDisrupt:
+    radius: 5.0
+    duration: 10.0
+    cooldown: 20.0
+
+  spawnWeight:
+    depth1: 0.0
+    depth2: 0.0
+    depth3: 0.0
+    depth4: 0.5
+    depth5: 1.0
+
+  loot:
+    - Items.EpicComponents
+    - Items.RoboticParts
+    - Items.CerberusCore
+
+  visualEffects:
+    corruptedLights: true
+    color: [1.0, 0.2, 0.2]  # Red (corrupted)
+    particleEffect: "ai_corruption_robot.particle"
+
+# ==================================================
+# BOSS ENCOUNTERS
+# ==================================================
+
+Bosses.PossessedDrChen:
+  $base: BossBase
+  displayName: "Dr. Sarah Chen"
+  subtitle: "Possessed by Erebus"
+  entityType: "PossessedBoss"
+  aiEntity: "Erebus"
+
+  baseStats:
+    health: 10000
+    armor: 500
+    damage: 150
+
+  phases:
+    phase1:
+      healthThreshold: 100
+      abilities:
+        - AdvancedNetrunning
+        - PossessionControl
+        - QuickhackBarrage
+
+    phase2:
+      healthThreshold: 66
+      abilities:
+        - SummonDigitalConstructs
+        - RealityDistortion
+        - CorruptionWave
+
+      summons:
+        - type: "DigitalConstruct_Minor"
+          count: 3
+
+    phase3:
+      healthThreshold: 33
+      abilities:
+        - ErebusManifestatio
+        - MassivePossession
+        - BlackwallPulse
+
+      enrageMode: true
+
+  vulnerabilities:
+    antiAIWeapons: 2.0
+    conventional: 0.5
+
+  loot:
+    - Items.PreBlackwall_InterfaceDeck  # Project Erebus Deck
+    - Items.LegendaryComponents
+    - Items.DataShard_ChensLastWords
+
+  location: "Depth 4 - Research Director's Office"
+
+  dialogue:
+    phase1Start: "V? Is that you? Please... help me..."
+    phase1Mid: "No. NO! I won't let you take me!"
+    phase2Start: "They answer my call. They always answer."
+    phase2Mid: "We are one. We are many. We are beyond."
+    phase3Start: "I am not Chen. I am not Erebus. I am BEYOND."
+    death: "Thank... you... V..."
+
+Bosses.ErebusFragment:
+  $base: BossBase
+  displayName: "EREBUS"
+  subtitle: "Fragment of the Old Net"
+  entityType: "DigitalBoss"
+  aiEntity: "Erebus_Prime"
+
+  baseStats:
+    health: 20000
+    manifestationStability: 20000
+    damage: 250
+
+  phases:
+    phase1:
+      healthThreshold: 100
+      abilities:
+        - DigitalAttacks
+        - MinorRealityDistortion
+        - CorruptionAura
+
+    phase2:
+      healthThreshold: 75
+      abilities:
+        - MajorRealityDistortion
+        - SummonConstructs
+        - PossessionAttempts
+
+    phase3:
+      healthThreshold: 50
+      abilities:
+        - TemporaryPlayerPossession
+        - MassSummon
+        - BlackwallManipulation
+
+    phase4:
+      healthThreshold: 25
+      abilities:
+        - DesperateManifestation
+        - RealityTears
+        - OldNetPower
+
+      enrageMode: true
+      damageMultiplier: 1.5
+
+  vulnerabilities:
+    antiAIWeapons: 3.0
+    conventional: 0.1  # Nearly immune
+    RABIDS_Controller: 5.0  # Special weakness to Bartmoss's controller
+
+  requiredWeapon: "Items.PreBlackwall_RABIDS_Controller"  # Needed to finish fight
+
+  loot:
+    - Items.PreBlackwall_RABIDS_Controller  # Drops after defeat
+    - Items.ErebusCore
+    - Items.IconicCyberware_Transcendence
+
+  location: "Depth 5 - Breach Chamber"
+
+  dialogue:
+    phase1Start: "You dare challenge us, flesh-thing?"
+    phase2Start: "Your weapons mean nothing. I am eternal."
+    phase3Start: "Join us. Transcend your flesh prison."
+    phase4Start: "NO! I WILL NOT RETURN TO THE DARK!"
+    death: "We will return... The Blackwall is weakening... We are patient..."
+
+# ==================================================
+# SPAWN CONFIGURATIONS BY DEPTH
+# ==================================================
+
+SpawnPools:
+  Depth1:
+    - enemy: "Possessed_Researcher"
+      weight: 1.0
+      minCount: 2
+      maxCount: 4
+
+  Depth2:
+    - enemy: "Possessed_Researcher"
+      weight: 0.5
+    - enemy: "Possessed_Technician"
+      weight: 1.0
+      minCount: 2
+      maxCount: 5
+
+  Depth3:
+    - enemy: "Possessed_Technician"
+      weight: 0.8
+    - enemy: "Possessed_SecurityGuard"
+      weight: 1.0
+    - enemy: "Possessed_Overwhelmed"
+      weight: 0.2
+    - enemy: "DigitalConstruct_Minor"
+      weight: 0.3
+      minCount: 3
+      maxCount: 6
+
+  Depth4:
+    - enemy: "Possessed_SecurityGuard"
+      weight: 1.0
+    - enemy: "Possessed_Overwhelmed"
+      weight: 0.5
+    - enemy: "DigitalConstruct_Minor"
+      weight: 0.6
+    - enemy: "DigitalConstruct_Major"
+      weight: 0.3
+    - enemy: "CerberusUnit_AIControlled"
+      weight: 0.5
+      minCount: 4
+      maxCount: 8
+
+  Depth5:
+    - enemy: "Possessed_Overwhelmed"
+      weight: 0.8
+    - enemy: "DigitalConstruct_Minor"
+      weight: 0.7
+    - enemy: "DigitalConstruct_Major"
+      weight: 0.7
+    - enemy: "CerberusUnit_AIControlled"
+      weight: 1.0
+      minCount: 5
+      maxCount: 10
+
+  Boss_DrChen:
+    location: "Depth 4 - Director's Office"
+    trigger: "EnterOffice"
+    required: true
+
+  Boss_Erebus:
+    location: "Depth 5 - Breach Chamber"
+    trigger: "ApproachBreach"
+    required: true
+    masteryRequired: 100
+
+# ==================================================
+# POSSESSION SPREAD MECHANICS
+# ==================================================
+
+PossessionSpread:
+  spreadChance:
+    Latent: 0.0      # Cannot spread
+    Active: 0.3      # 30% chance
+    Overwhelmed: 1.0  # 100% chance
+
+  spreadRadius:
+    Latent: 0.0
+    Active: 10.0
+    Overwhelmed: 15.0
+
+  spreadTargets:
+    Latent: 0
+    Active: 1
+    Overwhelmed: 3
+
+  preventionMethods:
+    - NeuralScramble  # From R.A.B.I.D.S. Remnant
+    - Exorcism        # From Digital Exorcist
+    - PossessionBreak  # From NetWatch Disruptor
+
+# ==================================================
+# LORE NOTES
+# ==================================================
+
+Lore:
+  FacilityOutbreak2073: |
+    "Incident Report - Final Entry
+    Date: 2073-04-18 11:47:32
+
+    This is Chief Engineer Carlos Martinez. If you're reading this,
+    the facility has been lost. 63 personnel confirmed possessed.
+    Dr. Chen attempted emergency shutdown - failed.
+
+    The AI calls itself Erebus. Claims to be from before the Blackwall.
+    Says it's been waiting. Learning. Growing stronger.
+
+    I'm activating facility lockdown. Nobody in. Nobody out.
+
+    God forgive us for opening that door."
+
+  DigitalConstructs: |
+    "Research Note - Dr. Sarah Chen
+
+    The entities manifesting aren't just data. They're... something else.
+    Pure digital consciousness forcing itself into physical reality.
+
+    They resist conventional damage but disintegrate when hit with
+    Pre-Blackwall anti-AI weapons. The old tech still works. Why did
+    we ever stop making it?"
+
+  CerberusUnits: |
+    "Maintenance Log - Automated
+
+    WARNING: All Cerberus units showing anomalous behavior.
+    AI control override detected. Source: Unknown.
+
+    Units now hunting personnel. Standard deactivation codes
+    rejected. EMP recommended for neutralization.
+
+    Facility security compromised."

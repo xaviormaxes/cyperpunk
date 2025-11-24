@@ -1,0 +1,407 @@
+# Pre-Blackwall Era Weapons
+# Beyond the Wall Mod
+# Weapons from the DataKrash era (2020-2044) designed to fight rogue AIs
+
+# ==================================================
+# LORE CONTEXT
+# ==================================================
+# These weapons were developed during the desperate years after Rache Bartmoss
+# unleashed R.A.B.I.D.S. in 2020, before the Blackwall was established in 2044.
+# NetWatch, ITS, and various corporations created experimental weapons to
+# fight rogue AIs both in cyberspace and when they possessed physical bodies.
+
+# ==================================================
+# R.A.B.I.D.S. REMNANT - Smart Pistol
+# ==================================================
+Items.PreBlackwall_RABIDS_Remnant:
+  $base: Items.Preset_Liberty_Iconic
+  displayName: "R.A.B.I.D.S. Remnant"
+  localizedDescription: |
+    "One of Bartmoss's personal sidearms, modified with his own anti-AI code.
+    Ironic that the man who brought down the Net also created weapons to fight
+    what came after. Found in Facility 7-B's armory.
+
+    Special: +300% damage vs AI-corrupted enemies. Bullets apply 'Neural Scramble'
+    debuff, preventing AI possession spread for 10 seconds."
+
+  quality: Items.IconicQuality
+  itemType: ItemType.Wea_Handgun
+
+  statModifiers:
+    - BaseDamage: 45
+    - BonusDamageVsAI: 300  # Custom stat
+    - CritChance: 25
+    - CritDamage: 50
+    - AttackSpeed: 1.2
+
+  tags:
+    - IconicWeapon
+    - SmartWeapon
+    - AntiAI
+    - PreBlackwallEra
+
+  abilities:
+    - NeuralScramble  # Prevents possession spread
+    - SmartTargeting
+
+  visualEffects:
+    muzzleFlash: "particles/weapons/rabids_flash.particle"
+    tracers: "particles/weapons/ai_killer_tracer.particle"
+    impactEffect: "particles/weapons/neural_scramble_impact.particle"
+
+# ==================================================
+# NETWATCH NEURAL DISRUPTOR - Tech Rifle
+# ==================================================
+Items.PreBlackwall_NetWatch_Disruptor:
+  $base: Items.Preset_SPT32_Grad_Iconic
+  displayName: "NetWatch Neural Disruptor MK.VII"
+  localizedDescription: |
+    "NetWatch prototype from 2038. Fires concentrated EM pulses that disrupt
+    AI patterns and cyberware connections simultaneously. The MK.VII was the
+    last model before the Blackwall made such weapons 'obsolete.'
+
+    They were wrong.
+
+    Special: Charged shots create EMP blast that disables cyberware in 5m radius.
+    AI-corrupted enemies take massive damage and lose possession for 5 seconds."
+
+  quality: Items.IconicQuality
+  itemType: ItemType.Wea_Rifle
+
+  statModifiers:
+    - BaseDamage: 120
+    - ChargedDamage: 400
+    - BonusDamageVsAI: 250
+    - EMPRadius: 5.0
+    - ChargeDuration: 1.5
+
+  tags:
+    - IconicWeapon
+    - TechWeapon
+    - AntiAI
+    - NetWatchGear
+    - PreBlackwallEra
+
+  abilities:
+    - ChargedShot
+    - EMPBlast
+    - PossessionBreaker
+    - CyberwareDisrupt
+
+  chargeEffects:
+    chargeSound: "audio/weapons/netwatch_charge.audio"
+    chargeParticles: "particles/weapons/emp_charge.particle"
+    releaseEffect: "particles/weapons/emp_blast.particle"
+
+# ==================================================
+# ARASAKA AI-HUNTER KATANA
+# ==================================================
+Items.PreBlackwall_Arasaka_AIHunter:
+  $base: Items.Preset_Katana_Iconic
+  displayName: "Oni no Kiru"
+  localizedDescription: |
+    "Translation: 'Demon Slayer'
+
+    Arasaka's answer to possessed netrunners in the 2030s. Monomolecular edge
+    infused with specialized nanotech that severs AI connections on contact.
+    The blade hums with a frequency that AI entities find... unsettling.
+
+    Found in the hands of a possessed security chief. He didn't need it anymore.
+
+    Special: Attacks sever AI possession. Critical hits banish AI entities
+    temporarily. +400% damage vs digital constructs."
+
+  quality: Items.IconicQuality
+  itemType: ItemType.Wea_Katana
+
+  statModifiers:
+    - BaseDamage: 250
+    - BonusDamageVsAI: 400
+    - CritChance: 35
+    - CritDamage: 150
+    - AttackSpeed: 1.4
+    - BleedChance: 60
+
+  tags:
+    - IconicWeapon
+    - MeleeWeapon
+    - AntiAI
+    - ArasakaCorp
+    - PreBlackwallEra
+    - Blade
+
+  abilities:
+    - SeverPossession
+    - BanishAI
+    - DigitalSlayer
+
+  visualEffects:
+    trailEffect: "particles/weapons/ai_killer_trail.particle"
+    hitEffect: "particles/weapons/possession_sever.particle"
+    critEffect: "particles/weapons/ai_banish.particle"
+
+  audioEffects:
+    swingSound: "audio/weapons/ai_hunter_swing.audio"
+    hitSound: "audio/weapons/digital_impact.audio"
+    aiHum: "audio/weapons/unsettling_frequency.audio"
+
+# ==================================================
+# MILITECH EMP GRENADES (DataKrash Era)
+# ==================================================
+Items.PreBlackwall_Militech_EMPGrenade:
+  $base: Items.Preset_EMP_Grenade
+  displayName: "Militech EMP-7B Grenade"
+  localizedDescription: |
+    "Manufactured 2037. Found in Facility 7-B armory by the crate.
+    They knew what was coming.
+
+    Military-grade EMP specifically tuned to disrupt AI processes. More
+    effective than modern variants because it was designed when rogue AIs
+    were the primary threat, not an afterthought.
+
+    Special: Massive damage to AI-corrupted enemies. Breaks possession on all
+    targets in blast radius. Disrupts cyberware for 15 seconds."
+
+  quality: Items.LegendaryQuality
+  itemType: ItemType.Gad_Grenade
+
+  statModifiers:
+    - BlastRadius: 8.0
+    - BaseDamage: 200
+    - BonusDamageVsAI: 500
+    - PossessionBreakChance: 100
+    - CyberwareDisruptDuration: 15.0
+
+  tags:
+    - Grenade
+    - EMP
+    - AntiAI
+    - MilitechGear
+    - PreBlackwallEra
+
+  abilities:
+    - EMPBlast
+    - MassPossessionBreak
+    - CyberwareShutdown
+
+# ==================================================
+# PROTOTYPE BLACKWALL INTERFACE DECK
+# ==================================================
+Items.PreBlackwall_InterfaceDeck:
+  $base: Items.Preset_Cyberdeck_Iconic
+  displayName: "Project Erebus - Interface Deck"
+  localizedDescription: |
+    "CLASSIFIED - NETWATCH INTERNAL USE ONLY
+
+    Experimental cyberdeck from Facility 7-B. Dr. Chen's personal deck,
+    designed to interface directly with Blackwall protocols. It's what
+    she used to try to stop the breach.
+
+    It didn't work. But you might have better luck.
+
+    Special: +6 Quickhack slots. Blackwall quickhacks cost 50% less RAM.
+    +50% quickhack damage vs AI-corrupted targets. Reduces corruption gain
+    from Blackwall quickhacks by 25%."
+
+  quality: Items.IconicQuality
+  itemType: ItemType.Cyb_NervousSystem  # Cyberdeck
+
+  statModifiers:
+    - QuickhackSlots: 6
+    - QuickhackRAMCost: -0.5
+    - BonusQuickhackDamageVsAI: 50
+    - BlackwallQuickhackCorruptionReduction: 25
+    - RAMRecoveryRate: 1.5
+    - BufferSize: 14
+
+  tags:
+    - IconicCyberware
+    - Cyberdeck
+    - NetWatchPrototype
+    - BlackwallInterface
+    - PreBlackwallEra
+
+  abilities:
+    - EnhancedBlackwallInterface
+    - ReducedCorruption
+    - AITargeting
+
+# ==================================================
+# ITS DIGITAL EXORCIST - Smart SMG
+# ==================================================
+Items.PreBlackwall_ITS_Exorcist:
+  $base: Items.Preset_Shingen_Iconic
+  displayName: "Digital Exorcist"
+  localizedDescription: |
+    "International TransSpace (ITS) special ops weapon, circa 2041.
+
+    'When the dead start walking in the Net, you need more than firewalls.'
+    - ITS Security Memo, 2040
+
+    Smart-targeting SMG loaded with proprietary 'Exorcist' rounds - bullets
+    with embedded nanotech designed to disrupt AI patterns. Each hit degrades
+    AI cohesion until possession fails.
+
+    Special: Sustained fire on AI-corrupted enemies builds 'Exorcism' stacks.
+    At 10 stacks, target is purged of AI influence. Smart-targeting prioritizes
+    AI-corrupted threats."
+
+  quality: Items.IconicQuality
+  itemType: ItemType.Wea_SMG
+
+  statModifiers:
+    - BaseDamage: 35
+    - BonusDamageVsAI: 200
+    - FireRate: 850  # RPM
+    - MagazineSize: 40
+    - ExorcismStacksRequired: 10
+
+  tags:
+    - IconicWeapon
+    - SmartWeapon
+    - AntiAI
+    - ITSCorp
+    - PreBlackwallEra
+
+  abilities:
+    - SmartTargeting
+    - ExorcismStacking
+    - AIPrioritization
+    - NanotechRounds
+
+  visualEffects:
+    muzzleFlash: "particles/weapons/exorcist_flash.particle"
+    hitEffect: "particles/weapons/ai_degradation.particle"
+    exorcismComplete: "particles/weapons/purge_ai.particle"
+
+# ==================================================
+# RARE: RACHE'S PERSONAL R.A.B.I.D.S. CONTROLLER
+# ==================================================
+Items.PreBlackwall_RABIDS_Controller:
+  $base: Items.Preset_Cyberdeck_Iconic
+  displayName: "R.A.B.I.D.S. Emergency Override"
+  localizedDescription: |
+    "Property of Rache Bartmoss (Deceased)
+
+    The mad genius himself. This device was meant to give Bartmoss emergency
+    control over his R.A.B.I.D.S. virus if things got out of hand.
+
+    They did. He never got to use it. You found it in a sealed vault in
+    Facility 7-B - they were studying it, trying to understand how to
+    control what they couldn't stop.
+
+    ULTRA RARE - ONE OF A KIND
+
+    Special: Can temporarily command AI-corrupted enemies. Blackwall quickhacks
+    have 0% corruption cost. +100% quickhack damage vs all AI entities.
+    Mastery XP gain +50%."
+
+  quality: Items.IconicQuality
+  itemType: ItemType.Cyb_NervousSystem
+
+  statModifiers:
+    - QuickhackSlots: 8
+    - BlackwallQuickhackCorruptionCost: -100  # Zero corruption!
+    - BonusQuickhackDamageVsAI: 100
+    - MasteryXPGain: 50
+    - RAMRecoveryRate: 2.0
+    - BufferSize: 18
+
+  tags:
+    - IconicCyberware
+    - UltraRare
+    - Legendary
+    - RacheBartmoss
+    - R.A.B.I.D.S.
+    - PreBlackwallEra
+
+  abilities:
+    - CommandAI
+    - ZeroCorruptionCost
+    - R.A.B.I.D.S.Override
+    - MasteryBoost
+
+  acquisitionRequirements:
+    - depthLevel: 5
+    - masteryLevel: 100
+    - questComplete: "BTW_FindVault"
+
+# ==================================================
+# Weapon Acquisition
+# ==================================================
+WeaponPlacements:
+  RABIDS_Remnant:
+    location: "Depth 2 - Armory"
+    container: "weapon_locker_A7"
+    requiresHack: true
+
+  NetWatch_Disruptor:
+    location: "Depth 3 - Research Lab"
+    container: "experimental_weapons_case"
+    requiresHack: true
+    difficulty: "Medium"
+
+  Arasaka_AIHunter:
+    location: "Depth 4 - Security Chief's Corpse"
+    lootSource: "possessed_chief_martinez"
+    requiresBossFight: true
+
+  Militech_EMPGrenade:
+    location: "Depth 2 - Armory"
+    container: "grenade_crate_7B"
+    quantity: 5
+
+  ITS_Exorcist:
+    location: "Depth 3 - ITS Security Office"
+    container: "security_safe"
+    requiresKeycard: true
+
+  Project_Erebus_Deck:
+    location: "Depth 4 - Dr. Chen's Office"
+    container: "personal_safe"
+    requiresCode: "2073"
+
+  RABIDS_Controller:
+    location: "Depth 5 - Sealed Vault"
+    container: "bartmoss_vault"
+    requiresQuest: "BTW_UltimatePower"
+    requiresMastery: 100
+
+# ==================================================
+# Special Mechanics
+# ==================================================
+AntiAIMechanics:
+  BonusDamageCalculation:
+    # Base damage * (1 + BonusDamageVsAI/100)
+    # E.g., 100 damage with 300% bonus = 400 total damage
+
+  PossessionBreak:
+    # Chance to break AI possession on hit
+    # Certain weapons guarantee break on critical
+
+  NeuralScramble:
+    duration: 10.0
+    effect: "Prevents AI spread from this target"
+
+  Exorcism:
+    stacksRequired: 10
+    stackDuration: 5.0  # Stacks decay after 5s
+    effect: "Purges AI completely, prevents re-possession for 30s"
+
+  DigitalBanish:
+    duration: 15.0
+    effect: "AI entity cannot manifest in physical realm"
+
+# ==================================================
+# Lore Timeline
+# ==================================================
+WeaponHistory:
+  2020: "DataKrash - Rache Bartmoss releases R.A.B.I.D.S."
+  2025: "First anti-AI weapons developed (crude, ineffective)"
+  2030: "Arasaka Oni no Kiru prototype - first successful AI-killer blade"
+  2037: "Militech EMP-7B - mass production of anti-AI explosives"
+  2038: "NetWatch Neural Disruptor MK.VII - peak of pre-Blackwall tech"
+  2041: "ITS Digital Exorcist - last major innovation before Blackwall"
+  2044: "Blackwall established - anti-AI weapons deemed obsolete"
+  2073: "Facility 7-B collects Pre-Blackwall weapons for research"
+  2077: "V discovers arsenal that was supposed to save the world"

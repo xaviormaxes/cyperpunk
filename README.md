@@ -71,6 +71,45 @@ When you kill possessed enemies, the AI entity can jump to another nearby target
 | **Blackwall Overload** | 50 | 5 | All enemies in 30m become possessed, attack each other |
 | **Stabilize** | 10 | - | Reduces corruption by 25%, removes negative effects (60s cooldown) |
 
+## ⚔️ Pre-Blackwall Weapons
+
+Discover arsenal from the DataKrash era (2020-2044) - weapons built when rogue AIs were the primary threat:
+
+| Weapon | Type | Special Property | Location |
+|--------|------|------------------|----------|
+| **R.A.B.I.D.S. Remnant** | Smart Pistol | +300% vs AI, prevents possession spread | Depth 2 Armory |
+| **NetWatch Neural Disruptor** | Tech Rifle | EMP blast, breaks possession | Depth 3 Lab |
+| **Oni no Kiru** | Katana | +400% vs digital constructs, banishes AI | Depth 4 Boss |
+| **Militech EMP-7B** | Grenade | Mass possession break, 8m radius | Depth 2 Armory |
+| **Digital Exorcist** | Smart SMG | Exorcism stacks purge AI | Depth 3 Office |
+| **Project Erebus Deck** | Cyberdeck | -50% Blackwall hack cost, +6 slots | Dr. Chen Boss |
+| **R.A.B.I.D.S. Controller** ⭐ | Cyberdeck | **ZERO corruption cost**, AI command | Depth 5 Vault |
+
+⭐ *Ultra Rare - Rache Bartmoss's personal failsafe. Requires 100 Mastery to unlock.*
+
+## 👾 Old Net Enemies
+
+Face the aftermath of the 2073 Facility 7-B outbreak:
+
+### Possessed Personnel (The 63)
+- **Researchers** (Latent) - Low threat, coordinated groups
+- **Technicians** (Active) - Moderate threat, can spread possession
+- **Security Guards** (Active) - High threat, heavily armed
+- **The Overwhelmed** - Extreme threat, attacks everything, guaranteed spread
+
+### Digital Constructs
+- **Digital Phantoms** - Weak AI manifestations, 4x damage from anti-AI weapons
+- **Digital Revenants** - Strong manifestations, summon reinforcements
+
+### AI-Controlled Machines
+- **Cerberus Units** - Maintenance robots, disable cyberware, vulnerable to EMP
+
+### Boss Encounters
+- **Dr. Sarah Chen** (Possessed) - 3-phase fight, Erebus entity
+- **EREBUS Fragment** - Ultimate boss, 4 phases, requires R.A.B.I.D.S. Controller
+
+*Anti-AI weapons deal 3-4x damage to these enemies. Conventional weapons are 25-70% effective.*
+
 ## 📦 Installation
 
 ### Requirements
