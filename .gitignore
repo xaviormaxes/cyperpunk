@@ -1,0 +1,39 @@
+# Beyond the Wall - Git Ignore File
+
+# Save files
+*.json.bak
+beyondthewall_save.json
+
+# Logs
+*.log
+redscript.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# Build artifacts (if any)
+*.archive
+*.archive.bk
+
+# WolvenKit
+*.cpmodproj.bk
+depot/
+packed/
+raw/
+
+# User-specific config overrides
+config.user.json

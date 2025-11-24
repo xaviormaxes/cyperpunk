@@ -1,0 +1,53 @@
+{
+  "version": "0.1.0",
+  "corruptionDecayRate": 0.5,
+  "corruptionDecayInterval": 5.0,
+  "masteryMultiplier": 1.0,
+  "enableDebugMode": false,
+  "enableDebugLogging": false,
+  "possessionSpreadChance": 0.3,
+  "visualEffectsIntensity": 1.0,
+  "corruptionThresholds": {
+    "low": 25,
+    "medium": 50,
+    "high": 75,
+    "critical": 90
+  },
+  "depthUnlockRequirements": {
+    "depth1": 0,
+    "depth2": 10,
+    "depth3": 25,
+    "depth4": 50,
+    "depth5": 100
+  },
+  "quickhackCorruptionCost": {
+    "BlackwallTrace": 5,
+    "NeuralHijack": 10,
+    "CascadeProtocol": 15,
+    "SummonDaemon": 20,
+    "BlackwallOverload": 30,
+    "Stabilize": -25
+  },
+  "feedbackDamageChance": {
+    "depth1": 0.05,
+    "depth2": 0.10,
+    "depth3": 0.15,
+    "depth4": 0.20,
+    "depth5": 0.25
+  },
+  "masteryReduction": {
+    "enabled": true,
+    "maxReduction": 0.5,
+    "masteryRequired": 100
+  },
+  "ui": {
+    "showCorruptionMeter": true,
+    "showMasteryProgress": true,
+    "showDepthLevel": true,
+    "hudPosition": {
+      "x": 50,
+      "y": 100
+    },
+    "updateInterval": 0.1
+  }
+}

@@ -1,0 +1,196 @@
+# Blackwall Quickhacks - TweakXL Configuration
+# Beyond the Wall Mod
+# Defines the Blackwall quickhack items and their properties
+
+# Note: This is a foundational structure. Full implementation requires:
+# - Proper icon files in archive/pc/mod/
+# - Integration with game's quickhack system
+# - Additional TweakDB records for effects and animations
+
+# ==================================================
+# Quickhack Base Class Extensions
+# ==================================================
+
+# Blackwall Trace - Depth 1
+Items.BlackwallTrace:
+  $base: Items.QuickHackBase
+  displayName: Blackwall Trace
+  localizedDescription: "Reveals AI-corrupted entities through walls for 60 seconds. Uses Blackwall signature detection."
+  icon:
+    atlasResourcePath: "base\\gameplay\\gui\\widgets\\hacking\\atlas_hacking_programs.inkatlas"
+    atlasPartName: "icon_blackwall_trace"
+  quality: Items.IconicQuality  # Iconic quality
+  baseRAMCost: 8
+  baseCraftRAMCost: 5
+  hackCategory: QuickHackCategory.CombatHack
+  tier: QuickHackTier.Tier5
+
+  OnAttach:
+    effectors:
+      - Effectors.BlackwallTraceEffector
+
+  # Blackwall-specific properties
+  blackwallDepthRequired: 1
+  corruptionCost: 5.0
+  duration: 60.0
+
+# Neural Hijack - Depth 2
+Items.NeuralHijack:
+  $base: Items.QuickHackBase
+  displayName: Neural Hijack
+  localizedDescription: "Take control of target for 10 seconds, forcing them to attack allies. Powered by rogue AI protocols."
+  icon:
+    atlasResourcePath: "base\\gameplay\\gui\\widgets\\hacking\\atlas_hacking_programs.inkatlas"
+    atlasPartName: "icon_neural_hijack"
+  quality: Items.IconicQuality
+  baseRAMCost: 15
+  baseCraftRAMCost: 10
+  hackCategory: QuickHackCategory.ControlHack
+  tier: QuickHackTier.Tier5
+
+  OnAttach:
+    effectors:
+      - Effectors.NeuralHijackEffector
+
+  blackwallDepthRequired: 2
+  corruptionCost: 10.0
+  duration: 10.0
+
+# Cascade Protocol - Depth 3
+Items.CascadeProtocol:
+  $base: Items.QuickHackBase
+  displayName: Cascade Protocol
+  localizedDescription: "When target dies, AI possession spreads to 2 nearby enemies. The infection spreads like wildfire."
+  icon:
+    atlasResourcePath: "base\\gameplay\\gui\\widgets\\hacking\\atlas_hacking_programs.inkatlas"
+    atlasPartName: "icon_cascade_protocol"
+  quality: Items.IconicQuality
+  baseRAMCost: 20
+  baseCraftRAMCost: 15
+  hackCategory: QuickHackCategory.CombatHack
+  tier: QuickHackTier.Tier5
+
+  OnAttach:
+    effectors:
+      - Effectors.CascadeProtocolEffector
+
+  blackwallDepthRequired: 3
+  corruptionCost: 15.0
+  spreadCount: 2
+
+# Summon Daemon - Depth 4
+Items.SummonDaemon:
+  $base: Items.QuickHackBase
+  displayName: Summon Daemon
+  localizedDescription: "Summon a hostile AI entity (Cerberus-style maintenance bot) to fight for you for 30 seconds."
+  icon:
+    atlasResourcePath: "base\\gameplay\\gui\\widgets\\hacking\\atlas_hacking_programs.inkatlas"
+    atlasPartName: "icon_summon_daemon"
+  quality: Items.IconicQuality
+  baseRAMCost: 30
+  baseCraftRAMCost: 20
+  hackCategory: QuickHackCategory.ControlHack
+  tier: QuickHackTier.Tier5
+
+  OnAttach:
+    effectors:
+      - Effectors.SummonDaemonEffector
+
+  blackwallDepthRequired: 4
+  corruptionCost: 20.0
+  duration: 30.0
+  spawnEntity: "cerberus_bot"
+
+# Blackwall Overload - Depth 5
+Items.BlackwallOverload:
+  $base: Items.QuickHackBase
+  displayName: Blackwall Overload
+  localizedDescription: "All enemies in 30m radius become possessed and attack each other. Massive corruption spike. Ultimate ability."
+  icon:
+    atlasResourcePath: "base\\gameplay\\gui\\widgets\\hacking\\atlas_hacking_programs.inkatlas"
+    atlasPartName: "icon_blackwall_overload"
+  quality: Items.IconicQuality
+  baseRAMCost: 50
+  baseCraftRAMCost: 35
+  hackCategory: QuickHackCategory.UltimateHack
+  tier: QuickHackTier.Tier5
+
+  OnAttach:
+    effectors:
+      - Effectors.BlackwallOverloadEffector
+
+  blackwallDepthRequired: 5
+  corruptionCost: 30.0
+  radius: 30.0
+  duration: 20.0
+
+# Stabilize - Available Early
+Items.Stabilize:
+  $base: Items.QuickHackBase
+  displayName: Stabilize
+  localizedDescription: "Reduces your Blackwall corruption by 25% and removes negative effects. 60 second cooldown."
+  icon:
+    atlasResourcePath: "base\\gameplay\\gui\\widgets\\hacking\\atlas_hacking_programs.inkatlas"
+    atlasPartName: "icon_stabilize"
+  quality: Items.LegendaryQuality
+  baseRAMCost: 10
+  baseCraftRAMCost: 5
+  hackCategory: QuickHackCategory.SupportHack
+  tier: QuickHackTier.Tier4
+
+  OnAttach:
+    effectors:
+      - Effectors.StabilizeEffector
+
+  blackwallDepthRequired: 1
+  corruptionCost: -25.0  # Negative cost = reduces corruption
+  cooldown: 60.0
+
+# ==================================================
+# Effector Definitions (Simplified)
+# ==================================================
+# Note: Full effector implementations would be done in REDscript
+# These are placeholder references
+
+Effectors.BlackwallTraceEffector:
+  $type: gamedataEffector
+  effectorClassName: "BlackwallTraceEffector"
+  duration: 60.0
+
+Effectors.NeuralHijackEffector:
+  $type: gamedataEffector
+  effectorClassName: "NeuralHijackEffector"
+  duration: 10.0
+
+Effectors.CascadeProtocolEffector:
+  $type: gamedataEffector
+  effectorClassName: "CascadeProtocolEffector"
+
+Effectors.SummonDaemonEffector:
+  $type: gamedataEffector
+  effectorClassName: "SummonDaemonEffector"
+  duration: 30.0
+
+Effectors.BlackwallOverloadEffector:
+  $type: gamedataEffector
+  effectorClassName: "BlackwallOverloadEffector"
+  duration: 20.0
+
+Effectors.StabilizeEffector:
+  $type: gamedataEffector
+  effectorClassName: "StabilizeEffector"
+
+# ==================================================
+# Add to loot tables (for testing/debug)
+# ==================================================
+# In final version, these would be unlocked through progression
+
+LootTables.BlackwallQuickhacks:
+  $type: gamedataLootTable
+  entries:
+    - Items.BlackwallTrace
+    - Items.NeuralHijack
+    - Items.CascadeProtocol
+    - Items.SummonDaemon
+    - Items.BlackwallOverload
+    - Items.Stabilize
