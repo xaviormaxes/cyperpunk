@@ -1,0 +1,627 @@
+# blackwall_audio.yaml
+# Audio configuration for Beyond the Wall mod
+# Defines all sound events for possession, corruption, and environmental audio
+
+# ==================================================
+# POSSESSION SOUND EVENTS
+# ==================================================
+
+# Possession spread sound - Digital screech when AI transfers
+Items.possession_spread_screech:
+  $type: AudioEvent
+  audioName: btw_possession_spread_screech
+  duration: 1.5
+  volume: 0.8
+  pitch: 1.0
+  soundDescription: "High-pitched digital screech as AI entity spreads to new host"
+  category: SFX
+  tags:
+    - possession
+    - spread
+    - AI
+
+# Exorcism complete - Chime when AI is fully purged
+Items.exorcism_complete_chime:
+  $type: AudioEvent
+  audioName: btw_exorcism_complete_chime
+  duration: 2.0
+  volume: 0.9
+  pitch: 1.0
+  soundDescription: "Resonant chime with digital echo when exorcism completes"
+  category: SFX
+  tags:
+    - exorcism
+    - purge
+    - completion
+
+# Possession break - Digital scream when EMP disrupts possession
+Items.possession_break_scream:
+  $type: AudioEvent
+  audioName: btw_possession_break_scream
+  duration: 1.0
+  volume: 0.85
+  pitch: 0.9
+  soundDescription: "Distorted digital scream as AI is forcibly ejected"
+  category: SFX
+  tags:
+    - possession
+    - break
+    - disruption
+
+# AI banishment - Reality tear sound
+Items.banishment_reality_tear:
+  $type: AudioEvent
+  audioName: btw_banishment_reality_tear
+  duration: 2.5
+  volume: 0.9
+  pitch: 0.8
+  soundDescription: "Deep bass rumble with high-frequency tear as reality fractures"
+  category: SFX
+  tags:
+    - banishment
+    - reality_tear
+    - oni_no_kiru
+
+# Possession overwhelmed - Digital scream when reaching Overwhelmed state
+Items.possession_overwhelmed_scream:
+  $type: AudioEvent
+  audioName: btw_possession_overwhelmed_scream
+  duration: 2.0
+  volume: 0.95
+  pitch: 0.7
+  soundDescription: "Layered screams - human and digital merging"
+  category: SFX
+  tags:
+    - possession
+    - overwhelmed
+    - state_transition
+
+# ==================================================
+# DEPTH TRANSITION SOUNDS
+# ==================================================
+
+# Descending transition - Going deeper into facility
+Items.depth_transition_descend:
+  $type: AudioEvent
+  audioName: btw_depth_transition_descend
+  duration: 1.5
+  volume: 0.8
+  pitch: 0.9
+  soundDescription: "Ominous digital drone, descending pitch, reality distorting"
+  category: SFX
+  tags:
+    - depth
+    - transition
+    - descend
+
+# Ascending transition - Going up through facility
+Items.depth_transition_ascend:
+  $type: AudioEvent
+  audioName: btw_depth_transition_ascend
+  duration: 1.2
+  volume: 0.7
+  pitch: 1.1
+  soundDescription: "Lighter tone, ascending pitch, corruption clearing"
+  category: SFX
+  tags:
+    - depth
+    - transition
+    - ascend
+
+# ==================================================
+# AMBIENT SOUNDSCAPES (LOOPING)
+# ==================================================
+
+# Depth 1 ambient - Surface Contact
+Items.depth1_ambient_soundscape:
+  $type: AudioEvent
+  audioName: btw_depth1_ambient
+  duration: -1  # Looping
+  volume: 0.4
+  pitch: 1.0
+  soundDescription: "Subtle electrical hum, distant server noise, occasional digital whisper"
+  category: Ambient
+  isLooping: true
+  fadeInTime: 2.0
+  fadeOutTime: 2.0
+  tags:
+    - ambient
+    - depth1
+    - surface
+
+# Depth 2 ambient - Network Fissure
+Items.depth2_ambient_soundscape:
+  $type: AudioEvent
+  audioName: btw_depth2_ambient
+  duration: -1  # Looping
+  volume: 0.5
+  pitch: 0.95
+  soundDescription: "Increased static, digital whispers more frequent, corrupted data sounds"
+  category: Ambient
+  isLooping: true
+  fadeInTime: 2.0
+  fadeOutTime: 2.0
+  tags:
+    - ambient
+    - depth2
+    - fissure
+
+# Depth 3 ambient - Memory Corruption
+Items.depth3_ambient_soundscape:
+  $type: AudioEvent
+  audioName: btw_depth3_ambient
+  duration: -1  # Looping
+  volume: 0.6
+  pitch: 0.9
+  soundDescription: "Heavy static, fragmented voices, reality glitching, distorted screams"
+  category: Ambient
+  isLooping: true
+  fadeInTime: 2.0
+  fadeOutTime: 2.0
+  tags:
+    - ambient
+    - depth3
+    - corruption
+
+# Depth 4 ambient - Substrate Breach
+Items.depth4_ambient_soundscape:
+  $type: AudioEvent
+  audioName: btw_depth4_ambient
+  duration: -1  # Looping
+  volume: 0.7
+  pitch: 0.85
+  soundDescription: "Oppressive droning, constant whispers, digital heartbeat, reality breaking down"
+  category: Ambient
+  isLooping: true
+  fadeInTime: 2.0
+  fadeOutTime: 2.0
+  tags:
+    - ambient
+    - depth4
+    - breach
+
+# Depth 5 ambient - Beyond The Wall
+Items.depth5_ambient_soundscape:
+  $type: AudioEvent
+  audioName: btw_depth5_ambient
+  duration: -1  # Looping
+  volume: 0.85
+  pitch: 0.75
+  soundDescription: "Overwhelming cacophony - countless AI voices, reality screaming, void calling"
+  category: Ambient
+  isLooping: true
+  fadeInTime: 2.0
+  fadeOutTime: 2.0
+  tags:
+    - ambient
+    - depth5
+    - beyond_the_wall
+
+# ==================================================
+# STABILIZER NODE SOUNDS
+# ==================================================
+
+# Stabilizer activate - Node used to reduce corruption
+Items.stabilizer_activate:
+  $type: AudioEvent
+  audioName: btw_stabilizer_activate
+  duration: 2.0
+  volume: 0.75
+  pitch: 1.0
+  soundDescription: "Resonant hum building to cleansing pulse, corruption clearing"
+  category: SFX
+  tags:
+    - stabilizer
+    - activate
+    - cleansing
+
+# ==================================================
+# WEAPON-SPECIFIC SOUNDS
+# ==================================================
+
+# R.A.B.I.D.S. Remnant - Firing sound
+Items.rabids_remnant_fire:
+  $type: AudioEvent
+  audioName: btw_rabids_fire
+  duration: 0.5
+  volume: 0.8
+  pitch: 1.0
+  soundDescription: "Distorted gunshot with digital corruption undertone"
+  category: Weapon
+  tags:
+    - weapon
+    - rabids
+    - fire
+
+# R.A.B.I.D.S. Neural Scramble proc
+Items.rabids_neural_scramble_proc:
+  $type: AudioEvent
+  audioName: btw_neural_scramble_proc
+  duration: 1.0
+  volume: 0.7
+  pitch: 1.2
+  soundDescription: "High-frequency pulse disrupting neural patterns"
+  category: Weapon
+  tags:
+    - weapon
+    - rabids
+    - neural_scramble
+
+# NetWatch Disruptor - EMP blast
+Items.netwatch_disruptor_emp:
+  $type: AudioEvent
+  audioName: btw_netwatch_emp
+  duration: 1.5
+  volume: 0.9
+  pitch: 0.9
+  soundDescription: "Powerful electromagnetic discharge with crackling aftermath"
+  category: Weapon
+  tags:
+    - weapon
+    - netwatch
+    - emp
+
+# Oni no Kiru - Katana swing (anti-AI)
+Items.oni_no_kiru_swing:
+  $type: AudioEvent
+  audioName: btw_oni_swing
+  duration: 0.8
+  volume: 0.75
+  pitch: 1.1
+  soundDescription: "Blade cutting through digital fabric of reality"
+  category: Weapon
+  tags:
+    - weapon
+    - oni_no_kiru
+    - swing
+
+# Oni no Kiru - Banishment proc on crit
+Items.oni_no_kiru_banish:
+  $type: AudioEvent
+  audioName: btw_oni_banish
+  duration: 2.0
+  volume: 0.85
+  pitch: 0.8
+  soundDescription: "Reality tearing open, AI entity banished to void"
+  category: Weapon
+  tags:
+    - weapon
+    - oni_no_kiru
+    - banishment
+
+# Digital Exorcist - Exorcism stack hit
+Items.digital_exorcist_stack:
+  $type: AudioEvent
+  audioName: btw_exorcist_stack
+  duration: 0.4
+  volume: 0.6
+  pitch: 1.0
+  soundDescription: "Purifying impact, building toward exorcism"
+  category: Weapon
+  tags:
+    - weapon
+    - digital_exorcist
+    - exorcism_stack
+
+# Project Erebus - Quickhack deployed
+Items.erebus_quickhack_deploy:
+  $type: AudioEvent
+  audioName: btw_erebus_deploy
+  duration: 1.0
+  volume: 0.7
+  pitch: 1.0
+  soundDescription: "Advanced cyberdeck deploying Blackwall-tier hack"
+  category: Weapon
+  tags:
+    - weapon
+    - erebus
+    - quickhack
+
+# ==================================================
+# QUICKHACK SOUNDS
+# ==================================================
+
+# Blackwall Trace
+Items.blackwall_trace_cast:
+  $type: AudioEvent
+  audioName: btw_trace_cast
+  duration: 1.0
+  volume: 0.7
+  pitch: 1.0
+  soundDescription: "Scanning pulse reaching through Blackwall"
+  category: Quickhack
+  tags:
+    - quickhack
+    - trace
+
+# Neural Hijack
+Items.neural_hijack_cast:
+  $type: AudioEvent
+  audioName: btw_hijack_cast
+  duration: 1.5
+  volume: 0.75
+  pitch: 0.95
+  soundDescription: "Forced neural connection, minds merging"
+  category: Quickhack
+  tags:
+    - quickhack
+    - hijack
+
+# Cascade Protocol
+Items.cascade_protocol_cast:
+  $type: AudioEvent
+  audioName: btw_cascade_cast
+  duration: 2.0
+  volume: 0.8
+  pitch: 0.9
+  soundDescription: "Chain reaction spreading through network"
+  category: Quickhack
+  tags:
+    - quickhack
+    - cascade
+
+# Summon Daemon
+Items.summon_daemon_cast:
+  $type: AudioEvent
+  audioName: btw_daemon_cast
+  duration: 2.5
+  volume: 0.85
+  pitch: 0.85
+  soundDescription: "Tearing hole in Blackwall, entity emerging"
+  category: Quickhack
+  tags:
+    - quickhack
+    - daemon
+
+# Blackwall Overload
+Items.blackwall_overload_cast:
+  $type: AudioEvent
+  audioName: btw_overload_cast
+  duration: 3.0
+  volume: 0.9
+  pitch: 0.8
+  soundDescription: "Reality-breaking power surge, Blackwall fragmenting"
+  category: Quickhack
+  tags:
+    - quickhack
+    - overload
+
+# Stabilize (corruption reduction)
+Items.stabilize_cast:
+  $type: AudioEvent
+  audioName: btw_stabilize_cast
+  duration: 1.5
+  volume: 0.7
+  pitch: 1.1
+  soundDescription: "Cleansing pulse pushing back corruption"
+  category: Quickhack
+  tags:
+    - quickhack
+    - stabilize
+
+# ==================================================
+# ENEMY-SPECIFIC SOUNDS
+# ==================================================
+
+# Digital Construct - Movement
+Items.digital_construct_move:
+  $type: AudioEvent
+  audioName: btw_construct_move
+  duration: 0.5
+  volume: 0.5
+  pitch: 1.0
+  soundDescription: "Flickering static as digital entity shifts"
+  category: Enemy
+  tags:
+    - enemy
+    - construct
+    - movement
+
+# Cerberus Unit - Alert
+Items.cerberus_alert:
+  $type: AudioEvent
+  audioName: btw_cerberus_alert
+  duration: 1.0
+  volume: 0.8
+  pitch: 0.9
+  soundDescription: "Triple-layered digital bark - three AI consciousnesses synchronizing"
+  category: Enemy
+  tags:
+    - enemy
+    - cerberus
+    - alert
+
+# Dr. Chen (Boss) - Dialogue fragment
+Items.boss_chen_dialogue_corrupted:
+  $type: AudioEvent
+  audioName: btw_chen_dialogue
+  duration: 3.0
+  volume: 0.85
+  pitch: 0.85
+  soundDescription: "Human voice heavily corrupted, multiple AI voices layered beneath"
+  category: Boss
+  tags:
+    - boss
+    - dr_chen
+    - dialogue
+
+# Erebus Fragment (Boss) - Presence
+Items.boss_erebus_presence:
+  $type: AudioEvent
+  audioName: btw_erebus_presence
+  duration: -1  # Looping while boss is active
+  volume: 0.9
+  pitch: 0.7
+  soundDescription: "Reality-warping bass drone, countdown to collapse"
+  category: Boss
+  isLooping: true
+  tags:
+    - boss
+    - erebus
+    - presence
+
+# ==================================================
+# UI SOUNDS
+# ==================================================
+
+# Corruption tier increase warning
+Items.corruption_tier_warning:
+  $type: AudioEvent
+  audioName: btw_corruption_warning
+  duration: 0.5
+  volume: 0.7
+  pitch: 1.0
+  soundDescription: "Alert tone - corruption reaching dangerous level"
+  category: UI
+  tags:
+    - ui
+    - corruption
+    - warning
+
+# Mastery level up
+Items.mastery_levelup:
+  $type: AudioEvent
+  audioName: btw_mastery_levelup
+  duration: 2.0
+  volume: 0.75
+  pitch: 1.0
+  soundDescription: "Accomplishment chime - greater Blackwall control achieved"
+  category: UI
+  tags:
+    - ui
+    - mastery
+    - levelup
+
+# Depth unlocked
+Items.depth_unlocked:
+  $type: AudioEvent
+  audioName: btw_depth_unlocked
+  duration: 2.0
+  volume: 0.8
+  pitch: 1.0
+  soundDescription: "Barrier breaking - access to deeper level granted"
+  category: UI
+  tags:
+    - ui
+    - depth
+    - unlock
+
+# Exorcism stack added
+Items.exorcism_stack_added:
+  $type: AudioEvent
+  audioName: btw_exorcism_stack
+  duration: 0.3
+  volume: 0.5
+  pitch: 1.0
+  soundDescription: "Stacking purification hits - building toward exorcism"
+  category: UI
+  tags:
+    - ui
+    - exorcism
+    - stack
+
+# ==================================================
+# AUDIO BANKS
+# ==================================================
+
+# Main audio bank containing all BTW sounds
+AudioBank.BeyondTheWall:
+  $type: AudioBank
+  bankName: "beyond_the_wall"
+  events:
+    - possession_spread_screech
+    - exorcism_complete_chime
+    - possession_break_scream
+    - banishment_reality_tear
+    - possession_overwhelmed_scream
+    - depth_transition_descend
+    - depth_transition_ascend
+    - depth1_ambient_soundscape
+    - depth2_ambient_soundscape
+    - depth3_ambient_soundscape
+    - depth4_ambient_soundscape
+    - depth5_ambient_soundscape
+    - stabilizer_activate
+    - rabids_remnant_fire
+    - rabids_neural_scramble_proc
+    - netwatch_disruptor_emp
+    - oni_no_kiru_swing
+    - oni_no_kiru_banish
+    - digital_exorcist_stack
+    - erebus_quickhack_deploy
+    - blackwall_trace_cast
+    - neural_hijack_cast
+    - cascade_protocol_cast
+    - summon_daemon_cast
+    - blackwall_overload_cast
+    - stabilize_cast
+    - digital_construct_move
+    - cerberus_alert
+    - boss_chen_dialogue_corrupted
+    - boss_erebus_presence
+    - corruption_tier_warning
+    - mastery_levelup
+    - depth_unlocked
+    - exorcism_stack_added
+  loadOnStartup: false
+  priority: Medium
+
+# ==================================================
+# AUDIO METADATA
+# ==================================================
+
+AudioMetadata.BeyondTheWall:
+  modName: "Beyond the Wall"
+  version: "0.1.0"
+  author: "BTW Development Team"
+  description: "Complete audio suite for Beyond the Wall mod - Blackwall breach facility"
+
+  soundConcept: |
+    Audio design centered on digital corruption and AI entities:
+
+    - Possession sounds: Merge human and digital - screaming data mixed with distorted voices
+    - Depth ambient: Progressive degradation from subtle static to reality-breaking cacophony
+    - Weapon sounds: Anti-AI weapons have "digital cutting" quality - tearing through code
+    - Exorcism: Building purification - cleansing tones fighting corruption
+    - Bosses: Reality-warping presence - their existence distorts sound itself
+
+    Frequency design:
+    - AI entities: High-frequency digital screeches layered with sub-bass drones
+    - Corruption: Mid-range static and distortion
+    - Cleansing: Pure tones in 432Hz - 528Hz range (healing frequencies)
+
+    Spatial audio:
+    - Possessed enemies have dual-source audio (human + AI entity location)
+    - Depth 5 ambient should be omnidirectional - inescapable
+    - Cerberus units have triple-source (three heads)
+
+  technicalNotes: |
+    Implementation notes for audio team:
+
+    1. All possession sounds should have slight randomization (±5% pitch, ±10% timing)
+       to prevent repetition fatigue
+
+    2. Depth ambients use crossfade transitions (2 second overlap) between zones
+
+    3. Exorcism stacks use additive layering - each stack adds harmonic overtone
+       Stack 10 = full chord resolution
+
+    4. Boss presence audio uses sidechaining to duck other sounds (10-15% reduction)
+       creating oppressive atmosphere
+
+    5. Weapon sounds have velocity-based variants (soft/medium/hard hits)
+
+    6. All digital sounds processed through:
+       - Bitcrusher (8-12 bit)
+       - Sample rate reduction (22kHz - 32kHz)
+       - Subtle chorus (creates "many voices" effect)
+
+    7. Corruption warnings use Shepard tone (infinitely rising pitch) for urgency
+
+  audioFiles:
+    sourceDirectory: "audio/sources/"
+    processedDirectory: "audio/processed/"
+    bankDirectory: "audio/banks/"
+    format: "OGG Vorbis"
+    sampleRate: 48000
+    bitDepth: 24
