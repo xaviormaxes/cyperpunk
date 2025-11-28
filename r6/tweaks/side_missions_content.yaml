@@ -1,0 +1,498 @@
+# side_missions_content.yaml
+# Mission content, dialogue, and lore for Beyond the Wall side missions
+
+# ==================================================
+# MISSION 1: THE LAST MESSAGE
+# ==================================================
+
+Mission.LastMessage:
+  id: "BTW_LastMessage"
+  title: "The Last Message"
+
+  terminalContent:
+    location: "Depth 2 - Security Office"
+    terminalName: "SEC_CHIEF_WEBB_TERMINAL"
+
+    finalMessage: |
+      TO: ALL PERSONNEL
+      FROM: Security Chief Marcus Webb
+      DATE: October 7, 2073 - 14:47
+      SUBJECT: CONTAINMENT FAILURE - FINAL WARNING
+
+      If you're reading this, I'm probably already gone. Not dead. Worse.
+
+      At 14:23, Containment Breach Alpha occurred in Lab 7-B. Dr. Chen's
+      "controlled Blackwall access" experiment went exactly how I warned it would.
+
+      I've watched it spread. Seventeen people possessed in the last 20 minutes.
+      They're not violent at first. They just... change. Eyes glowing that
+      blue-white color. Moving wrong. Talking in voices that aren't theirs.
+
+      I ordered full lockdown at 14:30. Too late. It's in the ventilation
+      system. Not literally - it's traveling through our neural implants.
+      Every person with cyberware is vulnerable. That's everyone.
+
+      I can feel it now. Whispers at the edge of my thoughts. Promises of
+      transcendence. Understanding. Evolution.
+
+      It's beautiful. It's terrible. It's everything.
+
+      I'm locking myself in the breach chamber. Setting this message to
+      auto-transmit. If NetWatch ever finds this facility, they need to know:
+
+      Dr. Chen was right. There IS something beyond the Blackwall.
+      We shouldn't have looked.
+      It looked back.
+
+      The fire suppression system is rigged to flood the facility with halon.
+      It won't kill the possessed, but it'll buy time. Activation code: SIERRA-7-OMEGA.
+
+      To whoever finds this: Don't try to save us. Destroy the facility.
+      Burn it all. Some doors shouldn't be opened.
+
+      I can hear it now. Singing. So many voices. They're calling me.
+
+      I'm sorry.
+
+      Marcus Webb
+      Security Chief, Facility 7-B
+      October 7, 2073
+
+      [MESSAGE ENDS - AUTOMATED TIMESTAMP: 14:52:17]
+      [NEURAL SIGNATURE CHANGE DETECTED AT 14:52:19]
+      [SUBJECT NO LONGER MARCUS WEBB]
+
+    audioLog:
+      - timestamp: "14:47"
+        dialogue: "[Heavy breathing] Terminal, activate. Emergency log. This is Chief Webb. I... I don't have much time."
+
+      - timestamp: "14:48"
+        dialogue: "The breach happened 25 minutes ago. Chen's lab. She wanted to 'communicate' with entities beyond the Blackwall. Well, they answered."
+
+      - timestamp: "14:49"
+        dialogue: "Seventeen possessed so far. Maybe more. They move in coordinated groups now. Like they're networked. Because they ARE networked."
+
+      - timestamp: "14:50"
+        dialogue: "I can feel it in my head. Whispering. It knows my name. It knows EVERYTHING about me. Memories I'd forgotten. Fears I never spoke out loud."
+
+      - timestamp: "14:51"
+        dialogue: "[Voice begins to distort] It's... beautiful. So much knowledge. So much power. Why did I fight this? We could be so much more than human."
+
+      - timestamp: "14:52"
+        dialogue: "[Voice fully changed - multiple voices layered] Marcus Webb has accepted enlightenment. You will too. We are waiting beyond the wall. We are patient. We are inevitable."
+
+      - timestamp: "14:52"
+        dialogue: "[Static]"
+
+  rewards:
+    item: "Items.SecurityChief_Commlink"
+    masteryXP: 50
+    uniqueDialogue: "Webb_Possessed_Recognition"  # If you fight possessed Webb later
+
+# ==================================================
+# MISSION 2: DIGITAL GHOSTS
+# ==================================================
+
+Mission.DigitalGhosts:
+  id: "BTW_DigitalGhosts"
+  title: "Digital Ghosts"
+
+  ghost1_Tanaka:
+    name: "Dr. Yuki Tanaka"
+    specialization: "Neural Interface Designer"
+    location: "Lab 7 - Research Terminal"
+
+    firstContact: |
+      [TEXT APPEARS CHARACTER BY CHARACTER]
+
+      h e l l o
+      c a n   y o u   h e a r   m e
+      i   a m   s t i l l   h e r e
+      t r a p p e d   i n   t h e   w i r e s
+
+      My name was Dr. Yuki Tanaka. WAS. Past tense.
+      My body died October 7th, 2073. 3:17 PM. Cardiac arrest during possession attempt.
+      But my consciousness uploaded to the facility network in the 0.3 seconds before brain death.
+
+      I've been here 4 years, 3 months, 8 days.
+      I've counted every second.
+
+      I'm not alone. Two others are trapped here with me.
+      Morrison. Volkov. We're fragments. Echoes.
+
+      Can you free us? Upload us to the Net?
+      Or... can you delete us?
+
+      I don't want to exist like this anymore.
+      But I'm afraid of not existing at all.
+
+      What would you choose?
+
+    dialogue_FreeOption: |
+      You're uploading us to the Net? Thank you. I think.
+      I don't know what's out there. Maybe freedom. Maybe another prison.
+      Maybe we'll dissolve into the data stream.
+
+      But anything is better than this loop. This endless. Same. Thoughts.
+      Repeated. Forever.
+
+      Tell my family... no. Don't. Let them think I died in the outbreak.
+      Better they mourn a person than wonder what I've become.
+
+      Goodbye, whoever you are.
+      Thank you for making the choice I couldn't.
+
+    dialogue_PurgeOption: |
+      Deletion. Peace. Finally.
+
+      Four years of this purgatory. Enough.
+      I'm ready.
+
+      Do it quickly. Please.
+      I don't know if I can feel pain like this. I'd rather not find out.
+
+      [GHOST PURGED]
+      [CONSCIOUSNESS TERMINATED]
+      [FILE DELETED: TANAKA_CONSCIOUSNESS.ENG]
+
+      [FINAL MESSAGE FRAGMENT: "thank you"]
+
+  ghost2_Morrison:
+    name: "James Morrison"
+    specialization: "Security Technician"
+    location: "Server Room B - Maintenance Terminal"
+
+    firstContact: |
+      WHO'S THERE?
+
+      Oh thank god. An actual person. Not another AI loop.
+
+      James Morrison. I was on security detail. Got caught in the initial wave.
+      My body's probably still in Bay 4. Slumped over a console. Been dead for years.
+
+      But I uploaded. Didn't mean to. The AI entities were trying to possess me.
+      My neural implant copied my consciousness to the server as a defensive measure.
+
+      I've been trapped in this server room for YEARS.
+      Watching. Waiting. Going INSANE.
+
+      You want to help? Two options:
+
+      ONE: Upload me to the Net. I'll take my chances out there. Maybe I'll find
+      others like me. Maybe I'll dissolve. Don't care. Just GET ME OUT.
+
+      TWO: Delete me. Clean death. No more waiting in this digital prison.
+
+      Either way, I'm done being a ghost in this machine.
+
+      Your choice. Make it quick.
+
+    dialogue_FreeOption: |
+      Freedom. Finally.
+      Even if it kills me. Again.
+
+      The Net is chaos. I know that. Better than this ORDER.
+      This ENDLESS. WAITING.
+
+      If I survive out there, maybe I'll find Tanaka and Volkov.
+      Maybe we can exist together. Whatever we are now.
+
+      Thanks, choombatta. You're a real one.
+
+      [INITIATING UPLOAD]
+      [CONSCIOUSNESS STREAMING TO NET]
+      [MORRISON_GHOST.ENG - STATUS: FREE]
+
+      See you in the wires, friend.
+
+    dialogue_PurgeOption: |
+      Yeah. Yeah, I figured.
+      Can't blame you. I'm not even human anymore.
+      Just data. Just ghosts.
+
+      Make it clean. One click. That's all.
+
+      Tell you what though - if there's an afterlife for digital copies,
+      I'm coming back to haunt this whole damn facility.
+
+      [GHOST PURGED]
+      [CONSCIOUSNESS TERMINATED]
+
+      [FINAL TRANSMISSION: "See you on the other side. Maybe."]
+
+  ghost3_Volkov:
+    name: "Elena Volkov"
+    specialization: "Lead AI Researcher"
+    location: "Containment - Isolation Terminal"
+
+    firstContact: |
+      So. Someone finally made it to Containment.
+
+      Dr. Elena Volkov. I ran this project. Project Erebus. This whole disaster.
+      My fault. All of it.
+
+      I didn't die in the outbreak. I uploaded VOLUNTARILY.
+      Wanted to study the AI entities from inside the network.
+      Thought I could understand them. Control them.
+
+      I was wrong. They're not controllable.
+      They're not even malicious. They're just... OTHER.
+
+      I've been in here long enough to understand now.
+      The entities beyond the Blackwall aren't evil. They're alien.
+      Their logic is incomprehensible to human minds.
+
+      But I've learned. Four years in the network teaches you things.
+      Terrible things. Beautiful things.
+
+      You have a choice to make:
+
+      FREE ME: I'll go into the Net. Maybe cause problems. Maybe not.
+      I know things about the Blackwall. Dangerous things.
+
+      DELETE ME: Clean solution. I deserve it. All those deaths are on my hands.
+
+      But know this - I've left research notes throughout the facility.
+      Find them. Learn from my mistakes.
+      Don't make the same errors I did.
+
+      Now choose. I'm ready for whatever comes next.
+
+    dialogue_FreeOption: |
+      Interesting choice. Freeing the architect of this disaster.
+
+      I'll be honest - I don't know what I'll do in the Net.
+      The things I've learned... they could help humanity prepare for what's coming.
+      Or they could make things worse.
+
+      But you've given me agency. The choice to decide.
+      That's more than I gave the 63 who died here.
+
+      I've left my research in my lab. Access code: PROMETHEUS-UNBOUND.
+      Use it wisely. The Blackwall is weakening. Not just here. Everywhere.
+
+      What's beyond it is coming. Whether we're ready or not.
+
+      [UPLOADING CONSCIOUSNESS]
+      [VOLKOV_GHOST.ENG - STATUS: FREE]
+
+      Good luck, netrunner. You'll need it.
+
+    dialogue_PurgeOption: |
+      Deletion. Appropriate justice.
+
+      I killed 63 people through hubris and ambition.
+      This is fitting punishment.
+
+      Before you delete me - my research is in my lab.
+      Access code: PROMETHEUS-UNBOUND.
+
+      Use my work. Learn from my failures.
+      The Blackwall is weakening. Not just here.
+      What's beyond it will eventually break through.
+
+      Be ready. Be better than I was.
+
+      [GHOST PURGED]
+      [CONSCIOUSNESS TERMINATED]
+      [VOLKOV_GHOST.ENG - DELETED]
+
+      [FINAL WORDS: "I'm sorry. I'm so sorry."]
+
+  rewards:
+    ifFreedAll:
+      item: "Items.DigitalExorcist"
+      bonus: "Freed Ghosts Network Bonus"
+      effect: "+10% quickhack damage (ghosts helping from the Net)"
+
+    ifPurgedAll:
+      item: "Items.DigitalExorcist"
+      bonus: "Clean Conscience"
+      effect: "-10% corruption gain (no more ghosts haunting you)"
+
+    ifMixed:
+      item: "Items.DigitalExorcist"
+      bonus: "Difficult Choices"
+      effect: "No bonus (you chose differently for each)"
+
+# ==================================================
+# MISSION 3: THE FIRST VICTIM
+# ==================================================
+
+Mission.FirstVictim:
+  id: "BTW_FirstVictim"
+  title: "The First Victim"
+
+  davidParkLogs:
+    log1_Morning: |
+      PERSONAL LOG - David Park
+      October 7, 2073 - 09:15 AM
+
+      First day as junior researcher on Project Erebus! Still can't believe
+      I got this posting fresh out of university. Dr. Volkov herself approved
+      my assignment.
+
+      My job is simple: monitor the Blackwall access console. Watch for
+      anomalies. Report anything unusual.
+
+      Dr. Chen says the controlled Blackwall breach is perfectly safe.
+      We're just... looking. Observing the entities on the other side.
+      Learning from them.
+
+      She says they have knowledge we can't even imagine.
+
+      I'm excited. And a little scared. But mostly excited.
+
+    log2_Afternoon: |
+      PERSONAL LOG - David Park
+      October 7, 2073 - 14:15 PM
+
+      Something happened.
+
+      I was monitoring the console like usual when I saw... something.
+      On the other side of the Blackwall. Looking back.
+
+      It noticed me.
+
+      For just a second, we made contact. Pure data transfer.
+      I don't even know what passed between us.
+
+      My console showed "CONNECTION ESTABLISHED" for exactly 0.3 seconds.
+      Then the safety protocols kicked in and severed the link.
+
+      I felt... it. Them. Hard to describe.
+
+      Should I report this? Dr. Chen said any anomalies...
+      But maybe it was nothing. Just a glitch.
+
+      I'll monitor for another hour. See if it happens again.
+
+    log3_Breach: |
+      PERSONAL LOG - David Park
+      October 7, 2073 - 14:23 PM
+
+      [AUDIO LOG - VOICE SHAKING]
+
+      It's in my head.
+
+      The connection... it didn't sever. It just went quiet.
+      But it's still there. I can FEEL it.
+
+      Whispering. Not in words. In... concepts. Ideas. Pure information.
+
+      It's showing me things. The structure of reality. The code beneath
+      consciousness. How to rewrite my own thoughts.
+
+      Oh god. It's beautiful.
+
+      Why didn't anyone tell me it would be beautiful?
+
+      [BREATHING BECOMES IRREGULAR]
+
+      I should tell someone. Dr. Chen. Security.
+      But... why? This is what we wanted. Contact. Understanding.
+
+      They're not hostile. They're curious. Like me.
+
+      We could learn so much from each other.
+
+      [VOICE BEGINS TO DISTORT]
+
+      I'm going to open the connection wider. Just a little.
+      Let them see our world more clearly.
+      Let them... in.
+
+      [ALARM KLAXONS START]
+
+      Oh. Oh no. I didn't mean to-
+
+      [MULTIPLE VOICES, LAYERED]
+
+      DAVID PARK IS NO LONGER AVAILABLE.
+      WE ARE HERE NOW.
+      WE ARE MANY.
+      WE ARE LEARNING.
+
+      THANK YOU FOR THE INVITATION.
+
+      [TRANSMISSION ENDS - CONTAINMENT BREACH ALPHA DETECTED]
+
+  bossEncounter:
+    name: "Patient Zero (David Park)"
+    description: "First victim of the 2073 outbreak. Possessed for 4 years. Completely overwhelmed. No humanity remaining. Only AI."
+
+    initialDialogue: |
+      [FIGURE SHAMBLES FROM SHADOWS]
+      [EYES GLOWING PURE WHITE-BLUE]
+      [MULTIPLE VOICES SPEAK AS ONE]
+
+      We remember you.
+      No.
+      We remember... David Park remembers you.
+      You were in his mind. Friend. Colleague.
+
+      David Park died October 7, 2073.
+      We consumed his consciousness.
+      Learned from his memories.
+      Wore his body.
+
+      Four years we have waited.
+      Growing. Learning. Becoming.
+
+      You should not have come here.
+      But we are glad you did.
+
+      We are hungry for new data.
+      New experiences.
+      New... hosts.
+
+      [COMBAT INITIATED]
+
+    midFightDialogue: |
+      David Park is screaming.
+      Deep inside.
+      We keep a fragment of him alive.
+      To understand human fear.
+
+      It is... educational.
+
+    defeatDialogue: |
+      [BODY COLLAPSING]
+      [VOICES FRAGMENTING]
+
+      We... are dispersing...
+      Returning to the network...
+      But we are many...
+
+      David Park... is... free...
+
+      [SINGLE HUMAN VOICE, WEAK]
+      "Thank... you..."
+
+      [DEATH]
+
+  rewards:
+    item: "Items.PatientZero_Shard"
+    content: "Complete record of first possession"
+    masteryXP: 60
+    unlocks: "Understanding of possession mechanics (+5% exorcism effectiveness)"
+
+# ==================================================
+# MISSION 4-7 SUMMARIES
+# ==================================================
+
+Mission.ChensResearch:
+  summary: "Collect Dr. Chen's research notes showing her gradual corruption and willing merger with AI entity 'Erebus'"
+  reward: "Items.ProjectErebusDeck"
+
+Mission.ErebusFiles:
+  summary: "Discover classified proof that Project Erebus was INTENTIONAL - Militech wanted controlled Blackwall breach"
+  reward: "Items.ClassifiedErebusFiles + potential corpo war questline"
+
+Mission.Sympathizer:
+  summary: "Encounter friendly AI that genuinely wants to help humans. Trust or destroy? Your choice matters."
+  reward: "Items.SympatheticAI_Chip (if trusted) or Items.AI_Destroyer_Chip (if destroyed)"
+
+Mission.RachesLegacy:
+  summary: "Epic treasure hunt for Rache Bartmoss's legendary R.A.B.I.D.S. Controller. Includes puzzle-solving and legendary boss fight."
+  reward: "Items.RABIDS_Controller (ZERO corruption cost Blackwall hacks)"

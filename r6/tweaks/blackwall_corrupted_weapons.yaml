@@ -1,0 +1,504 @@
+# blackwall_corrupted_weapons.yaml
+# Unique weapons corrupted by Blackwall exposure
+# These are modern weapons that fell into the breach and were... changed
+
+# ==================================================
+# BLACKWALL-CORRUPTED PISTOLS
+# ==================================================
+
+Items.Preset_Corruption_Lexington:
+  $base: Items.Preset_Lexington_Pimp
+  displayName: "Lexington: Void Touched"
+  description: "This Lexington fell through a Blackwall breach in 2074. When recovered, it was... different. Bullets phase through reality, ignoring armor. Kills restore corruption."
+
+  quality: IconicItem
+  iconPath: "blackwall_weapons/corrupted_lexington"
+
+  stats:
+    damage: 85
+    attackSpeed: 1.8
+    armorPenetration: 100  # Ignores ALL armor
+
+  specialProperties:
+    - type: PhaseShot
+      description: "Bullets phase through cover and armor"
+      ignoresCover: true
+      ignoresArmor: true
+
+    - type: CorruptionRestore
+      description: "Kills reduce corruption by 3"
+      corruptionPerKill: -3
+
+    - type: VoidBullets
+      description: "10% chance bullet pulls enemy into void (instant kill)"
+      voidChance: 0.1
+      onlyVsLowHealth: true  # Only works below 25% HP
+
+  visualEffects:
+    weaponGlow: "deep_void_black"
+    muzzleFlash: "reality_tear_small"
+    bulletTrail: "distortion_wave"
+    impactEffect: "void_burst"
+
+  audioEffects:
+    fire: "void_pistol_fire"
+    reload: "reality_stabilizing"
+    voidPull: "enemy_consumed_by_void"
+
+  lore: |
+    "Found in the ruins of Facility 7-B, this Lexington spent three years
+    beyond the Blackwall. Ballistics testing shows its bullets don't travel
+    through space - they teleport. NetWatch has classified it as a Class-A
+    reality hazard. You're holding it anyway."
+
+  location: "Depth 4 - Hidden vault in server room"
+
+# ==================================================
+# BLACKWALL-CORRUPTED RIFLES
+# ==================================================
+
+Items.Preset_Corruption_Overture:
+  $base: Items.Preset_Overture_Default
+  displayName: "Overture: Screaming Barrel"
+  description: "This revolver echoes with digital screams. Each shot fires a fragment of trapped AI consciousness. Highly unstable. Highly lethal."
+
+  quality: IconicItem
+
+  stats:
+    damage: 250
+    attackSpeed: 1.2
+    critChance: 40
+    critDamage: 180
+
+  specialProperties:
+    - type: AIFragmentShot
+      description: "Bullets contain AI fragments that possess on hit"
+      possessionChance: 0.25  # 25% chance to possess target
+      possessionState: "Latent"
+
+    - type: EchoingScreams
+      description: "Kills create sonic wave that damages nearby enemies"
+      radius: 8.0
+      damage: 150
+      stunDuration: 2.0
+
+    - type: DigitalResonance
+      description: "+100% damage to already possessed enemies"
+      damageVsPossessed: 2.0
+
+    - type: InstabilityRisk
+      description: "5% chance per shot to inflict 10 corruption on user"
+      corruptionRisk: 0.05
+      corruptionAmount: 10
+
+  visualEffects:
+    weaponGlow: "pulsing_blue_screaming"
+    muzzleFlash: "screaming_face_projection"
+    bulletTrail: "wailing_digital_entity"
+    impactEffect: "AI_fragment_explosion"
+
+  audioEffects:
+    fire: "screaming_barrel_fire"
+    hit: "ai_fragment_impact"
+    possess: "sudden_possession_scream"
+    echo: "sonic_scream_wave"
+
+  lore: |
+    "Six AI consciousnesses are trapped in this gun's firing mechanism.
+    Every trigger pull releases one as a bullet. They scream the entire way
+    to the target. Dr. Chen's personal sidearm. She called them her 'friends'."
+
+  location: "Dr. Chen boss drop (guaranteed)"
+
+# ==================================================
+# BLACKWALL-CORRUPTED MELEE
+# ==================================================
+
+Items.Preset_Corruption_Katana_Satori:
+  $base: Items.Preset_Katana_Satori
+  displayName: "Satori: Edge of Oblivion"
+  description: "Saburo Arasaka's blade, lost beyond the Blackwall for 50 years. The edge now cuts data as easily as flesh. Reality bleeds where it passes."
+
+  quality: IconicItem
+
+  stats:
+    damage: 450
+    attackSpeed: 2.5
+    critChance: 50
+    critDamage: 250
+
+  specialProperties:
+    - type: DataCutting
+      description: "Attacks sever AI connections, preventing spread"
+      preventSpread: true
+      applyNeuralScramble: true
+      scrambleDuration: 15.0
+
+    - type: RealityBlade
+      description: "Critical hits tear reality, creating 3s void zone"
+      voidZoneOnCrit: true
+      voidDuration: 3.0
+      voidRadius: 5.0
+      voidDamagePerSecond: 200
+
+    - type: OblivionStrike
+      description: "Charged heavy attack banishes target to void (12s cooldown)"
+      chargeTime: 2.0
+      banishDuration: 10.0  # Enemy removed from combat for 10s
+      cooldown: 12.0
+
+    - type: ConsciousnessEater
+      description: "Killing possessed enemies restores 5% max HP and reduces corruption by 5"
+      healPerKill: 0.05  # 5% max HP
+      corruptionPerKill: -5
+
+  visualEffects:
+    bladeGlow: "shifting_void_edge"
+    swingTrail: "reality_tearing_arc"
+    critEffect: "void_rift_explosion"
+    chargeEffect: "gathering_oblivion"
+
+  audioEffects:
+    swing: "reality_cutting"
+    hit: "data_severing"
+    crit: "void_tearing_open"
+    banish: "oblivion_strike_scream"
+
+  lore: |
+    "Saburo Arasaka's blade disappeared during a failed Blackwall incursion
+    in 2025. Recovered in 2075, it now cuts through the barrier between
+    reality and void. NetWatch wants it destroyed. Arasaka wants it back.
+    You found it first."
+
+  location: "Depth 5 - Impaled in an impossible throne"
+
+# ==================================================
+# BLACKWALL-CORRUPTED SHOTGUNS
+# ==================================================
+
+Items.Preset_Corruption_Satara:
+  $base: Items.Preset_Satara_Default
+  displayName: "Satara: Entropy Spreader"
+  description: "Fires shells filled with compressed corruption. Each hit spreads digital decay. Armor means nothing. Cyberware fails. Reality crumbles."
+
+  quality: IconicItem
+
+  stats:
+    damage: 180
+    attackSpeed: 1.5
+    pelletCount: 12
+
+  specialProperties:
+    - type: CorruptionShells
+      description: "Each pellet hit applies 2 corruption to target"
+      corruptionPerPellet: 2.0  # 12 pellets × 2 = 24 corruption per hit
+
+    - type: CyberwareScramble
+      description: "Hits disable random cyberware for 8 seconds"
+      scrambleDuration: 8.0
+      scrambleCount: 2  # Disables 2 random cyberware
+
+    - type: EntropyField
+      description: "Kills create corruption zone (10s, 6m radius)"
+      zoneDuration: 10.0
+      zoneRadius: 6.0
+      zoneCorruptionPerSecond: 5
+
+    - type: SystemFailure
+      description: "If target reaches 100 corruption, they instantly die"
+      executeAt100Corruption: true
+
+  visualEffects:
+    weaponGlow: "decaying_purple_black"
+    muzzleFlash: "entropy_burst"
+    pelletTrail: "corruption_particles"
+    zoneEffect: "purple_corruption_field"
+
+  audioEffects:
+    fire: "entropy_blast"
+    hit: "corruption_spreading"
+    zoneActive: "reality_decaying_loop"
+
+  lore: |
+    "Militech experimental shotgun designed to corrupt enemy combat AIs.
+    Worked too well. Entire test facility corrupted within 3 hours. Shells
+    contain fragments of the Blackwall itself, compressed into matter."
+
+  location: "Depth 3 - Locked in containment vault (requires Mastery 60)"
+
+# ==================================================
+# BLACKWALL-CORRUPTED SMGs
+# ==================================================
+
+Items.Preset_Corruption_Shingen:
+  $base: Items.Preset_Shingen_Default
+  displayName: "Shingen: Data Storm"
+  description: "Fires at impossible speeds, each bullet a fragment of executable code. The target doesn't just die - they're deleted."
+
+  quality: IconicItem
+
+  stats:
+    damage: 45
+    attackSpeed: 12.0  # Extremely fast
+    magazineSize: 90
+    reloadTime: 1.2
+
+  specialProperties:
+    - type: ExecutableRounds
+      description: "Bullets are hostile code - ignore armor, double damage to cyberware"
+      ignoreArmor: true
+      cyberwareDamageMultiplier: 2.0
+
+    - type: DataOverload
+      description: "Sustained fire builds overload stacks (max 50)"
+      stacksPerHit: 1
+      maxStacks: 50
+      stackDecayRate: 2  # Lose 2 stacks per second
+
+    - type: SystemDeletion
+      description: "At 50 stacks, target is deleted (instant kill)"
+      executeAtMaxStacks: true
+      stacksRequired: 50
+
+    - type: CodeReplication
+      description: "Kills spread 25 stacks to nearest enemy"
+      spreadStacks: 25
+      spreadRadius: 10.0
+
+  visualEffects:
+    weaponGlow: "flowing_code_matrix"
+    muzzleFlash: "data_burst_small"
+    bulletTrail: "executable_code_stream"
+    stackVisual: "accumulating_corruption_aura"
+    deleteEffect: "target_dissolving_to_code"
+
+  audioEffects:
+    fire: "rapid_data_transfer"
+    stackBuilding: "code_compiling"
+    deletion: "system_deleted_flatline"
+
+  lore: |
+    "Arasaka R&D attempt to weaponize Blackwall code fragments. Each bullet
+    is a small hostile program. Fire enough into a target and their entire
+    system crashes. Permanently. Subject does not respawn."
+
+  location: "Depth 4 - Arasaka laboratory, guarded by Cerberus units"
+
+# ==================================================
+# BLACKWALL-CORRUPTED SNIPER RIFLES
+# ==================================================
+
+Items.Preset_Corruption_Nekomata:
+  $base: Items.Preset_Nekomata_Default
+  displayName: "Nekomata: Causality Rifle"
+  description: "This sniper rifle doesn't fire bullets - it fires causality violations. Target dies before you pull the trigger. Reality adjusts to compensate."
+
+  quality: IconicItem
+
+  stats:
+    damage: 1500  # Massive damage
+    chargeTime: 3.0
+    attackSpeed: 0.6  # Slow
+    magazineSize: 5
+
+  specialProperties:
+    - type: CausalityViolation
+      description: "Target takes damage 0.5s BEFORE you fire"
+      preemptiveDamage: true
+      timeShift: -0.5  # Negative time
+
+    - type: ProbabilityManipulation
+      description: "Charged shots have 100% crit chance and can't miss"
+      guaranteedCrit: true
+      guaranteedHit: true
+
+    - type: EchoShot
+      description: "Kills echo through time, damaging same target in alternate realities"
+      echoDamage: 750  # Half damage to other timelines
+      echoCount: 3  # Damages target in 3 timelines
+
+    - type: TemporalInstability
+      description: "Each shot increases corruption by 15"
+      corruptionPerShot: 15
+
+  visualEffects:
+    weaponGlow: "time_distortion_shimmer"
+    chargeEffect: "causality_compressing"
+    fireEffect: "timeline_splitting"
+    impactEffect: "reality_fracturing"
+    echoEffect: "alternate_deaths_flickering"
+
+  audioEffects:
+    charge: "time_being_broken"
+    fire: "causality_snap"
+    impact: "reality_shattering"
+    echo: "distant_echoes_of_death"
+
+  lore: |
+    "Theoretical weapons research pushed too far. This rifle accesses
+    alternate timelines where you've already fired. It then makes that
+    timeline real. Ontological paradox as a trigger mechanism. NetWatch
+    wants it unmade. You can't unmake what never existed."
+
+  location: "Depth 5 - Timeline nexus chamber"
+
+# ==================================================
+# BLACKWALL-CORRUPTED HEAVY WEAPONS
+# ==================================================
+
+Items.Preset_Corruption_HMG:
+  $base: Items.Preset_HMG_Default
+  displayName: "Blackwall Cascade Cannon"
+  description: "Minigun that fires fragments of the Blackwall itself. Sustained fire creates cascading reality failure. Everything dies. Including maybe you."
+
+  quality: IconicItem
+
+  stats:
+    damage: 100
+    attackSpeed: 20.0  # Minigun speed
+    magazineSize: 500
+    spinupTime: 1.5
+
+  specialProperties:
+    - type: BlackwallFragments
+      description: "Fires actual Blackwall code - massive AI damage"
+      damageVsAI: 5.0  # 500% damage multiplier
+      damageVsPossessed: 3.0  # 300%
+
+    - type: CascadingReality
+      description: "Sustained fire creates reality failure zones"
+      fireTimeRequired: 3.0  # 3 seconds sustained
+      zoneRadius: 15.0
+      zoneDuration: 8.0
+      zoneDamagePerSecond: 200
+
+    - type: FriendlyFireRisk
+      description: "Zones damage everything including allies and player"
+      damageAllies: true
+      damagePlayer: true
+      playerDamageReduction: 0.5  # Player takes 50% damage
+
+    - type: CorruptionBleed
+      description: "Gain 5 corruption per second while firing"
+      corruptionPerSecond: 5.0
+
+  visualEffects:
+    weaponGlow: "crackling_blackwall_energy"
+    muzzleFlash: "reality_fragmenting_burst"
+    bulletStream: "blackwall_code_torrent"
+    zoneEffect: "cascading_reality_failure"
+
+  audioEffects:
+    spinup: "blackwall_charging"
+    fire: "reality_shredding_minigun"
+    cascade: "reality_failing_alarm"
+
+  lore: |
+    "Someone weaponized the Blackwall. This shouldn't exist. It fires pieces
+    of the barrier between realities. Prolonged use makes reality itself
+    unstable. Militech classified it as WMD. You're firing a weapon of mass
+    destruction. One-handed."
+
+  location: "Boss Erebus Fragment drop (25% chance)"
+
+# ==================================================
+# BLACKWALL-CORRUPTED CYBERWARE WEAPONS
+# ==================================================
+
+Items.Preset_Corruption_Mantis_Blades:
+  $base: Items.MantisBladesCyberware
+  displayName: "Mantis Blades: Void Claws"
+  description: "Mantis blades that extended into the void and came back changed. They cut through everything. EVERYTHING."
+
+  quality: IconicItem
+
+  stats:
+    damage: 350
+    attackSpeed: 3.0
+    bleedChance: 100  # Always bleeds
+
+  specialProperties:
+    - type: VoidCutting
+      description: "Ignores all armor and damage reduction"
+      trueDAMage: true
+      cannotBeBlocked: true
+
+    - type: BleedingReality
+      description: "Bleed deals 500 damage over 5s and spreads to nearby enemies"
+      bleedDamage: 100
+      bleedDuration: 5.0
+      bleedSpreadRadius: 5.0
+
+    - type: AerialExecutioner
+      description: "Air attacks banish target to void for 5s"
+      airAttackBanish: true
+      banishDuration: 5.0
+
+    - type: VoidHunger
+      description: "Blades hunger for reality - gain 3 corruption per kill"
+      corruptionPerKill: 3
+
+  visualEffects:
+    bladeColor: "deep_void_black_purple"
+    slashTrail: "reality_tearing"
+    bleedEffect: "void_energy_leaking"
+
+  audioEffects:
+    deploy: "void_claws_extending"
+    slash: "reality_being_cut"
+    kill: "void_feeding"
+
+  lore: |
+    "These mantis blades passed through a Blackwall breach mid-deployment.
+    They spent exactly 0.3 seconds beyond the barrier. They came back
+    sharper than possible. They cut through armor, bone, and reality
+    equally well."
+
+  location: "Depth 5 - Ripper doc's corpse (fingers still twitching)"
+
+# ==================================================
+# UNIQUE WEAPON SETS
+# ==================================================
+
+# Dual Wield Set: Reality Splitters
+Items.Preset_Corruption_Dual_Lexington:
+  $base: Items.Preset_Corruption_Lexington
+  displayName: "Twin Void Touched (Pair)"
+  description: "Two Blackwall-corrupted Lexingtons. Dual wielding creates reality tears between the guns."
+
+  weaponSet: "DualWield"
+  setBonus:
+    - type: RealityTear
+      description: "Firing both guns creates reality tear between them"
+      tearDamage: 500
+      tearDuration: 2.0
+
+  location: "Find both halves in Depth 4 and Depth 5"
+
+# ==================================================
+# CRAFTING SPECIFICATIONS
+# ==================================================
+
+# Recipe: Corrupt any Iconic weapon
+CraftingSpec.BlackwallCorruption:
+  displayName: "Blackwall Corruption Process"
+  description: "Expose an Iconic weapon to controlled Blackwall breach. Results unpredictable but powerful."
+
+  requirements:
+    iconicWeapon: 1  # Any iconic weapon
+    blackwallFragment: 5
+    stabilizer: 3
+    masteryRequired: 80
+
+  process:
+    duration: 24.0  # 24 hours
+    corruptionCost: 50
+    failureChance: 0.2  # 20% chance weapon is destroyed
+
+  results:
+    - type: RandomCorruptedVariant
+      bonusDamage: 1.5
+      addSpecialProperty: true
+      addVisualEffect: true
+
+  location: "Unlocked by terminal in Depth 5"

@@ -185,11 +185,14 @@ Face the aftermath of the 2073 Facility 7-B outbreak:
 - [x] Exorcism animations (3-phase complete sequence)
 - [x] Weapon-specific effects (EMP, banishment, exorcism)
 
-### ⏳ Phase 5: Expansion
-- [ ] Additional quickhack variants
-- [ ] Side missions within facility
-- [ ] Unique Blackwall-corrupted weapons
-- [ ] Blackwall-modified cyberware
+### ✅ Phase 5: Expansion (COMPLETED) - MOD FEATURE COMPLETE
+- [x] Advanced quickhack variants (19 new variants, Mastery 50-100)
+- [x] Side missions within facility (7 missions, 30+ hours content)
+- [x] Unique Blackwall-corrupted weapons (11 weapons, reality-breaking arsenal)
+- [x] Blackwall-modified cyberware (15+ items, experimental augmentations)
+- [x] Endgame content (Rache's Legacy, ultimate quickhacks)
+- [x] Moral choice system (consequences matter)
+- [x] Lore integration (connects to CP2077 canon)
 
 ## 🧠 Lore Background
 
@@ -226,6 +229,8 @@ BeyondTheWall/
 │   │   │   ├── PossessionSpreadSystem.reds
 │   │   │   ├── PossessionVisuals.reds
 │   │   │   └── PossessionBehavior.reds
+│   │   ├── Missions/
+│   │   │   └── SideMissions.reds
 │   │   └── VFX/
 │   │       ├── PossessionEffects.reds
 │   │       ├── DepthZoneEffects.reds
@@ -234,10 +239,14 @@ BeyondTheWall/
 │   │       └── AudioManager.reds
 │   └── tweaks/
 │       ├── blackwall_quickhacks.yaml
+│       ├── blackwall_quickhacks_advanced.yaml
 │       ├── blackwall_facility.yaml
 │       ├── pre_blackwall_weapons.yaml
+│       ├── blackwall_corrupted_weapons.yaml
+│       ├── blackwall_cyberware.yaml
 │       ├── oldnet_enemies.yaml
-│       └── blackwall_audio.yaml
+│       ├── blackwall_audio.yaml
+│       └── side_missions_content.yaml
 ├── bin/x64/plugins/cyber_engine_tweaks/mods/BeyondTheWall/
 │   ├── init.lua
 │   ├── modules/
@@ -250,6 +259,7 @@ BeyondTheWall/
 │   ├── PHASE2_AREA_IMPLEMENTATION.md
 │   ├── PHASE3_POSSESSION_MECHANICS.md
 │   ├── PHASE4_VISUAL_AUDIO_POLISH.md
+│   ├── PHASE5_EXPANSION_CONTENT.md
 │   └── WEAPONS_AND_ENEMIES_LORE.md
 └── archive/pc/mod/
     └── (Asset files for visual effects, icons, etc.)

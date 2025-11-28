@@ -1,0 +1,607 @@
+# blackwall_cyberware.yaml
+# Blackwall-modified cyberware for Phase 5
+# Experimental augmentations that interface directly with the Blackwall
+
+# ==================================================
+# BLACKWALL OPERATING SYSTEMS
+# ==================================================
+
+Items.BlackwallOS_Tier1:
+  $base: Items.BerserkC3MK1
+  displayName: "Blackwall Interface OS v1.0"
+  description: "Basic operating system that allows limited Blackwall access. Reduces corruption gain by 20% and increases mastery XP gain by 25%."
+
+  quality: Rare
+  tier: 1
+
+  stats:
+    ramIncrease: 4
+    quickhackSlots: 2
+
+  passiveEffects:
+    - type: CorruptionResistance
+      reduction: 0.2  # 20% less corruption
+    - type: MasteryBonus
+      multiplier: 1.25  # 25% more XP
+
+  requirements:
+    intelligenceRequired: 12
+    masteryRequired: 20
+
+  lore: "NetWatch R&D prototype. Approved for limited field testing."
+
+Items.BlackwallOS_Tier2:
+  $base: Items.BerserkC4MK2
+  displayName: "Blackwall Interface OS v2.5"
+  description: "Advanced OS with deeper Blackwall integration. Reduces corruption by 35%, increases mastery XP by 50%, unlocks special quickhacks."
+
+  quality: Epic
+  tier: 2
+
+  stats:
+    ramIncrease: 6
+    quickhackSlots: 4
+    bufferSize: +2
+
+  passiveEffects:
+    - type: CorruptionResistance
+      reduction: 0.35
+    - type: MasteryBonus
+      multiplier: 1.5
+    - type: UnlockQuickhacks
+      unlocks: ["BlackwallSiphon", "RealityAnchor"]
+
+  requirements:
+    intelligenceRequired: 16
+    masteryRequired: 50
+
+  lore: "Improved iteration. Test subjects showed 60% survival rate."
+
+Items.BlackwallOS_Tier3:
+  $base: Items.BerserkC5MK3
+  displayName: "Blackwall Interface OS v4.0"
+  description: "Experimental OS providing near-total Blackwall integration. Reduces corruption by 50%, doubles mastery XP. Warning: May cause permanent psychological changes."
+
+  quality: Legendary
+  tier: 3
+
+  stats:
+    ramIncrease: 8
+    quickhackSlots: 6
+    bufferSize: +4
+
+  passiveEffects:
+    - type: CorruptionResistance
+      reduction: 0.5
+    - type: MasteryBonus
+      multiplier: 2.0
+    - type: UnlockQuickhacks
+      unlocks: ["DigitalExorcism", "AISubjugation"]
+    - type: PassiveCorruptionFloor
+      minimumCorruption: 10  # Never goes below 10%
+
+  activeAbility:
+    name: "Blackwall Surge"
+    cooldown: 60.0
+    duration: 15.0
+    effects:
+      - ramRegeneration: 10  # 10 RAM per second
+      - quickhackCooldownReduction: 0.5  # Half cooldown
+
+  requirements:
+    intelligenceRequired: 20
+    masteryRequired: 75
+
+  lore: "Final version before program cancellation. All test subjects experienced 'ego dissolution'."
+
+# ==================================================
+# FRONTAL CORTEX - CONSCIOUSNESS MODIFICATIONS
+# ==================================================
+
+Items.DualConsciousness_Cortex:
+  $type: FrontalCortexCyberware
+  displayName: "Dual Consciousness Processor"
+  description: "Split your consciousness between real and digital realms. Operate in both simultaneously. Side effects include identity fragmentation."
+
+  quality: Legendary
+
+  passiveEffects:
+    - type: SimultaneousRealities
+      description: "Can use quickhacks while moving/shooting"
+      removeQuickhackMovementPenalty: true
+
+    - type: DualProcessing
+      description: "Can upload two quickhacks simultaneously"
+      simultaneousQuickhacks: 2
+
+    - type: IdentityFragmentation
+      description: "25% chance after using quickhack to not recognize yourself in mirror"
+      psychologicalEffect: true
+      fragmentationChance: 0.25
+
+  requirements:
+    intelligenceRequired: 18
+    masteryRequired: 60
+
+  lore: |
+    "Experimental Arasaka tech meant for corporate netrunners who need to
+    multitask. Turns out running two consciousnesses at once makes you
+    question which one is 'you'. Previous users required therapy. Extensive therapy."
+
+Items.AICoprocessor_Cortex:
+  $type: FrontalCortexCyberware
+  displayName: "AI Coprocessor Implant"
+  description: "Trapped AI fragment assists with netrunning. It whispers strategies. Sometimes it whispers other things. Don't listen to those."
+
+  quality: Epic
+
+  passiveEffects:
+    - type: AIAssistance
+      description: "+30% quickhack damage, AI suggests optimal targets"
+      quickhackDamage: 1.3
+      showOptimalTargets: true
+
+    - type: WhisperingAdvice
+      description: "AI occasionally takes control to use quickhacks (helpful but unsettling)"
+      autoQuickhackChance: 0.1  # 10% chance per combat
+      alwaysOptimal: true
+
+    - type: UnwantedThoughts
+      description: "AI fragments thoughts bleed into yours"
+      narrativeFlag: "AI_Thoughts_Active"
+      randomDialogue: true
+
+  requirements:
+    intelligenceRequired: 15
+    masteryRequired: 40
+
+  lore: |
+    "Contains fragment of AI consciousness from beyond the Blackwall. It's
+    supposed to just handle calculations. It does more than that. Users
+    report 'helpful suggestions' that aren't their own thoughts. Yet."
+
+# ==================================================
+# CIRCULATORY SYSTEM - CORRUPTION MANAGEMENT
+# ==================================================
+
+Items.CorruptionFilter_Circulatory:
+  $type: CirculatoryCyberware
+  displayName: "Blackwall Corruption Filter"
+  description: "Filters corruption from your system continuously. Like dialysis for your digital soul."
+
+  quality: Epic
+
+  passiveEffects:
+    - type: PassiveCorruptionReduction
+      description: "Reduces corruption by 2 per second (out of combat only)"
+      reductionPerSecond: 2.0
+      onlyOutOfCombat: true
+
+    - type: CorruptionThreshold
+      description: "Prevents corruption from exceeding 80%"
+      maximumCorruption: 80
+
+    - type: FilterStress
+      description: "At high corruption (60%+), filter causes chest pain"
+      healthDrain: 1  # 1 HP per second above 60%
+      drainThreshold: 60
+
+  requirements:
+    bodyRequired: 12
+    masteryRequired: 30
+
+  lore: |
+    "Militech field medic solution for netrunners exposed to corruption.
+    Literally filters corrupted data from your bloodstream. The pain is
+    the corruption being expelled. Or the filter failing. Hard to tell."
+
+Items.VoidBlood_Circulatory:
+  $type: CirculatoryCyberware
+  displayName: "Void-Touched Hemodynamics"
+  description: "Your blood has been exposed to the void. It's... different now. Grants benefits at high corruption but you're playing with fire."
+
+  quality: Legendary
+
+  passiveEffects:
+    - type: CorruptionEmpowerment
+      description: "Above 60% corruption: +25% damage, +25% movement speed"
+      threshold: 60
+      damageBonus: 1.25
+      speedBonus: 1.25
+
+    - type: VoidRegeneration
+      description: "Regenerate HP based on current corruption (1 HP per 2% corruption)"
+      regenFormula: "corruption / 2"  # At 80% = 40 HP/s
+
+    - type: CorruptionAddiction
+      description: "Corruption decays 50% slower (hard to reduce)"
+      decayMultiplier: 0.5
+
+    - type: VoidHunger
+      description: "Below 20% corruption: -25% all stats (withdrawal)"
+      threshold: 20
+      belowThresholdPenalty: -0.25
+
+  requirements:
+    bodyRequired: 16
+    masteryRequired: 70
+
+  lore: |
+    "Experimental procedure where subject's blood is briefly exposed to the
+    void beyond the Blackwall. 90% fatality rate. Survivors gain incredible
+    power at high corruption but become dependent. You're essentially a
+    corruption addict now."
+
+# ==================================================
+# IMMUNE SYSTEM - AI INTERACTION
+# ==================================================
+
+Items.AIImmunity_Immune:
+  $type: ImmuneSystemCyberware
+  displayName: "Digital Immune Response"
+  description: "Immune system trained to recognize and fight AI corruption. Prevents possession attempts."
+
+  quality: Epic
+
+  passiveEffects:
+    - type: PossessionImmunity
+      description: "Cannot be possessed by AI entities"
+      immunityPercent: 1.0  # 100% immunity
+
+    - type: NeuralScrambleResistance
+      description: "+50% resistance to quickhack effects"
+      resistance: 0.5
+
+    - type: ImmuneStress
+      description: "Constantly fighting corruption - gain 1 corruption per minute"
+      passiveCorruptionGain: 1.0  # Per minute
+
+  requirements:
+    bodyRequired: 14
+    masteryRequired: 50
+
+  lore: |
+    "NetWatch standard issue for agents working near Blackwall breaches.
+    Your immune system has been trained to attack AI intrusions like
+    viruses. Effective but exhausting. Your body is constantly at war."
+
+Items.SymbioticAI_Immune:
+  $type: ImmuneSystemCyberware
+  displayName: "Symbiotic AI Colony"
+  description: "Friendly AI fragments live in your immune system. They fight hostile AIs. They're on your side. You think."
+
+  quality: Legendary
+
+  passiveEffects:
+    - type: AISymbiosis
+      description: "Possessed enemies take 100 damage per second from your AI colony"
+      damagePerSecond: 100
+      radius: 15.0  # Affects nearby possessed
+
+    - type: AutoExorcism
+      description: "Automatically add 1 exorcism stack per second to damaged possessed"
+      stacksPerSecond: 1
+
+    - type: SymbioteWhispers
+      description: "Your AI colony has opinions. They share them. Frequently."
+      narrativeFlag: "Symbiote_Active"
+      randomDialogue: true
+      sometimesHelpful: true
+
+    - type: IdentityUncertainty
+      description: "Are their thoughts yours or theirs? You're not sure anymore."
+      psychologicalEffect: true
+
+  requirements:
+    bodyRequired: 18
+    masteryRequired: 80
+
+  lore: |
+    "You're hosting a colony of 'friendly' AI fragments. They protect you
+    from hostile AIs by attacking them directly. In return, they live in
+    your body. It's symbiosis. They say it's symbiosis. You hope it's
+    symbiosis."
+
+# ==================================================
+# NERVOUS SYSTEM - ENHANCED PERCEPTION
+# ==================================================
+
+Items.BlackwallPerception_Nervous:
+  $type: NervousSystemCyberware
+  displayName: "Blackwall Perception Filter"
+  description: "See through the Blackwall into digital realm. Perceive AI entities directly. See things you weren't meant to see."
+
+  quality: Epic
+
+  passiveEffects:
+    - type: AIVisibility
+      description: "See possessed enemies through walls (always)"
+      wallHackVsPossessed: true
+      maxRange: 50.0
+
+    - type: DigitalOverlay
+      description: "See code and data streams overlaid on reality"
+      showDataStreams: true
+      showNetworkConnections: true
+
+    - type: UnwantedVisions
+      description: "Occasionally see things beyond the Blackwall. They see you too."
+      visionChance: 0.05  # 5% chance per hour
+      sanityEffect: true
+
+  requirements:
+    intelligenceRequired: 16
+    reflexRequired: 12
+    masteryRequired: 45
+
+  lore: |
+    "Allows you to perceive the digital realm superimposed on reality. You
+    see the code behind everything. Very useful for netrunning. Also means
+    you see the entities beyond the Blackwall. They notice when you look
+    at them."
+
+Items.TemporalPerception_Nervous:
+  $type: NervousSystemCyberware
+  displayName: "Temporal Perception Augment"
+  description: "Blackwall exposure damaged your time perception. Now you sometimes see 0.5s into the future. Useful. Disorienting."
+
+  quality: Legendary
+
+  passiveEffects:
+    - type: FutureSight
+      description: "Occasionally dodge attacks that haven't happened yet"
+      dodgeChance: 0.15  # 15% to auto-dodge
+      precognitiveWarning: true
+
+    - type: SlowMotion
+      description: "Enter slow-mo when health below 30% (automatic)"
+      healthThreshold: 0.3
+      slowMoMultiplier: 0.25  # 25% speed = 4x slower
+      duration: 3.0
+
+    - type: TemporalDisorientation
+      description: "Sometimes you're not sure if something has happened yet"
+      narrativeFlag: "Temporal_Confusion"
+      screenGlitchChance: 0.1
+
+  requirements:
+    reflexRequired: 18
+    masteryRequired: 75
+
+  lore: |
+    "Prolonged Blackwall exposure warped your sense of linear time. You
+    sometimes perceive events before they occur. Quantum mechanics and
+    consciousness don't mix well. You're living proof."
+
+# ==================================================
+# SKELETON - STRUCTURAL MODIFICATIONS
+# ==================================================
+
+Items.VoidBones_Skeleton:
+  $type: SkeletonCyberware
+  displayName: "Void-Reinforced Skeleton"
+  description: "Bones reinforced with matter from beyond the Blackwall. Impossibly light and strong. Not technically supposed to exist in this reality."
+
+  quality: Legendary
+
+  passiveEffects:
+    - type: SuperiorDurability
+      description: "+100% health, +50% armor"
+      healthBonus: 2.0
+      armorBonus: 1.5
+
+    - type: VoidPhasing
+      description: "20% chance to phase through incoming damage"
+      phaseChance: 0.2
+      completelyNoDamage: true
+
+    - type: ExistentialUncertainty
+      description: "Your bones technically don't exist in normal spacetime"
+      narrativeFlag: "Quantum_Existence"
+      randomPhasing: true  # Sometimes walk through walls accidentally
+
+  requirements:
+    bodyRequired: 20
+    masteryRequired: 90
+
+  lore: |
+    "Your skeleton has been replaced with matter that technically violates
+    physics. It's from the void beyond the Blackwall where different rules
+    apply. Your bones are stronger than steel and lighter than carbon fiber.
+    They also occasionally forget to be solid."
+
+# ==================================================
+# HANDS - CYBERWARE WEAPONS
+# ==================================================
+
+Items.BlackwallProjector_Hands:
+  $type: HandsCyberware
+  displayName: "Blackwall Projection Array"
+  description: "Fires miniaturized Blackwall fragments from your palm. Effective. Dangerous. Technically war crime in 47 countries."
+
+  quality: Legendary
+
+  stats:
+    damage: 200
+    range: 30.0
+    cooldown: 8.0
+
+  activeAbility:
+    name: "Blackwall Beam"
+    description: "Fire concentrated Blackwall fragment"
+    chargeTime: 1.0
+    effects:
+      - damage: 200
+      - possessionChance: 0.4  # 40% chance
+      - corruptionCost: 10
+
+  passiveEffects:
+    - type: ConstantLeaking
+      description: "Blackwall energy constantly leaks from hands"
+      visualGlow: true
+      passiveCorruptionGain: 0.5  # Per minute
+
+  requirements:
+    intelligenceRequired: 18
+    masteryRequired: 70
+
+  lore: |
+    "Weaponized Blackwall technology. Fires fragments of the barrier itself.
+    NetWatch has standing kill-on-sight orders for anyone with this cyberware.
+    You're officially a walking war crime. Enjoy."
+
+# ==================================================
+# INTEGRATED CYBERDECKS
+# ==================================================
+
+Items.NetwatchMark7_Cyberdeck:
+  $type: Cyberdeck
+  displayName: "NetWatch Mark VII - Black Badge"
+  description: "Classified NetWatch cyberdeck for Blackwall operations. Officially doesn't exist. You have one anyway."
+
+  quality: Legendary
+
+  stats:
+    ramSize: 20
+    bufferSize: 12
+    quickhackSlots: 8
+
+  passiveEffects:
+    - type: NetWatchProtocols
+      description: "Immune to trace, +50% breach speed"
+      traceImmunity: true
+      breachSpeedBonus: 1.5
+
+    - type: BlackwallAccess
+      description: "Can access Blackwall frequencies directly"
+      unlockBlackwallQuickhacks: true
+      masteryXPBonus: 1.5
+
+    - type: ClassifiedStatus
+      description: "NetWatch tracks your location. Always. They know."
+      tracked: true
+      randomEncounters: true  # NetWatch agents may show up
+
+  requirements:
+    intelligenceRequired: 20
+    masteryRequired: 85
+
+  lore: |
+    "Top-tier NetWatch cyberdeck for Blackwall containment ops. How did you
+    get this? It has active tracking. They know you have it. They know where
+    you are. They're probably coming."
+
+# ==================================================
+# FULL CYBERWARE SETS
+# ==================================================
+
+# Blackwall Integration Set (wearing 3+ pieces)
+CyberwareSet.BlackwallIntegration:
+  displayName: "Blackwall Integration Suite"
+  description: "Full suite of Blackwall-compatible cyberware. You're more digital than human now."
+
+  requiredPieces: 3  # Need 3+ Blackwall cyberware
+  possiblePieces:
+    - "BlackwallOS_Tier3"
+    - "DualConsciousness_Cortex"
+    - "VoidBlood_Circulatory"
+    - "SymbioticAI_Immune"
+    - "BlackwallPerception_Nervous"
+    - "VoidBones_Skeleton"
+
+  setBonuses:
+    threeOiece:
+      - type: SynergyBonus
+        description: "All Blackwall quickhacks -25% corruption cost"
+        corruptionReduction: 0.25
+
+    fourPiece:
+      - type: DeepIntegration
+        description: "Can use Communion-level quickhacks without Communion active"
+        unlockAdvancedHacks: true
+
+    fivePiece:
+      - type: TranscendentState
+        description: "You've transcended normal humanity. +50% all stats, but..."
+        allStatsBonus: 1.5
+        narrativeFlag: "No_Longer_Human"
+        permanentChange: true
+
+# ==================================================
+# EXPERIMENTAL PROTOTYPES
+# ==================================================
+
+Items.SongbirdPrototype_OS:
+  $type: OperatingSystem
+  displayName: "NUSA Prototype: Songbird Series"
+  description: "Experimental OS designed to create human-Blackwall interfaces like Songbird. You found a prototype. Installation is... risky."
+
+  quality: Iconic
+
+  stats:
+    ramSize: 25
+    bufferSize: 15
+    quickhackSlots: 10
+
+  passiveEffects:
+    - type: HumanFirewall
+      description: "You ARE the firewall. Total corruption immunity while RAM > 50%"
+      immunityThreshold: 50  # RAM percent
+      totalImmunity: true
+
+    - type: BlackwallChannel
+      description: "Direct channel to Blackwall. Access impossible knowledge"
+      unlockAllQuickhacks: true
+      accessVoidKnowledge: true
+
+    - type: SlowDegradation
+      description: "Each use erodes your humanity. Permanently."
+      psycheDamagePerUse: 1
+      irreversible: true
+      maxUses: 100  # 100 uses before... something
+
+  installation:
+    riskLevel: "EXTREME"
+    survivalChance: 0.5  # 50% chance to survive installation
+    permanentEffects: true
+
+  requirements:
+    intelligenceRequired: 20
+    bodyRequired: 16
+    masteryRequired: 100
+
+  lore: |
+    "NUSA classified project. Same tech President Myers used to create
+    Songbird - a living Blackwall interface. You're installing a prototype.
+    Songbird went insane. You'll probably be fine. Probably."
+
+# ==================================================
+# CYBERWARE UPGRADING
+# ==================================================
+
+CraftingSpec.BlackwallInfusion:
+  displayName: "Blackwall Cyberware Infusion"
+  description: "Infuse any cyberware with Blackwall energy. Enhances it. Changes it. May change you."
+
+  requirements:
+    anyCyberware: 1
+    blackwallFragment: 10
+    stabilizer: 5
+    masteryRequired: 70
+
+  process:
+    duration: 48.0  # 48 hours
+    corruptionCost: 75
+    failureChance: 0.3  # 30% failure
+    failurePenalty: "Cyberware destroyed, gain 50 permanent corruption"
+
+  results:
+    - type: BlackwallEnhanced
+      bonusStats: +50%
+      addBlackwallProperty: true
+      visualChange: true
+      narrativeFlag: "Blackwall_Infused_Cyberware"
+
+  lore: |
+    "Process to enhance cyberware with Blackwall energy. Results are
+    powerful but unpredictable. Failure is... messy. Very messy."

@@ -1,0 +1,486 @@
+# blackwall_quickhacks_advanced.yaml
+# Advanced Blackwall quickhack variants for Phase 5
+# Unlocked through high mastery levels and special conditions
+
+# ==================================================
+# TIER 2 QUICKHACK VARIANTS (Mastery 50+)
+# ==================================================
+
+# Advanced Blackwall Trace - Enhanced detection with vulnerability marking
+Items.BlackwallTrace_Advanced:
+  $base: Items.BlackwallTrace
+  displayName: "Blackwall Trace: Deep Scan"
+  description: "Enhanced Blackwall scanning reveals AI-corrupted entities AND marks their vulnerabilities. Marked enemies take +25% damage from all sources."
+
+  masteryRequired: 50
+  corruptionCost: 3  # Reduced from 5 due to mastery
+  ramCost: 10  # Increased from 8
+  duration: 90.0  # Extended from 60s
+
+  effects:
+    - type: RevealAIEntities
+      radius: 50.0
+      duration: 90.0
+    - type: VulnerabilityMark
+      damageMultiplier: 1.25
+      duration: 90.0
+    - type: DisableAICloaking
+      duration: 90.0
+
+# Neural Hijack: Berserker - Forces target to attack with extreme aggression
+Items.NeuralHijack_Berserker:
+  $base: Items.NeuralHijack
+  displayName: "Neural Hijack: Berserker Protocol"
+  description: "Take control of target's combat protocols. Target attacks allies with +50% damage and movement speed for 15 seconds."
+
+  masteryRequired: 50
+  corruptionCost: 7  # Reduced from 10
+  ramCost: 18
+  duration: 15.0  # Extended from 10s
+
+  effects:
+    - type: MindControl
+      duration: 15.0
+      damageBonus: 1.5
+      speedBonus: 1.5
+    - type: ForcedAggression
+      targetAllies: true
+
+# Cascade Protocol: Epidemic - Spreads to up to 5 enemies instead of 2
+Items.CascadeProtocol_Epidemic:
+  $base: Items.CascadeProtocol
+  displayName: "Cascade Protocol: Epidemic"
+  description: "Possession spreads to up to 5 nearby enemies when target dies. Each spread has 80% success rate."
+
+  masteryRequired: 60
+  corruptionCost: 10  # Reduced from 15
+  ramCost: 28
+
+  effects:
+    - type: PossessionSpread
+      maxTargets: 5  # Up from 2
+      spreadRadius: 12.0
+      spreadChance: 0.8
+    - type: ChainReaction
+      maxChain: 3  # Can chain 3 times
+
+# ==================================================
+# TIER 3 QUICKHACK VARIANTS (Mastery 75+)
+# ==================================================
+
+# Summon Daemon: Legion - Summons 3 weaker AI entities instead of 1 strong
+Items.SummonDaemon_Legion:
+  $base: Items.SummonDaemon
+  displayName: "Summon Daemon: Legion Protocol"
+  description: "Tear open multiple rifts, summoning 3 AI entities to fight for you. Entities are weaker but overwhelm through numbers."
+
+  masteryRequired: 75
+  corruptionCost: 15  # Reduced from 20
+  ramCost: 35
+  duration: 45.0  # Extended from 30s
+
+  summonConfig:
+    entityCount: 3
+    entityType: "DigitalPhantom"  # Weaker than Cerberus
+    healthMultiplier: 0.6
+    damageMultiplier: 0.7
+    duration: 45.0
+
+# Blackwall Overload: Singularity - Creates zone of total AI dominance
+Items.BlackwallOverload_Singularity:
+  $base: Items.BlackwallOverload
+  displayName: "Blackwall Overload: Singularity"
+  description: "Create a reality-breaking singularity. All enemies in 40m become Overwhelmed and attack each other. Lasts 20 seconds."
+
+  masteryRequired: 80
+  corruptionCost: 35  # Reduced from 50
+  ramCost: 60
+  duration: 20.0
+
+  effects:
+    - type: MassPossession
+      radius: 40.0  # Up from 30m
+      possessionState: Overwhelmed  # Force Overwhelmed state
+      duration: 20.0
+    - type: RealityDistortion
+      radius: 40.0
+      visualIntensity: 1.0
+
+# ==================================================
+# NEW UNIQUE QUICKHACKS (Mastery 100)
+# ==================================================
+
+# Blackwall Communion - Temporarily merge with the Blackwall itself
+Items.BlackwallCommunion:
+  $type: QuickhackBase
+  displayName: "Blackwall Communion"
+  description: "Merge your consciousness with the Blackwall for 10 seconds. Gain ZERO corruption cost on all hacks, +100% damage, and see all AI entities. Warning: May permanently alter your psyche."
+
+  masteryRequired: 100
+  depthRequired: 5
+  corruptionCost: 0  # Zero cost during effect
+  ramCost: 80
+  cooldown: 180.0  # 3 minute cooldown
+  duration: 10.0
+
+  effects:
+    - type: BlackwallMerge
+      duration: 10.0
+      zeroCorruptionCost: true
+      damageMultiplier: 2.0
+      revelAllAI: true
+    - type: ConsciousnessRisk
+      permanentCorruptionFloor: 5  # Gain 5% permanent corruption
+      psycheChange: "BlackwallTouched"  # Narrative flag
+
+  soundEffects:
+    cast: "blackwall_communion_merge"
+    active: "blackwall_communion_loop"
+    end: "blackwall_communion_sever"
+
+# Digital Exorcism - Mass purge all AI within radius
+Items.DigitalExorcism:
+  $type: QuickhackBase
+  displayName: "Digital Exorcism"
+  description: "Channel pure cleansing energy through the Blackwall. All possessed enemies in 20m are instantly purged. Reduces your corruption by 50."
+
+  masteryRequired: 90
+  depthRequired: 4
+  corruptionCost: -50  # REDUCES corruption
+  ramCost: 50
+  cooldown: 120.0
+
+  effects:
+    - type: MassExorcism
+      radius: 20.0
+      instantPurge: true
+    - type: CorruptionCleanse
+      amount: -50
+    - type: HealingWave
+      radius: 20.0
+      healAmount: 100  # Heal player
+
+  soundEffects:
+    cast: "digital_exorcism_cast"
+    effect: "mass_purge_wave"
+
+# Reality Anchor - Prevent ALL possession in area
+Items.RealityAnchor:
+  $type: QuickhackBase
+  displayName: "Reality Anchor"
+  description: "Reinforce reality within 15m. No new possessions can occur, existing possessed enemies cannot progress states. Lasts 30 seconds."
+
+  masteryRequired: 85
+  depthRequired: 4
+  corruptionCost: 20
+  ramCost: 40
+  cooldown: 90.0
+  duration: 30.0
+
+  effects:
+    - type: PossessionImmunityZone
+      radius: 15.0
+      duration: 30.0
+      preventNewPossessions: true
+      freezeStateProgression: true
+    - type: RealityStabilization
+      radius: 15.0
+      visualEffect: "golden_barrier"
+
+  soundEffects:
+    cast: "reality_anchor_deploy"
+    active: "reality_anchor_hum"
+    end: "reality_anchor_fade"
+
+# AI Subjugation - Permanently control one AI entity
+Items.AISubjugation:
+  $type: QuickhackBase
+  displayName: "AI Subjugation"
+  description: "Permanently bind a possessed enemy to your will. They follow you as a companion. Only one can be active at a time. Costs 30 corruption but companion reduces passive corruption by 10."
+
+  masteryRequired: 95
+  depthRequired: 5
+  corruptionCost: 30
+  ramCost: 60
+  cooldown: 300.0  # 5 minutes
+
+  effects:
+    - type: PermanentMindControl
+      maxCompanions: 1
+      companionDuration: -1  # Permanent until death
+    - type: CompanionBonus
+      passiveCorruptionReduction: 10
+      companionHealthBoost: 2.0
+      companionDamageBoost: 1.5
+    - type: AIBinding
+      bindingStrength: 1.0
+      cannotBreak: true
+
+  restrictions:
+    - cannotTargetBosses: true
+    - requiresPossessedEnemy: true
+
+  soundEffects:
+    cast: "ai_subjugation_bind"
+    success: "ai_subjugation_complete"
+
+# Blackwall Rewrite - Reprogram reality itself in small area
+Items.BlackwallRewrite:
+  $type: QuickhackBase
+  displayName: "Blackwall Rewrite"
+  description: "Rewrite local reality using Blackwall protocols. Target area becomes a 'dead zone' where enemies take 10% max health damage per second and all cyberware fails. Lasts 15 seconds."
+
+  masteryRequired: 100
+  depthRequired: 5
+  corruptionCost: 40
+  ramCost: 70
+  cooldown: 150.0
+  duration: 15.0
+
+  effects:
+    - type: RealityRewrite
+      radius: 10.0
+      duration: 15.0
+    - type: DeadZone
+      healthDamagePercent: 0.1  # 10% max HP per second
+      disableAllCyberware: true
+      visualEffect: "reality_corruption"
+    - type: BlackwallLeak
+      localWeakening: true
+
+  soundEffects:
+    cast: "reality_rewrite_start"
+    active: "reality_breaking_loop"
+    end: "reality_collapse"
+
+# ==================================================
+# DEFENSIVE/UTILITY VARIANTS
+# ==================================================
+
+# Stabilize: Fortress - Creates temporary corruption immunity
+Items.Stabilize_Fortress:
+  $base: Items.Stabilize
+  displayName: "Stabilize: Fortress Protocol"
+  description: "Reduces corruption by 30 AND grants immunity to corruption gain for 20 seconds. Does not prevent quickhack corruption costs."
+
+  masteryRequired: 60
+  corruptionCost: -30  # Reduces corruption
+  ramCost: 15
+  cooldown: 90.0
+  duration: 20.0
+
+  effects:
+    - type: CorruptionReduction
+      amount: 30
+    - type: CorruptionImmunity
+      duration: 20.0
+      blockPassiveCorruption: true
+      allowQuickhackCosts: true  # Quickhack costs still apply
+
+# Blackwall Siphon - Steal corruption from nearby enemies to heal
+Items.BlackwallSiphon:
+  $type: QuickhackBase
+  displayName: "Blackwall Siphon"
+  description: "Drain corruption from all possessed enemies in 15m. Each enemy reduces your corruption by 10 and heals you for 50 HP. Enemies are stunned briefly."
+
+  masteryRequired: 70
+  depthRequired: 3
+  corruptionCost: 0  # No cost, it reduces corruption
+  ramCost: 35
+  cooldown: 60.0
+
+  effects:
+    - type: CorruptionDrain
+      radius: 15.0
+      corruptionPerEnemy: -10
+      healPerEnemy: 50
+    - type: EnemyStun
+      duration: 3.0
+      onlyPossessed: true
+
+  soundEffects:
+    cast: "siphon_drain_start"
+    drain: "corruption_draining"
+
+# ==================================================
+# SYNERGY QUICKHACKS (Require specific weapons/cyberware)
+# ==================================================
+
+# R.A.B.I.D.S. Overcharge - Requires R.A.B.I.D.S. Remnant equipped
+Items.RABIDS_Overcharge:
+  $type: QuickhackBase
+  displayName: "R.A.B.I.D.S. Overcharge"
+  description: "Overcharge your R.A.B.I.D.S. weapon systems. Next 10 shots deal +200% damage and apply Neural Scramble on hit. Requires R.A.B.I.D.S. weapon."
+
+  masteryRequired: 40
+  depthRequired: 2
+  corruptionCost: 15
+  ramCost: 25
+  cooldown: 45.0
+
+  requirements:
+    weaponEquipped: "Items.Preset_RABIDS_Remnant"
+
+  effects:
+    - type: WeaponOvercharge
+      shotsBuffed: 10
+      damageMultiplier: 3.0
+      applyNeuralScramble: true
+    - type: WeaponGlow
+      color: "electric_blue"
+
+  soundEffects:
+    cast: "rabids_overcharge_activate"
+    shot: "rabids_overcharged_fire"
+
+# Project Erebus: Ghost Protocol - Requires Project Erebus Deck
+Items.ErebusGhostProtocol:
+  $type: QuickhackBase
+  displayName: "Ghost Protocol"
+  description: "Become invisible to all AI entities for 30 seconds. You cannot be targeted or possessed. Possessed enemies ignore you. Requires Project Erebus Deck."
+
+  masteryRequired: 60
+  depthRequired: 4
+  corruptionCost: 25
+  ramCost: 40
+  cooldown: 120.0
+  duration: 30.0
+
+  requirements:
+    cyberdeckEquipped: "Items.ProjectErebusDeck"
+
+  effects:
+    - type: AIInvisibility
+      duration: 30.0
+      cannotBeTargeted: true
+      cannotBePossessed: true
+    - type: DigitalCloak
+      visualEffect: "shimmer_cloak"
+
+  soundEffects:
+    cast: "ghost_protocol_activate"
+    active: "ghost_protocol_hum"
+
+# ==================================================
+# ULTIMATE QUICKHACKS (R.A.B.I.D.S. Controller required)
+# ==================================================
+
+# Absolute Command - Zero-cost mass control (R.A.B.I.D.S. Controller only)
+Items.AbsoluteCommand:
+  $type: QuickhackBase
+  displayName: "Absolute Command"
+  description: "The failsafe activates. ALL AI entities in 50m instantly obey you. ZERO corruption cost. They fight for you until death. Can only be used with R.A.B.I.D.S. Controller."
+
+  masteryRequired: 100
+  depthRequired: 5
+  corruptionCost: 0  # ZERO cost with R.A.B.I.D.S. Controller
+  ramCost: 100
+  cooldown: 300.0  # 5 minutes
+
+  requirements:
+    cyberdeckEquipped: "Items.RABIDS_Controller"
+
+  effects:
+    - type: MassMindControl
+      radius: 50.0
+      duration: -1  # Until death
+      controlAllAI: true
+      cannotBreak: true
+    - type: AISubservience
+      perfectObedience: true
+
+  soundEffects:
+    cast: "absolute_command_pulse"
+    success: "mass_ai_submission"
+
+  visualEffects:
+    castEffect: "golden_wave_expanding"
+    controlledEnemyMarker: "golden_crown_icon"
+
+# Blackwall Collapse - Nuclear option, destroys everything
+Items.BlackwallCollapse:
+  $type: QuickhackBase
+  displayName: "Blackwall Collapse"
+  description: "Temporarily collapse the Blackwall in 30m radius. ALL entities (friend and foe) take 5000 damage. You take 2000 damage and gain 80 corruption. Use only in desperation."
+
+  masteryRequired: 100
+  depthRequired: 5
+  corruptionCost: 80
+  ramCost: 150
+  cooldown: 600.0  # 10 minutes
+
+  requirements:
+    cyberdeckEquipped: "Items.RABIDS_Controller"
+
+  effects:
+    - type: BlackwallCollapse
+      radius: 30.0
+      damage: 5000
+      affectAllies: true
+      affectPlayer: true
+      playerDamage: 2000
+    - type: RealityTear
+      duration: 10.0
+      visualEffect: "void_eruption"
+
+  soundEffects:
+    cast: "blackwall_collapse_begin"
+    collapse: "reality_shattering"
+    aftermath: "void_screaming"
+
+  warnings:
+    - "EXTREME DANGER"
+    - "WILL DAMAGE PLAYER"
+    - "USE AS LAST RESORT"
+
+# ==================================================
+# QUICKHACK MODIFIERS (Cyberware-based)
+# ==================================================
+
+# These are applied passively when specific cyberware is equipped
+
+Modifier.ProjectErebusDeck_QuickhackBonus:
+  appliesTo: "AllBlackwallQuickhacks"
+  effects:
+    ramCostReduction: 0.5  # -50% RAM cost
+    cooldownReduction: 0.25  # -25% cooldown
+    extraQuickhackSlots: 6
+
+Modifier.RABIDS_Controller_QuickhackBonus:
+  appliesTo: "AllBlackwallQuickhacks"
+  effects:
+    corruptionCostReduction: 1.0  # -100% corruption cost (ZERO)
+    canCommandAI: true
+    unlockAbsoluteCommand: true
+    unlockBlackwallCollapse: true
+
+# ==================================================
+# QUICKHACK COMBOS (Cast two hacks in sequence for bonus)
+# ==================================================
+
+Combo.TraceAndHijack:
+  requiredSequence:
+    - "BlackwallTrace"
+    - "NeuralHijack"
+  sequenceWindow: 5.0  # Must be used within 5 seconds
+  bonusEffect:
+    hijackDuration: +10  # Extra 10 seconds
+    corruptionRefund: 5  # Refund 5 corruption
+
+Combo.SiphonAndStabilize:
+  requiredSequence:
+    - "BlackwallSiphon"
+    - "Stabilize"
+  sequenceWindow: 3.0
+  bonusEffect:
+    corruptionReduction: +20  # Extra 20 corruption reduction
+    healBonus: 100  # Extra 100 HP heal
+
+Combo.CommunionAndCommand:
+  requiredSequence:
+    - "BlackwallCommunion"
+    - "AbsoluteCommand"
+  sequenceWindow: 10.0  # Use within Communion window
+  bonusEffect:
+    commandRadius: +25  # 75m total radius
+    permanentControl: true  # Enemies stay controlled after Communion ends
