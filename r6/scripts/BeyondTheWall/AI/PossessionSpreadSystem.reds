@@ -132,7 +132,7 @@ public class PossessionSpreadSystem extends ScriptableSystem {
 
     // Search for nearby NPCs using game's targeting system
     let searchQuery: TargetSearchQuery;
-    searchQuery.teamsToLookFor = [IntEnum<EAIAttitude>(1i32)];  // Hostile NPCs
+    searchQuery.teamsToLookFor = [IntEnum<EAIAttitude>(1)];  // Hostile NPCs
     searchQuery.maxDistance = radius;
     searchQuery.searchTarget = position;
 
