@@ -365,7 +365,12 @@ public static func GetPossessionAnimationSystem() -> ref<PossessionAnimationSyst
 // POSSESSION ANIMATION HOOKS
 // ==================================================
 
+// NOTE: Animation hooks disabled - would require public methods or callback system
+// TODO: Implement animation triggering through event system or public callbacks
+
 // Hook into PossessionSpreadSystem to trigger animations
+// DISABLED: SpreadToTargets is private and cannot be wrapped
+/*
 @wrapMethod(BeyondTheWall.AI.PossessionSpreadSystem)
 public func SpreadToTargets(targets: array<ref<ScriptedPuppet>>, aiEntityName: String, sourceState: PossessionState) -> Void {
   wrappedMethod(targets, aiEntityName, sourceState);
@@ -379,8 +384,11 @@ public func SpreadToTargets(targets: array<ref<ScriptedPuppet>>, aiEntityName: S
     i += 1;
   }
 }
+*/
 
 // Hook into state progression to trigger transition animations
+// DISABLED: ProgressState method does not exist in PossessionStateProgressionSystem
+/*
 @wrapMethod(BeyondTheWall.AI.PossessionStateProgressionSystem)
 public func ProgressState(targetID: EntityID) -> Void {
   // Get current state before progression
@@ -410,3 +418,4 @@ public func ProgressState(targetID: EntityID) -> Void {
     }
   }
 }
+*/

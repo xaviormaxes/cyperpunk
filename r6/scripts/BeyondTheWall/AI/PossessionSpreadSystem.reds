@@ -209,6 +209,14 @@ public class PossessionSpreadSystem extends ScriptableSystem {
   public func ClearHistory() -> Void {
     ArrayClear(this.m_spreadHistory);
   }
+
+  // Get possessed enemy by entity ID (stub - returns null for now)
+  // TODO: Implement proper enemy tracking system
+  public func GetPossessedEnemy(targetID: EntityID) -> ref<PossessedEnemy> {
+    // This would require a registry of possessed enemies
+    // For now, return null - ScannerIntegration handles this case
+    return null;
+  }
 }
 
 // Possession spread event record

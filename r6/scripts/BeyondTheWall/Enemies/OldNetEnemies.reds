@@ -135,9 +135,35 @@ public class PossessedEnemy extends NPCPuppet {
     return this.m_possessionState;
   }
 
+  // Alias for GetPossessionState (for compatibility)
+  public func GetState() -> PossessionState {
+    return this.m_possessionState;
+  }
+
   // Get possessing AI name
   public func GetAIEntityName() -> CName {
     return this.m_aiEntityName;
+  }
+
+  // Get corruption level (stub - returns possession state as percentage)
+  public func GetCorruptionLevel() -> Float {
+    switch this.m_possessionState {
+      case PossessionState.None:
+        return 0.0;
+      case PossessionState.Latent:
+        return 33.0;
+      case PossessionState.Active:
+        return 66.0;
+      case PossessionState.Overwhelmed:
+        return 100.0;
+      default:
+        return 0.0;
+    }
+  }
+
+  // Get time in current possession state (stub)
+  public func GetTimeInCurrentState() -> Float {
+    return this.m_possessionTime;
   }
 
   // Break possession (from weapons/quickhacks)
