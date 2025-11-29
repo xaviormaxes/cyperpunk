@@ -117,13 +117,14 @@ public class BlackwallMasterySystem extends ScriptableSystem {
 
   // Check if depth is unlocked
   public func IsDepthUnlocked(depth: Int32) -> Bool {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_unlockedDepths);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if this.m_unlockedDepths[i] == depth {
         return true;
       }
+      i += 1;
     }
 
     return false;
@@ -140,13 +141,14 @@ public class BlackwallMasterySystem extends ScriptableSystem {
   // Get maximum unlocked depth
   public func GetMaxDepth() -> Int32 {
     let maxDepth: Int32 = 1;
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_unlockedDepths);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if this.m_unlockedDepths[i] > maxDepth {
         maxDepth = this.m_unlockedDepths[i];
       }
+      i += 1;
     }
 
     return maxDepth;

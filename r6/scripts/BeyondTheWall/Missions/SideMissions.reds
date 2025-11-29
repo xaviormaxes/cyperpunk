@@ -58,14 +58,16 @@ issions() -> Void {
 
   // Check for mission triggers
   public func CheckMissionTriggers(player: ref<PlayerPuppet>, depthLevel: Int32) -> Void {
-    let i: Int32;
-    for i = 0; i < ArraySize(this.m_availableMissions); i += 1 {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_availableMissions) {
       let mission: ref<BTWSideMission> = this.m_availableMissions[i];
 
       if this.CanActivateMission(mission, player, depthLevel) {
         this.ActivateMission(mission);
         ArrayErase(this.m_availableMissions, i);
-        i -= 1;  // Adjust index after removal
+        // Don't increment i after removal - next item moves to current index
+      } else {
+        i += 1;
       }
     }
   }
@@ -101,8 +103,8 @@ issions() -> Void {
 
   // Complete mission
   public func CompleteMission(missionID: CName) -> Void {
-    let i: Int32;
-    for i = 0; i < ArraySize(this.m_activeMissions); i += 1 {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_activeMissions) {
       if Equals(this.m_activeMissions[i].missionID, missionID) {
         let mission: ref<BTWSideMission> = this.m_activeMissions[i];
 

@@ -100,9 +100,10 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
 
     // Stop all possession particle effects
-    let i: Int32;
-    for i = 0; i < ArraySize(this.m_particleEffects); i += 1 {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_particleEffects) {
       effectSystem.BreakEffectLoopOnEntity(puppet, this.m_particleEffects[i]);
+      i += 1;
     }
 
     LogChannel(n"BTW", "[PossessionEffects] Particle effects removed");

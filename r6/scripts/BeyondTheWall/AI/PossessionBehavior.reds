@@ -264,15 +264,15 @@ public class PossessedGroupCoordinationSystem extends ScriptableSystem {
 
   // Remove enemy from group
   public func RemoveFromGroup(enemy: ref<PossessedEnemy>) -> Void {
-    let i: Int32;
+    let i: Int32 = 0;
     let groupCount: Int32 = ArraySize(this.m_groups);
 
-    for i = 0; i < groupCount; i += 1 {
+    while i < groupCount {
       let group: ref<PossessedGroup> = this.m_groups[i];
-      let j: Int32;
+      let j: Int32 = 0;
       let memberCount: Int32 = ArraySize(group.members);
 
-      for j = 0; j < memberCount; j += 1 {
+      while j < memberCount {
         if Equals(group.members[j], enemy) {
           ArrayErase(group.members, j);
           LogChannel(n"BTW", s"[GroupCoordination] Enemy removed from group");
@@ -284,7 +284,9 @@ public class PossessedGroupCoordinationSystem extends ScriptableSystem {
 
           return;
         }
+        j += 1;
       }
+      i += 1;
     }
   }
 
@@ -316,13 +318,14 @@ public class PossessedGroupCoordinationSystem extends ScriptableSystem {
 
   // Find existing group
   private func FindGroup(aiEntityName: CName) -> ref<PossessedGroup> {
-    let i: Int32;
+    let i: Int32 = 0;
     let size: Int32 = ArraySize(this.m_groups);
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_groups[i].aiEntityName, aiEntityName) {
         return this.m_groups[i];
       }
+      i += 1;
     }
 
     return null;
@@ -347,11 +350,12 @@ public class PossessedGroupCoordinationSystem extends ScriptableSystem {
   // Get total number of possessed enemies
   public func GetTotalPossessedCount() -> Int32 {
     let total: Int32 = 0;
-    let i: Int32;
+    let i: Int32 = 0;
     let size: Int32 = ArraySize(this.m_groups);
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       total += ArraySize(this.m_groups[i].members);
+      i += 1;
     }
 
     return total;

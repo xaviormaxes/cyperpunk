@@ -139,13 +139,14 @@ public class PossessionSpreadSystem extends ScriptableSystem {
 
   // Spread possession to targets
   private func SpreadToTargets(targets: array<ref<ScriptedPuppet>>, aiEntityName: CName, sourceState: PossessionState) -> Void {
-    let i: Int32;
     let size: Int32 = ArraySize(targets);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       // Check if target is already possessed
       let target: ref<ScriptedPuppet> = targets[i];
       if this.IsAlreadyPossessed(target) {
+        i += 1;
         continue;
       }
 
@@ -153,6 +154,7 @@ public class PossessionSpreadSystem extends ScriptableSystem {
       this.PossessTarget(target, aiEntityName, sourceState);
 
       LogChannel(n"BTW", s"[PossessionSpread] Spread to target \(i + 1)/\(size)");
+      i += 1;
     }
   }
 
@@ -251,13 +253,14 @@ public class PossessionPreventionSystem extends ScriptableSystem {
 
   // Check if target has Neural Scramble
   public func HasNeuralScramble(target: EntityID) -> Bool {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_neuralScrambleActive);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_neuralScrambleActive[i], target) {
         return true;
       }
+      i += 1;
     }
 
     return false;
@@ -265,15 +268,16 @@ public class PossessionPreventionSystem extends ScriptableSystem {
 
   // Remove Neural Scramble
   public func RemoveNeuralScramble(target: EntityID) -> Void {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_neuralScrambleActive);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_neuralScrambleActive[i], target) {
         ArrayErase(this.m_neuralScrambleActive, i);
         LogChannel(n"BTW", "[PossessionPrevention] Neural Scramble removed");
         break;
       }
+      i += 1;
     }
   }
 
@@ -287,13 +291,14 @@ public class PossessionPreventionSystem extends ScriptableSystem {
 
   // Check if target is being exorcised
   public func IsBeingExorcised(target: EntityID) -> Bool {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_exorcismInProgress);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_exorcismInProgress[i], target) {
         return true;
       }
+      i += 1;
     }
 
     return false;
@@ -301,10 +306,10 @@ public class PossessionPreventionSystem extends ScriptableSystem {
 
   // Complete exorcism (purge AI)
   public func CompleteExorcism(target: EntityID) -> Void {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_exorcismInProgress);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_exorcismInProgress[i], target) {
         ArrayErase(this.m_exorcismInProgress, i);
         LogChannel(n"BTW", "[PossessionPrevention] Exorcism COMPLETE - AI purged!");
@@ -312,20 +317,22 @@ public class PossessionPreventionSystem extends ScriptableSystem {
         // TODO Phase 3: Actually remove possession from target
         break;
       }
+      i += 1;
     }
   }
 
   // Cancel exorcism (target died or stacks decayed)
   public func CancelExorcism(target: EntityID) -> Void {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_exorcismInProgress);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_exorcismInProgress[i], target) {
         ArrayErase(this.m_exorcismInProgress, i);
         LogChannel(n"BTW", "[PossessionPrevention] Exorcism cancelled");
         break;
       }
+      i += 1;
     }
   }
 }
@@ -435,13 +442,14 @@ public class ExorcismStackTracker extends ScriptableSystem {
 
   // Find existing stack data
   private func FindStackData(target: EntityID) -> ref<ExorcismStackData> {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_stacks);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_stacks[i].targetID, target) {
         return this.m_stacks[i];
       }
+      i += 1;
     }
 
     return null;
@@ -449,14 +457,15 @@ public class ExorcismStackTracker extends ScriptableSystem {
 
   // Remove stack data
   private func RemoveStackData(target: EntityID) -> Void {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_stacks);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if Equals(this.m_stacks[i].targetID, target) {
         ArrayErase(this.m_stacks, i);
         break;
       }
+      i += 1;
     }
   }
 }

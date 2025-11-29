@@ -199,13 +199,14 @@ public class BlackwallDepthProgressionSystem extends ScriptableSystem {
 
   // Get zone name for depth
   private func GetZoneName(depth: Int32) -> String {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_depthZones);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if this.m_depthZones[i].depth == depth {
         return this.m_depthZones[i].name;
       }
+      i += 1;
     }
 
     return "Unknown Zone";
@@ -213,13 +214,14 @@ public class BlackwallDepthProgressionSystem extends ScriptableSystem {
 
   // Get zone by depth
   public func GetZone(depth: Int32) -> ref<DepthZone> {
-    let i: Int32;
     let size: Int32 = ArraySize(this.m_depthZones);
+    let i: Int32 = 0;
 
-    for i = 0; i < size; i += 1 {
+    while i < size {
       if this.m_depthZones[i].depth == depth {
         return this.m_depthZones[i];
       }
+      i += 1;
     }
 
     return null;

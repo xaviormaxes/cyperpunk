@@ -78,11 +78,12 @@ public class ScannerPossessionDataProvider extends ScriptableSystem {
 
   // Get cached data
   private func GetCachedData(targetID: EntityID) -> ref<PossessionScannerData> {
-    let i: Int32;
-    for i = 0; i < ArraySize(this.m_scannerDataCache); i += 1 {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_scannerDataCache) {
       if Equals(this.m_scannerDataCache[i].targetID, targetID) {
         return this.m_scannerDataCache[i];
       }
+      i += 1;
     }
 
     return null;
@@ -282,12 +283,13 @@ public class PossessionScannerOverlay extends inkGameController {
 
     // TODO: Display warnings
     let warningText: String = "";
-    let i: Int32;
-    for i = 0; i < ArraySize(warnings); i += 1 {
+    let i: Int32 = 0;
+    while i < ArraySize(warnings) {
       warningText += warnings[i];
       if i < ArraySize(warnings) - 1 {
         warningText += "\n";
       }
+      i += 1;
     }
   }
 

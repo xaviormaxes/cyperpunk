@@ -373,9 +373,10 @@ public class BTWAudioManager extends ScriptableSystem {
 
   // Stop all active looping sounds
   public func StopAllActiveSounds() -> Void {
-    let i: Int32;
-    for i = 0; i < ArraySize(this.m_activeSoundscapes); i += 1 {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_activeSoundscapes) {
       GameObject.StopSoundEvent(this.m_activeSoundscapes[i]);
+      i += 1;
     }
 
     ArrayClear(this.m_activeSoundscapes);

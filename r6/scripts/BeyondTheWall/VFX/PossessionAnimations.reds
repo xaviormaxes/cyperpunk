@@ -373,9 +373,10 @@ public func SpreadToTargets(targets: array<ref<ScriptedPuppet>>, aiEntityName: S
   // Play possession animations for all newly possessed targets
   let animSystem: ref<PossessionAnimationSystem> = GetPossessionAnimationSystem();
 
-  let i: Int32;
-  for i = 0; i < ArraySize(targets); i += 1 {
+  let i: Int32 = 0;
+  while i < ArraySize(targets) {
     animSystem.PlayInitialPossessionAnimation(targets[i], aiEntityName);
+    i += 1;
   }
 }
 
