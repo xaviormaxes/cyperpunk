@@ -166,6 +166,23 @@ public class PossessedEnemy extends NPCPuppet {
     return this.m_possessionTime;
   }
 
+  // Progress to next possession state
+  public func ProgressState(newState: PossessionState) -> Void {
+    if Equals(this.m_possessionState, newState) {
+      return;  // Already in this state
+    }
+
+    let oldState: PossessionState = this.m_possessionState;
+    this.m_possessionState = newState;
+    this.m_possessionTime = 0.0;  // Reset time tracker
+
+    LogChannel(n"BTW", s"[PossessedEnemy] State progressed: \(EnumInt(oldState)) -> \(EnumInt(newState))");
+
+    // Reapply effects for new state
+    this.RemovePossessionEffects();
+    this.ApplyPossessionEffects();
+  }
+
   // Break possession (from weapons/quickhacks)
   public func BreakPossession() -> Bool {
     if Equals(this.m_possessionState, PossessionState.None) {

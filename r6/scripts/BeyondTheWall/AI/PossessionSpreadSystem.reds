@@ -130,11 +130,28 @@ public class PossessionSpreadSystem extends ScriptableSystem {
     let targets: array<ref<ScriptedPuppet>>;
     let gameInstance: GameInstance = GetGameInstance();
 
-    // TODO Phase 3: Implement actual NPC search
-    // This would use game's NPC tracking system to find nearby enemies
-    // For now, return empty array (placeholder)
+    // Search for nearby NPCs using game's targeting system
+    let searchQuery: TargetSearchQuery;
+    searchQuery.teamsToLookFor = [IntEnum<EAIAttitude>(1i32)];  // Hostile NPCs
+    searchQuery.maxDistance = radius;
+    searchQuery.searchTarget = position;
 
-    LogChannel(n"BTW", s"[PossessionSpread] Searching for targets in \(radius)m radius");
+    let targetingSystem: ref<TargetingSystem> = GameInstance.GetTargetingSystem(gameInstance);
+    let foundTargets: array<ref<GameObject>> = targetingSystem.GetTargets(searchQuery);
+
+    // Filter to ScriptedPuppets and limit count
+    let count: Int32 = 0;
+    let i: Int32 = 0;
+    while i < ArraySize(foundTargets) && count < maxTargets {
+      let puppet: ref<ScriptedPuppet> = foundTargets[i] as ScriptedPuppet;
+      if IsDefined(puppet) && !this.IsAlreadyPossessed(puppet) {
+        ArrayPush(targets, puppet);
+        count += 1;
+      }
+      i += 1;
+    }
+
+    LogChannel(n"BTW", s"[PossessionSpread] Found \(ArraySize(targets)) valid targets in \(radius)m radius");
 
     return targets;
   }
@@ -174,25 +191,110 @@ public class PossessionSpreadSystem extends ScriptableSystem {
 
   // Check if NPC is already possessed
   private func IsAlreadyPossessed(npc: ref<ScriptedPuppet>) -> Bool {
-    // TODO Phase 3: Implement possession check
-    // Would check if NPC has PossessedEnemy component
-    return false;
+    if !IsDefined(npc) {
+      return false;
+    }
+    // Check our possession registry
+    return this.IsPossessed(npc.GetEntityID());
   }
 
   // Possess a target NPC
   private func PossessTarget(target: ref<ScriptedPuppet>, aiEntityName: CName, state: PossessionState) -> Void {
-    // TODO Phase 3: Implement actual possession
-    // This would:
-    // 1. Add PossessedEnemy component to target
-    // 2. Set AI entity name
-    // 3. Set possession state
-    // 4. Apply visual effects
-    // 5. Modify NPC behavior
-
-    // For now, just register as a stub
+    // Register in tracking system
     this.RegisterPossessedEnemy(target.GetEntityID(), aiEntityName, state);
 
-    LogChannel(n"BTW", s"[PossessionSpread] Possessing target with \(ToString(aiEntityName))");
+    // Apply visual effects
+    this.ApplyPossessionVisuals(target, state);
+
+    // Apply stat modifiers
+    this.ApplyPossessionStats(target, state);
+
+    // Modify AI behavior
+    this.ApplyPossessionBehavior(target, state);
+
+    LogChannel(n"BTW", s"[PossessionSpread] Possessed \(target.GetDisplayName()) with \(ToString(aiEntityName)) (state: \(EnumInt(state)))");
+  }
+
+  // Apply visual effects to possessed enemy
+  private func ApplyPossessionVisuals(target: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    let effectsRenderer: ref<PossessionEffectsRenderer> = GetPossessionEffectsRenderer();
+    if IsDefined(effectsRenderer) {
+      // Apply eye glow
+      effectsRenderer.ApplyEyeGlow(target, state);
+
+      // Apply particle effects
+      effectsRenderer.ApplyParticleEffect(target, state);
+
+      // Apply corruption aura for Overwhelmed state
+      if Equals(state, PossessionState.Overwhelmed) {
+        effectsRenderer.ApplyCorruptionAura(target, 5.0);
+      }
+    }
+  }
+
+  // Apply stat modifiers to possessed enemy
+  private func ApplyPossessionStats(target: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    let statsSystem: ref<StatsSystem> = GameInstance.GetStatsSystem(target.GetGame());
+    let entityID: EntityID = target.GetEntityID();
+
+    // Health multiplier based on state
+    let healthMult: Float = 1.0;
+    let damageMult: Float = 1.0;
+
+    switch state {
+      case PossessionState.Latent:
+        healthMult = 1.2;   // +20% health
+        damageMult = 1.1;   // +10% damage
+        break;
+      case PossessionState.Active:
+        healthMult = 1.5;   // +50% health
+        damageMult = 1.3;   // +30% damage
+        break;
+      case PossessionState.Overwhelmed:
+        healthMult = 2.0;   // +100% health
+        damageMult = 1.5;   // +50% damage
+        break;
+    }
+
+    // Apply stat modifiers
+    let healthMod: ref<gameStatModifierData> = new gameStatModifierData();
+    healthMod.statType = gamedataStatType.Health;
+    healthMod.modifierType = gameStatModifierType.Multiplier;
+    healthMod.value = healthMult;
+    statsSystem.AddModifier(entityID, healthMod);
+
+    let damageMod: ref<gameStatModifierData> = new gameStatModifierData();
+    damageMod.statType = gamedataStatType.PowerLevel;
+    damageMod.modifierType = gameStatModifierType.Multiplier;
+    damageMod.value = damageMult;
+    statsSystem.AddModifier(entityID, damageMod);
+
+    LogChannel(n"BTW", s"[PossessionSpread] Applied stats: Health x\(healthMult), Damage x\(damageMult)");
+  }
+
+  // Apply behavior modifications to possessed enemy
+  private func ApplyPossessionBehavior(target: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    // Make enemy more aggressive
+    let aiComponent: ref<AIHumanComponent> = target.GetAIControllerComponent() as AIHumanComponent;
+    if IsDefined(aiComponent) {
+      // Increase aggression based on state
+      let aggressionBonus: Float = 0.0;
+      switch state {
+        case PossessionState.Latent:
+          aggressionBonus = 0.2;
+          break;
+        case PossessionState.Active:
+          aggressionBonus = 0.5;
+          break;
+        case PossessionState.Overwhelmed:
+          aggressionBonus = 1.0;
+          break;
+      }
+
+      // TODO: Apply actual AI behavior tree modifications
+      // This would require deeper AI system integration
+      LogChannel(n"BTW", s"[PossessionSpread] Applied behavior mods: +\(aggressionBonus * 100.0)% aggression");
+    }
   }
 
   // Register a possessed enemy in tracking system
@@ -221,15 +323,44 @@ public class PossessionSpreadSystem extends ScriptableSystem {
 
   // Unregister possessed enemy (when freed or killed)
   public func UnregisterPossessedEnemy(targetID: EntityID) -> Void {
+    // Get the entity before removing from registry
+    let gameInstance: GameInstance = GetGameInstance();
+    let entity: ref<Entity> = GameInstance.FindEntityByID(gameInstance, targetID);
+    let puppet: ref<ScriptedPuppet> = entity as ScriptedPuppet;
+
+    // Remove from registry
     let i: Int32 = 0;
     while i < ArraySize(this.m_possessedEnemies) {
       if Equals(this.m_possessedEnemies[i].targetID, targetID) {
         ArrayErase(this.m_possessedEnemies, i);
+
+        // Clean up visual effects if puppet still exists
+        if IsDefined(puppet) {
+          this.RemovePossessionEffects(puppet);
+        }
+
         LogChannel(n"BTW", "[PossessionSpread] Unregistered possessed enemy");
         return;
       }
       i += 1;
     }
+  }
+
+  // Remove all possession effects from target
+  private func RemovePossessionEffects(target: ref<ScriptedPuppet>) -> Void {
+    let effectsRenderer: ref<PossessionEffectsRenderer> = GetPossessionEffectsRenderer();
+    if IsDefined(effectsRenderer) {
+      // Remove eye glow
+      effectsRenderer.RemoveEyeGlow(target);
+
+      // Remove particle effects
+      effectsRenderer.RemoveParticleEffect(target);
+
+      // Remove corruption aura
+      effectsRenderer.RemoveCorruptionAura(target);
+    }
+
+    LogChannel(n"BTW", "[PossessionSpread] Removed all possession effects");
   }
 
   // Record spread event for debugging

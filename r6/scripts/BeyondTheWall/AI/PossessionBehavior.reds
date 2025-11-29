@@ -209,15 +209,20 @@ public class PossessionStateProgressionSystem extends ScriptableSystem {
 
     LogChannel(n"BTW", s"[PossessionProgression] Enemy progressing: \(EnumInt(currentState)) -> \(EnumInt(newState))");
 
+    // Actually change enemy's state (applies new effects automatically)
+    enemy.ProgressState(newState);
+
+    // Update possession registry
+    let possessionSystem: ref<PossessionSpreadSystem> = GetPossessionSpreadSystem();
+    if IsDefined(possessionSystem) {
+      let record: ref<PossessedEnemyRecord> = possessionSystem.GetPossessedEnemyRecord(enemy.GetEntityID());
+      if IsDefined(record) {
+        record.possessionState = newState;
+      }
+    }
+
     // Play state transition animation
     this.OnStateProgression(enemy, currentState, newState);
-
-    // TODO Phase 3: Actually change enemy's possession state
-    // This would:
-    // 1. Update PossessedEnemy.m_possessionState
-    // 2. Reapply visual effects
-    // 3. Reapply behavior mods
-    // 4. Reapply stat modifiers
   }
 
   // Callback for state progression (triggers animations)
