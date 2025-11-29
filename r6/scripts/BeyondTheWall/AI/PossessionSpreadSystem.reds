@@ -13,12 +13,14 @@ public class PossessionSpreadSystem extends ScriptableSystem {
   private let m_spreadEnabled: Bool;
   private let m_debugMode: Bool;
   private let m_spreadHistory: array<ref<PossessionSpreadEvent>>;
+  private let m_possessedEnemies: array<ref<PossessedEnemyRecord>>;  // Track possessed enemies
 
   // Initialize system
   private func OnAttach() -> Void {
     this.m_spreadEnabled = true;
     this.m_debugMode = false;
     ArrayClear(this.m_spreadHistory);
+    ArrayClear(this.m_possessedEnemies);
 
     LogChannel(n"BTW", "[PossessionSpread] System initialized");
   }
@@ -153,8 +155,20 @@ public class PossessionSpreadSystem extends ScriptableSystem {
       // Possess the target
       this.PossessTarget(target, aiEntityName, sourceState);
 
+      // Trigger animation callback
+      this.OnPossessionSpread(target, aiEntityName, sourceState);
+
       LogChannel(n"BTW", s"[PossessionSpread] Spread to target \(i + 1)/\(size)");
       i += 1;
+    }
+  }
+
+  // Public callback for possession spread (for animation system)
+  private func OnPossessionSpread(target: ref<ScriptedPuppet>, aiEntityName: CName, sourceState: PossessionState) -> Void {
+    // Play initial possession animation
+    let animSystem: ref<PossessionAnimationSystem> = GetPossessionAnimationSystem();
+    if IsDefined(animSystem) {
+      animSystem.PlayInitialPossessionAnimation(target, ToString(aiEntityName));
     }
   }
 
@@ -175,7 +189,47 @@ public class PossessionSpreadSystem extends ScriptableSystem {
     // 4. Apply visual effects
     // 5. Modify NPC behavior
 
+    // For now, just register as a stub
+    this.RegisterPossessedEnemy(target.GetEntityID(), aiEntityName, state);
+
     LogChannel(n"BTW", s"[PossessionSpread] Possessing target with \(ToString(aiEntityName))");
+  }
+
+  // Register a possessed enemy in tracking system
+  private func RegisterPossessedEnemy(targetID: EntityID, aiEntityName: CName, state: PossessionState) -> Void {
+    // Check if already registered
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_possessedEnemies) {
+      if Equals(this.m_possessedEnemies[i].targetID, targetID) {
+        // Update existing record
+        this.m_possessedEnemies[i].possessionState = state;
+        return;
+      }
+      i += 1;
+    }
+
+    // Add new record
+    let record: ref<PossessedEnemyRecord> = new PossessedEnemyRecord();
+    record.targetID = targetID;
+    record.aiEntityName = aiEntityName;
+    record.possessionState = state;
+    record.possessionTime = EngineTime.ToFloat(GameInstance.GetSimTime(GetGameInstance()));
+    ArrayPush(this.m_possessedEnemies, record);
+
+    LogChannel(n"BTW", s"[PossessionSpread] Registered possessed enemy (total: \(ArraySize(this.m_possessedEnemies)))");
+  }
+
+  // Unregister possessed enemy (when freed or killed)
+  public func UnregisterPossessedEnemy(targetID: EntityID) -> Void {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_possessedEnemies) {
+      if Equals(this.m_possessedEnemies[i].targetID, targetID) {
+        ArrayErase(this.m_possessedEnemies, i);
+        LogChannel(n"BTW", "[PossessionSpread] Unregistered possessed enemy");
+        return;
+      }
+      i += 1;
+    }
   }
 
   // Record spread event for debugging
@@ -210,12 +264,38 @@ public class PossessionSpreadSystem extends ScriptableSystem {
     ArrayClear(this.m_spreadHistory);
   }
 
-  // Get possessed enemy by entity ID (stub - returns null for now)
-  // TODO: Implement proper enemy tracking system
-  public func GetPossessedEnemy(targetID: EntityID) -> ref<PossessedEnemy> {
-    // This would require a registry of possessed enemies
-    // For now, return null - ScannerIntegration handles this case
+  // Get possessed enemy record by entity ID
+  public func GetPossessedEnemyRecord(targetID: EntityID) -> ref<PossessedEnemyRecord> {
+    let i: Int32 = 0;
+    while i < ArraySize(this.m_possessedEnemies) {
+      if Equals(this.m_possessedEnemies[i].targetID, targetID) {
+        return this.m_possessedEnemies[i];
+      }
+      i += 1;
+    }
     return null;
+  }
+
+  // Get possessed enemy by entity ID (returns actual puppet cast to PossessedEnemy)
+  // NOTE: This is a temporary shim - actual game would spawn proper PossessedEnemy instances
+  public func GetPossessedEnemy(targetID: EntityID) -> ref<PossessedEnemy> {
+    // Check if we have this enemy registered
+    let record: ref<PossessedEnemyRecord> = this.GetPossessedEnemyRecord(targetID);
+    if !IsDefined(record) {
+      return null;
+    }
+
+    // Get the actual entity from game
+    let gameInstance: GameInstance = GetGameInstance();
+    let entity: ref<Entity> = GameInstance.FindEntityByID(gameInstance, targetID);
+
+    // Try to cast to PossessedEnemy (will work if it's actually a PossessedEnemy instance)
+    return entity as PossessedEnemy;
+  }
+
+  // Check if enemy is possessed
+  public func IsPossessed(targetID: EntityID) -> Bool {
+    return IsDefined(this.GetPossessedEnemyRecord(targetID));
   }
 }
 
@@ -225,6 +305,43 @@ public class PossessionSpreadEvent {
   public let aiEntityName: CName;
   public let targetCount: Int32;
   public let timestamp: Float;
+}
+
+// Possessed enemy tracking record
+public class PossessedEnemyRecord {
+  public let targetID: EntityID;
+  public let aiEntityName: CName;
+  public let possessionState: PossessionState;
+  public let possessionTime: Float;
+
+  // Get possession state (for compatibility with PossessedEnemy interface)
+  public func GetState() -> PossessionState {
+    return this.possessionState;
+  }
+
+  public func GetAIEntityName() -> CName {
+    return this.aiEntityName;
+  }
+
+  public func GetCorruptionLevel() -> Float {
+    switch this.possessionState {
+      case PossessionState.None:
+        return 0.0;
+      case PossessionState.Latent:
+        return 33.0;
+      case PossessionState.Active:
+        return 66.0;
+      case PossessionState.Overwhelmed:
+        return 100.0;
+      default:
+        return 0.0;
+    }
+  }
+
+  public func GetTimeInCurrentState() -> Float {
+    let currentTime: Float = EngineTime.ToFloat(GameInstance.GetSimTime(GetGameInstance()));
+    return currentTime - this.possessionTime;
+  }
 }
 
 // Global accessor

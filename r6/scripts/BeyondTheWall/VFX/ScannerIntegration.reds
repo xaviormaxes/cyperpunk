@@ -52,17 +52,28 @@ public class ScannerPossessionDataProvider extends ScriptableSystem {
     let possessionSystem: ref<PossessionSpreadSystem> = GetPossessionSpreadSystem();
     let possessedEnemy: ref<PossessedEnemy> = possessionSystem.GetPossessedEnemy(targetID);
 
-    if !IsDefined(possessedEnemy) {
-      data.isPossessed = false;
-      return data;
-    }
+    // Try actual PossessedEnemy first, fallback to record if cast fails
+    if IsDefined(possessedEnemy) {
+      // Got actual PossessedEnemy instance
+      data.isPossessed = true;
+      data.possessionState = possessedEnemy.GetState();
+      data.aiEntityName = possessedEnemy.GetAIEntityName();
+      data.corruptionLevel = possessedEnemy.GetCorruptionLevel();
+      data.timeInState = possessedEnemy.GetTimeInCurrentState();
+    } else {
+      // Fallback to possession record (stub data)
+      let record: ref<PossessedEnemyRecord> = possessionSystem.GetPossessedEnemyRecord(targetID);
+      if !IsDefined(record) {
+        data.isPossessed = false;
+        return data;
+      }
 
-    // Enemy is possessed - get detailed data
-    data.isPossessed = true;
-    data.possessionState = possessedEnemy.GetState();
-    data.aiEntityName = possessedEnemy.GetAIEntityName();
-    data.corruptionLevel = possessedEnemy.GetCorruptionLevel();
-    data.timeInState = possessedEnemy.GetTimeInCurrentState();
+      data.isPossessed = true;
+      data.possessionState = record.GetState();
+      data.aiEntityName = record.GetAIEntityName();
+      data.corruptionLevel = record.GetCorruptionLevel();
+      data.timeInState = record.GetTimeInCurrentState();
+    }
 
     // Get exorcism progress if being exorcised
     let exorcismTracker: ref<ExorcismStackTracker> = GetExorcismStackTracker();

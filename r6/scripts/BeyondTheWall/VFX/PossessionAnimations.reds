@@ -365,57 +365,8 @@ public static func GetPossessionAnimationSystem() -> ref<PossessionAnimationSyst
 // POSSESSION ANIMATION HOOKS
 // ==================================================
 
-// NOTE: Animation hooks disabled - would require public methods or callback system
-// TODO: Implement animation triggering through event system or public callbacks
-
-// Hook into PossessionSpreadSystem to trigger animations
-// DISABLED: SpreadToTargets is private and cannot be wrapped
-/*
-@wrapMethod(BeyondTheWall.AI.PossessionSpreadSystem)
-public func SpreadToTargets(targets: array<ref<ScriptedPuppet>>, aiEntityName: String, sourceState: PossessionState) -> Void {
-  wrappedMethod(targets, aiEntityName, sourceState);
-
-  // Play possession animations for all newly possessed targets
-  let animSystem: ref<PossessionAnimationSystem> = GetPossessionAnimationSystem();
-
-  let i: Int32 = 0;
-  while i < ArraySize(targets) {
-    animSystem.PlayInitialPossessionAnimation(targets[i], aiEntityName);
-    i += 1;
-  }
-}
-*/
-
-// Hook into state progression to trigger transition animations
-// DISABLED: ProgressState method does not exist in PossessionStateProgressionSystem
-/*
-@wrapMethod(BeyondTheWall.AI.PossessionStateProgressionSystem)
-public func ProgressState(targetID: EntityID) -> Void {
-  // Get current state before progression
-  let possessionSystem: ref<PossessionSpreadSystem> = GetPossessionSpreadSystem();
-  let possessedEnemy: ref<PossessedEnemy> = possessionSystem.GetPossessedEnemy(targetID);
-
-  if !IsDefined(possessedEnemy) {
-    return;
-  }
-
-  let oldState: PossessionState = possessedEnemy.GetState();
-
-  // Call original progression
-  wrappedMethod(targetID);
-
-  // Get new state
-  let newState: PossessionState = possessedEnemy.GetState();
-
-  // Play transition animation if state changed
-  if NotEquals(oldState, newState) {
-    let gameInstance: GameInstance = GetGameInstance();
-    let puppet: ref<ScriptedPuppet> = GameInstance.FindEntityByID(gameInstance, targetID) as ScriptedPuppet;
-
-    if IsDefined(puppet) {
-      let animSystem: ref<PossessionAnimationSystem> = GetPossessionAnimationSystem();
-      animSystem.PlayStateTransitionAnimation(puppet, oldState, newState);
-    }
-  }
-}
-*/
+// NOTE: Animation triggers are now integrated directly into:
+// - PossessionSpreadSystem.OnPossessionSpread() - triggers initial possession animations
+// - PossessionStateProgressionSystem.OnStateProgression() - triggers state transition animations
+//
+// This avoids the need for @wrapMethod hooks on private methods
