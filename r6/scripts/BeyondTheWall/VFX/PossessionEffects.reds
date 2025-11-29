@@ -183,7 +183,7 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
   }
 
   // Play exorcism complete effect
-  private func PlayExorcismCompleteEffect(puppet: ref<ScriptedPuppet>) -> Void {
+  public func PlayExorcismCompleteEffect(puppet: ref<ScriptedPuppet>) -> Void {
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
 
     // Bright expulsion effect
