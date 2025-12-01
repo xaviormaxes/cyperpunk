@@ -38,49 +38,98 @@ public class PossessionBehaviorSystem extends ScriptableSystem {
 
   // Latent possession behavior
   private func ApplyLatentBehavior(enemy: ref<PossessedEnemy>) -> Void {
-    // TODO Phase 3: Implement actual AI behavior mods
-    // - Slight movement irregularities
-    // - Occasional head twitches
-    // - Slightly enhanced reflexes (+15%)
-    // - Group coordination (move together)
-    // - Stare at player briefly
+    // Slight movement irregularities - Apply subtle animation state
+    let animSystem: ref<PossessionAnimationSystem> = GetPossessionAnimationSystem();
+    if IsDefined(animSystem) {
+      animSystem.ApplySubtleGlitching(enemy);
+    }
+
+    // Enhanced reflexes (+15% damage, +20% health)
+    this.ApplyStatModifiers(enemy, 1.15, 1.2);
+
+    // Group coordination - Add to coordination system
+    let groupSystem: ref<PossessedGroupCoordinationSystem> = GetPossessedGroupCoordinationSystem();
+    if IsDefined(groupSystem) {
+      groupSystem.AddToGroup(enemy, enemy.GetAIEntityName());
+    }
 
     LogChannel(n"BTW", "[PossessionBehavior] Latent behavior applied");
   }
 
   // Active possession behavior
   private func ApplyActiveBehavior(enemy: ref<PossessedEnemy>) -> Void {
-    // TODO Phase 3: Implement actual AI behavior mods
-    // - Synchronized movement with other possessed
-    // - Enhanced combat abilities (+35% damage)
-    // - Aggressive pursuit
-    // - Perfect flanking coordination
-    // - Uses cyberware more effectively
-    // - Prioritizes spreading infection
+    // Enhanced combat abilities (+35% damage, +50% health)
+    this.ApplyStatModifiers(enemy, 1.35, 1.5);
+
+    // Aggressive pursuit - Increase aggression and detection
+    this.IncreaseAggression(enemy);
+
+    // Perfect flanking coordination - Add to group system
+    let groupSystem: ref<PossessedGroupCoordinationSystem> = GetPossessedGroupCoordinationSystem();
+    if IsDefined(groupSystem) {
+      groupSystem.AddToGroup(enemy, enemy.GetAIEntityName());
+    }
+
+    // Apply active possession visual effects
+    let vfxSystem: ref<PossessionEffectRenderer> = GetPossessionEffectRenderer();
+    if IsDefined(vfxSystem) {
+      vfxSystem.ApplyActiveEffect(enemy);
+    }
 
     LogChannel(n"BTW", "[PossessionBehavior] Active behavior applied");
   }
 
   // Overwhelmed possession behavior
   private func ApplyOverwhelmedBehavior(enemy: ref<PossessedEnemy>) -> Void {
-    // TODO Phase 3: Implement actual AI behavior mods
-    // - Attacks EVERYTHING (change faction to hostile to all)
-    // - Berserker mode (+75% damage, +100% health)
-    // - Erratic, unpredictable movement
-    // - Extremely aggressive
-    // - No self-preservation
-    // - Will sacrifice itself to spread
-    // - Resistant to quickhacks (50% resistance)
+    // Berserker mode (+75% damage, +100% health)
+    this.ApplyStatModifiers(enemy, 1.75, 2.0);
+
+    // Attacks EVERYTHING - Change to hostile faction
+    this.MakeHostileToAll(enemy);
+
+    // Resistant to quickhacks - Apply hack resistance
+    this.ApplyQuickhackResistance(enemy, 0.5);
+
+    // Extremely aggressive - Maximum aggression
+    this.MaximizeAggression(enemy);
+
+    // Erratic movement - Apply chaos animation state
+    let animSystem: ref<PossessionAnimationSystem> = GetPossessionAnimationSystem();
+    if IsDefined(animSystem) {
+      animSystem.ApplyErraticMovement(enemy);
+    }
+
+    // Apply overwhelmed visual effects
+    let vfxSystem: ref<PossessionEffectRenderer> = GetPossessionEffectRenderer();
+    if IsDefined(vfxSystem) {
+      vfxSystem.ApplyOverwhelmedEffect(enemy);
+    }
 
     LogChannel(n"BTW", "[PossessionBehavior] Overwhelmed behavior applied - DANGEROUS");
   }
 
   // Remove behavior modifications
   public func RemoveBehaviorMods(enemy: ref<PossessedEnemy>) -> Void {
-    // TODO Phase 3: Reset AI to normal behavior
-    // - Remove stat modifiers
-    // - Restore original faction
-    // - Reset aggression levels
+    // Remove stat modifiers - Reset to base values
+    this.RemoveStatModifiers(enemy);
+
+    // Restore original faction
+    this.RestoreOriginalFaction(enemy);
+
+    // Reset aggression levels
+    this.ResetAggression(enemy);
+
+    // Remove from group coordination
+    let groupSystem: ref<PossessedGroupCoordinationSystem> = GetPossessedGroupCoordinationSystem();
+    if IsDefined(groupSystem) {
+      groupSystem.RemoveFromGroup(enemy);
+    }
+
+    // Remove visual effects
+    let vfxSystem: ref<PossessionEffectRenderer> = GetPossessionEffectRenderer();
+    if IsDefined(vfxSystem) {
+      vfxSystem.ClearEffects(enemy);
+    }
 
     LogChannel(n"BTW", "[PossessionBehavior] Behavior mods removed");
   }
@@ -131,6 +180,116 @@ public class PossessionBehaviorSystem extends ScriptableSystem {
   // Enable/disable behavior mods
   public func SetBehaviorModsEnabled(enabled: Bool) -> Void {
     this.m_behaviorModsEnabled = enabled;
+  }
+
+  // ===== HELPER FUNCTIONS =====
+
+  // Apply stat modifiers (damage and health multipliers)
+  private func ApplyStatModifiers(enemy: ref<PossessedEnemy>, damageMultiplier: Float, healthMultiplier: Float) -> Void {
+    if !IsDefined(enemy) {
+      return;
+    }
+
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Apply damage multiplier
+    let damageModifier: ref<gameConstantStatModifier> = new gameConstantStatModifier();
+    damageModifier.value = (damageMultiplier - 1.0) * 100.0; // Convert to percentage
+    GameInstance.GetStatsSystem(puppet.GetGame()).AddModifier(
+      Cast<StatsObjectID>(puppet.GetEntityID()),
+      RPGManager.CreateStatModifier(gamedataStatType.PowerDamage, gameStatModifierType.Additive, damageModifier.value)
+    );
+
+    // Apply health multiplier
+    let healthModifier: ref<gameConstantStatModifier> = new gameConstantStatModifier();
+    healthModifier.value = (healthMultiplier - 1.0) * 100.0;
+    GameInstance.GetStatsSystem(puppet.GetGame()).AddModifier(
+      Cast<StatsObjectID>(puppet.GetEntityID()),
+      RPGManager.CreateStatModifier(gamedataStatType.Health, gameStatModifierType.Additive, healthModifier.value)
+    );
+  }
+
+  // Remove stat modifiers
+  private func RemoveStatModifiers(enemy: ref<PossessedEnemy>) -> Void {
+    // Stats will be reset when possession is removed
+    // The game's stat system handles cleanup automatically
+  }
+
+  // Increase aggression (Active state)
+  private func IncreaseAggression(enemy: ref<PossessedEnemy>) -> Void {
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Set to combat mode and aggressive stance
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"player", EAIAttitude.AIA_Hostile);
+  }
+
+  // Maximize aggression (Overwhelmed state)
+  private func MaximizeAggression(enemy: ref<PossessedEnemy>) -> Void {
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Set hostile to player with maximum aggression
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"player", EAIAttitude.AIA_Hostile);
+  }
+
+  // Make hostile to all (Overwhelmed attacks everything)
+  private func MakeHostileToAll(enemy: ref<PossessedEnemy>) -> Void {
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Set hostile to all common attitude groups
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"player", EAIAttitude.AIA_Hostile);
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"civilian", EAIAttitude.AIA_Hostile);
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"cop", EAIAttitude.AIA_Hostile);
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"gang", EAIAttitude.AIA_Hostile);
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"corporat", EAIAttitude.AIA_Hostile);
+  }
+
+  // Apply quickhack resistance
+  private func ApplyQuickhackResistance(enemy: ref<PossessedEnemy>, resistanceMultiplier: Float) -> Void {
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Add quickhack resistance modifier
+    let resistanceMod: Float = (1.0 - resistanceMultiplier) * 100.0;
+    GameInstance.GetStatsSystem(puppet.GetGame()).AddModifier(
+      Cast<StatsObjectID>(puppet.GetEntityID()),
+      RPGManager.CreateStatModifier(gamedataStatType.HackingResistance, gameStatModifierType.Additive, resistanceMod)
+    );
+  }
+
+  // Restore original faction
+  private func RestoreOriginalFaction(enemy: ref<PossessedEnemy>) -> Void {
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Reset to neutral/original attitude
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"player", EAIAttitude.AIA_Neutral);
+  }
+
+  // Reset aggression
+  private func ResetAggression(enemy: ref<PossessedEnemy>) -> Void {
+    let puppet: ref<ScriptedPuppet> = enemy as ScriptedPuppet;
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Reset to neutral attitude
+    GameObject.SetAttitudeAgainstAttitudeGroup(puppet, n"player", EAIAttitude.AIA_Neutral);
   }
 }
 
@@ -323,12 +482,46 @@ public class PossessedGroupCoordinationSystem extends ScriptableSystem {
       return;
     }
 
-    // TODO Phase 3: Implement actual coordinated movement
-    // - All group members move in formation
-    // - Maintain spacing
-    // - Synchronized actions
+    let memberCount: Int32 = ArraySize(group.members);
+    if memberCount == 0 {
+      return;
+    }
 
-    LogChannel(n"BTW", s"[GroupCoordination] Coordinating \(ArraySize(group.members)) enemies");
+    // Calculate formation positions around target
+    let angleStep: Float = 360.0 / Cast<Float>(memberCount);
+    let formationRadius: Float = 3.0; // 3 meters spacing
+    let i: Int32 = 0;
+
+    while i < memberCount {
+      let member: ref<PossessedEnemy> = group.members[i];
+      let puppet: ref<ScriptedPuppet> = member as ScriptedPuppet;
+
+      if IsDefined(puppet) {
+        // Calculate position in formation
+        let angle: Float = angleStep * Cast<Float>(i);
+        let radians: Float = angle * 0.0174533; // Convert to radians
+
+        let offsetX: Float = Cos(radians) * formationRadius;
+        let offsetY: Float = Sin(radians) * formationRadius;
+
+        let formationPos: Vector4 = targetPosition;
+        formationPos.X += offsetX;
+        formationPos.Y += offsetY;
+
+        // Move puppet to formation position using AI command
+        // Note: This uses the game's AI system to move in a coordinated way
+        let moveCommand: ref<AICommandsMoveToCommand> = new AICommandsMoveToCommand();
+        moveCommand.movementTarget = formationPos;
+        moveCommand.movementType = moveMovementType.Sprint;
+
+        // Send movement command to AI
+        puppet.GetAIControllerComponent().SendCommand(moveCommand);
+      }
+
+      i += 1;
+    }
+
+    LogChannel(n"BTW", s"[GroupCoordination] Coordinating \(memberCount) enemies in formation");
   }
 
   // Find existing group

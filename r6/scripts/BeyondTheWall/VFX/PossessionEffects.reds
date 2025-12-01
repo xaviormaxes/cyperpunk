@@ -242,9 +242,29 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Apply camera shake
   private func ApplyCameraShake(position: Vector4, radius: Float, strength: Float) -> Void {
-    // TODO: Implement camera shake
-    // Would use game's camera shake system
-    LogChannel(n"BTW", s"[PossessionEffects] Camera shake applied (strength: \(strength))");
+    let player: ref<PlayerPuppet> = GetPlayer(GetGameInstance());
+    if !IsDefined(player) {
+      return;
+    }
+
+    // Check if player is within shake radius
+    let playerPos: Vector4 = player.GetWorldPosition();
+    let distance: Float = Vector4.Distance(playerPos, position);
+
+    if distance <= radius {
+      // Apply camera shake with falloff based on distance
+      let distanceFactor: Float = 1.0 - (distance / radius);
+      let effectiveStrength: Float = strength * distanceFactor;
+
+      // Create and queue camera shake event
+      let shakeEvent: ref<CameraShakeEvent> = new CameraShakeEvent();
+      shakeEvent.strength = effectiveStrength;
+      shakeEvent.duration = 0.5; // Half second shake
+
+      GameInstance.GetCameraSystem(player.GetGame()).QueueEvent(shakeEvent);
+
+      LogChannel(n"BTW", s"[PossessionEffects] Camera shake applied (strength: \(effectiveStrength), distance: \(distance)m)");
+    }
   }
 
   // Sound effect methods (placeholders for actual audio implementation)

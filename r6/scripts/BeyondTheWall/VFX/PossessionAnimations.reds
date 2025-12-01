@@ -139,9 +139,22 @@ public class PossessionAnimationSystem extends ScriptableSystem {
 
   // Stagger animation
   private func PlayStaggerAnimation(puppet: ref<ScriptedPuppet>) -> Void {
-    // TODO: Play stagger animation
-    // Enemy stumbles backward slightly
-    LogChannel(n"BTW", "[PossessionAnim] -> Stagger");
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Use game's stagger/ragdoll impulse system
+    let statusEffectSystem: ref<StatusEffectSystem> = GameInstance.GetStatusEffectSystem(puppet.GetGame());
+
+    // Apply brief knockdown effect to simulate stagger
+    statusEffectSystem.ApplyStatusEffect(
+      puppet.GetEntityID(),
+      t"BaseStatusEffect.Knockdown",
+      puppet.GetEntityID(),
+      puppet
+    );
+
+    LogChannel(n"BTW", "[PossessionAnim] -> Stagger effect applied");
   }
 
   // Corruption effect animation
@@ -249,9 +262,24 @@ public class PossessionAnimationSystem extends ScriptableSystem {
 
   // EMP jolt animation
   private func PlayEMPJoltAnimation(puppet: ref<ScriptedPuppet>) -> Void {
-    // TODO: Play EMP jolt animation
-    // Sudden electrical discharge effect
-    LogChannel(n"BTW", "[PossessionAnim] -> EMP jolt");
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Use game's EMP effect
+    let statusEffectSystem: ref<StatusEffectSystem> = GameInstance.GetStatusEffectSystem(puppet.GetGame());
+    statusEffectSystem.ApplyStatusEffect(
+      puppet.GetEntityID(),
+      t"BaseStatusEffect.EMPShock",
+      puppet.GetEntityID(),
+      puppet
+    );
+
+    // Play electrical VFX using existing game effect
+    let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    effectSystem.SpawnEffect(n"emp_discharge", puppet, puppet.GetWorldPosition());
+
+    LogChannel(n"BTW", "[PossessionAnim] -> EMP jolt with electrical discharge");
   }
 
   // Banishment death animation
@@ -269,7 +297,21 @@ public class PossessionAnimationSystem extends ScriptableSystem {
 
   // Apply stun effect
   private func ApplyStunEffect(puppet: ref<ScriptedPuppet>, duration: Float) -> Void {
-    // TODO: Apply actual stun status effect
+    if !IsDefined(puppet) {
+      return;
+    }
+
+    // Apply stun status effect using game's status effect system
+    let statusEffectID: TweakDBID = t"BaseStatusEffect.Stunned";
+    let statusEffectSystem: ref<StatusEffectSystem> = GameInstance.GetStatusEffectSystem(puppet.GetGame());
+
+    statusEffectSystem.ApplyStatusEffect(
+      puppet.GetEntityID(),
+      statusEffectID,
+      puppet.GetEntityID(),
+      puppet
+    );
+
     LogChannel(n"BTW", s"[PossessionAnim] -> Stun applied (\(duration)s)");
   }
 
