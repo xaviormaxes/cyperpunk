@@ -6,7 +6,7 @@ local Config = {}
 
 -- Default configuration values
 local defaults = {
-    version = "0.1.0",
+    version = "0.2.0",
     corruptionDecayRate = 0.5,
     corruptionDecayInterval = 5.0,
     masteryMultiplier = 1.0,
@@ -47,10 +47,39 @@ local defaults = {
         maxReduction = 0.5,
         masteryRequired = 100
     },
+    whispers = {
+        enabled = true,
+        minCooldown = 30.0,
+        maxChanceAtFullCorruption = 0.15,
+        hostileWhisperReduction = 0.5
+    },
+    events = {
+        enabled = true,
+        minCooldown = 60.0,
+        pulseChance = 0.1,
+        glitchChance = 0.2,
+        thinSpotDiscoveryRange = 50.0,
+        thinSpotCorruptionRange = 30.0
+    },
+    cyberwareMalfunction = {
+        enabled = true,
+        checkInterval = 5.0,
+        minCorruptionForMalfunction = 50,
+        baseChanceAtCritical = 0.1,
+        shieldedReduction = 0.9
+    },
+    moralConsequences = {
+        enabled = true,
+        netwatchAlertThreshold = 50,
+        corruptedAlignmentThreshold = 95,
+        symbioticRequiredTrust = 75
+    },
     ui = {
         showCorruptionMeter = true,
         showMasteryProgress = true,
         showDepthLevel = true,
+        showAlignment = true,
+        showWhispers = true,
         hudPosition = {
             x = 50,
             y = 100

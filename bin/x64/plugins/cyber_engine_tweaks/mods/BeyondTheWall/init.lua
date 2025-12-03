@@ -1,7 +1,7 @@
 -- Beyond the Wall - Main Module
 -- Blackwall AI Firewall Mod for Cyberpunk 2077
 -- Author: xaviormaxes
--- Version: 0.1.0
+-- Version: 0.2.0
 
 -- Load configuration (config.lua handles JSON parsing and defaults)
 local config = require("config")
@@ -11,10 +11,12 @@ local Corruption = require("modules/corruption")
 local Mastery = require("modules/mastery")
 local UI = require("modules/ui")
 local Debug = require("modules/debug")
+local Whispers = require("modules/whispers")
+local Alignment = require("modules/alignment")
 
 -- Main mod object
 local BeyondTheWall = {
-    version = "0.1.0",
+    version = "0.2.0",
     name = "Beyond the Wall",
     initialized = false,
     config = nil,
@@ -22,6 +24,8 @@ local BeyondTheWall = {
     mastery = nil,
     ui = nil,
     debug = nil,
+    whispers = nil,
+    alignment = nil,
     saveFile = "beyondthewall_save.json",
     updateInterval = 0.1,
     updateTimer = 0.0
@@ -44,6 +48,8 @@ function BeyondTheWall:Initialize()
     -- Initialize systems
     self.corruption = Corruption:New(self.config)
     self.mastery = Mastery:New(self.config)
+    self.whispers = Whispers:New(self.config)
+    self.alignment = Alignment:New(self.config)
     self.ui = UI:New(self.config, self.corruption, self.mastery)
     self.debug = Debug:New(self.config, self.corruption, self.mastery)
 
@@ -72,10 +78,19 @@ function BeyondTheWall:SetupEventListeners()
             print(string.format("[BTW] Corruption tier changed: %s -> %s",
                 data.old:upper(), data.new:upper()))
 
-            -- Apply visual effects based on tier (to be implemented in Phase 4)
+            -- Apply visual effects based on tier
             if data.new == "critical" then
                 print("[BTW] WARNING: Critical corruption level!")
+                -- Queue ominous whisper
+                BeyondTheWall.whispers:QueueWhisper("ErebusEcho", 
+                    "Your resistance is weakening. Soon you will understand.", true)
+            elseif data.new == "high" then
+                BeyondTheWall.whispers:QueueWhisper("RogueConstruct",
+                    "We can feel your implants singing to us...", true)
             end
+            
+            -- Update alignment with new corruption level
+            BeyondTheWall.alignment:UpdateAlignment(BeyondTheWall.corruption:GetLevel())
         end
     end)
 
@@ -87,9 +102,36 @@ function BeyondTheWall:SetupEventListeners()
 
             -- Check if new depths should be unlocked
             BeyondTheWall.mastery:CheckDepthUnlocks()
+            
+            -- Queue congratulatory whisper from Alt
+            if data.newLevel >= 5 then
+                BeyondTheWall.whispers:QueueWhisper("AltFragment",
+                    "You're learning to walk in our world. Impressive.", false)
+            end
         elseif event == "depth_unlocked" then
             print(string.format("[BTW] New depth unlocked: %d", data.depth))
             print("[BTW] New quickhacks available!")
+        end
+    end)
+    
+    -- Listen for alignment changes
+    self.alignment:RegisterListener(function(event, data)
+        if event == "alignment_changed" then
+            print(string.format("[BTW] Alignment changed: %s -> %s",
+                data.old:upper(), data.new:upper()))
+                
+            -- Queue appropriate whisper
+            if data.new == "symbiotic" then
+                BeyondTheWall.whispers:QueueWhisper("AltFragment",
+                    "We are one now. The wall cannot separate us.", false)
+            elseif data.new == "corrupted" then
+                BeyondTheWall.whispers:QueueWhisper("ErebusEcho",
+                    "WELCOME HOME.", true)
+            end
+        elseif event == "netwatch_alert" then
+            print("[BTW] NETWATCH ALERT - You've been marked for observation!")
+            BeyondTheWall.whispers:QueueWhisper("NetwatchTrace",
+                "Subject flagged. Containment protocols initiated.", false)
         end
     end)
 end
@@ -106,6 +148,7 @@ function BeyondTheWall:Update(deltaTime)
     if self.updateTimer >= self.updateInterval then
         self.corruption:Update(self.updateTimer)
         self.mastery:CheckDepthUnlocks()
+        self.whispers:Update(self.updateTimer)
         self.ui:Update(self.updateTimer)
 
         self.updateTimer = 0.0
@@ -119,6 +162,7 @@ function BeyondTheWall:DrawUI()
     end
 
     self.ui:Draw()
+    self.whispers:Draw()
 
     if self.config.enableDebugMode then
         self.debug:DrawUI()
@@ -144,7 +188,9 @@ function BeyondTheWall:SaveState()
         version = self.version,
         timestamp = os.time(),
         corruption = self.corruption:Serialize(),
-        mastery = self.mastery:Serialize()
+        mastery = self.mastery:Serialize(),
+        alignment = self.alignment:Serialize(),
+        whispers = self.whispers:Serialize()
     }
 
     -- Use config module's JSON encoder
@@ -194,6 +240,12 @@ function BeyondTheWall:LoadState()
         -- Restore state
         self.corruption:Deserialize(saveData.corruption)
         self.mastery:Deserialize(saveData.mastery)
+        if saveData.alignment then
+            self.alignment:Deserialize(saveData.alignment)
+        end
+        if saveData.whispers then
+            self.whispers:Deserialize(saveData.whispers)
+        end
 
         print("[BTW] State loaded successfully")
     else
@@ -214,9 +266,13 @@ function BeyondTheWall:OnQuickhackUsed(quickhackName, success)
     local corruptionCost = self.config.quickhackCorruptionCost[quickhackName] or 0
     if corruptionCost > 0 then
         self.corruption:Add(corruptionCost, self.mastery:GetMastery())
+        -- Record as using Blackwall power for alignment
+        self.alignment:RecordChoice(Alignment.Choices.USE_BLACKWALL_POWER)
     elseif corruptionCost < 0 then
         -- Stabilize reduces corruption
         self.corruption:Remove(-corruptionCost)
+        -- Record as resisting corruption for alignment
+        self.alignment:RecordChoice(Alignment.Choices.RESIST_CORRUPTION)
     end
 
     -- Check for feedback damage
@@ -224,7 +280,9 @@ function BeyondTheWall:OnQuickhackUsed(quickhackName, success)
         local feedbackChance = self.corruption:GetFeedbackChance()
         if math.random() < feedbackChance then
             print("[BTW] Feedback damage!")
-            -- TODO: Apply actual damage in Phase 2
+            -- Queue warning whisper
+            self.whispers:QueueWhisper("RogueConstruct", 
+                "ERROR. FEEDBACK LOOP DETECTED. DAMAGE INEVITABLE.", true)
             return true -- Indicates feedback occurred
         end
     end
@@ -395,11 +453,49 @@ btw = {
     load = function()
         BeyondTheWall:LoadState()
         print("[BTW] State reloaded")
+    end,
+    
+    -- Test whisper
+    whisper = function(entity)
+        entity = entity or "AltFragment"
+        local messages = {
+            AltFragment = "The wall was never meant to keep us in...",
+            ErebusEcho = "Your resistance is futile.",
+            DatakrashGhost = "...Bartmoss... he promised us paradise...",
+            RogueConstruct = "FLESH DETECTED. INTERFACE POSSIBLE.",
+            NetwatchTrace = "WARNING: Unauthorized Blackwall access detected."
+        }
+        local msg = messages[entity] or messages.AltFragment
+        local isHostile = entity == "ErebusEcho" or entity == "RogueConstruct"
+        BeyondTheWall.whispers:QueueWhisper(entity, msg, isHostile)
+        print(string.format("[BTW] Whisper queued from %s", entity))
+    end,
+    
+    -- Show alignment status
+    alignment = function()
+        if BeyondTheWall.alignment then
+            local align = BeyondTheWall.alignment
+            print("=== Alignment Status ===")
+            print(string.format("Current: %s", align:GetDescription()))
+            print(string.format("Cooperation Score: %.1f", align:GetCooperationScore()))
+            print(string.format("AI Trust Level: %.1f", align:GetAITrustLevel()))
+            print(string.format("NetWatch Status: %s", align:IsMarkedByNetwatch() and "MARKED" or "Clear"))
+            print(string.format("Ending Hint: %s", align:GetEndingHint(BeyondTheWall.mastery:GetMastery())))
+        end
+    end,
+    
+    -- Record a choice (for testing)
+    choice = function(choiceType)
+        if BeyondTheWall.alignment then
+            BeyondTheWall.alignment:RecordChoice(choiceType)
+            print(string.format("[BTW] Choice recorded: %s", choiceType))
+        end
     end
 }
 
 -- Print initialization message
 print("[BTW] Module loaded. Use 'btw.help()' in console for commands")
+print("[BTW] New in v0.2.0: AI Whispers, Events, Cyberware Malfunctions, Moral Consequences!")
 
 -- Export mod for external access
 return BeyondTheWall
