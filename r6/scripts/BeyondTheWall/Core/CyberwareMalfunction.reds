@@ -164,14 +164,19 @@ public class CyberwareMalfunctionSystem extends ScriptableSystem {
   private func SelectMalfunctionType(corruptionLevel: Float) -> CyberwareMalfunctionType {
     let roll: Int32 = RandRange(0, 100);
     
-    if corruptionLevel >= 90.0 {
+    // Critical corruption threshold (90+)
+    let criticalThreshold: Float = 90.0;
+    // High corruption threshold (75+)
+    let highThreshold: Float = 75.0;
+    
+    if corruptionLevel >= criticalThreshold {
       // Critical - dangerous malfunctions
       if roll < 15 { return CyberwareMalfunctionType.Overload; }
       if roll < 35 { return CyberwareMalfunctionType.Hijacked; }
       if roll < 55 { return CyberwareMalfunctionType.Disabled; }
       if roll < 80 { return CyberwareMalfunctionType.Reduced; }
       return CyberwareMalfunctionType.Glitch;
-    } else if corruptionLevel >= 75.0 {
+    } else if corruptionLevel >= highThreshold {
       // High corruption
       if roll < 10 { return CyberwareMalfunctionType.Hijacked; }
       if roll < 30 { return CyberwareMalfunctionType.Disabled; }
@@ -215,7 +220,9 @@ public class CyberwareMalfunctionSystem extends ScriptableSystem {
     record.startTime = EngineTime.ToFloat(GameInstance.GetSimTime(GetGameInstance()));
     ArrayPush(this.m_activeMalfunctions, record);
     
-    LogChannel(n"BTW", s"[CyberwareMalfunction] \(ToString(cyberwareName)) - Type: \(EnumInt(malfunctionType)) for \(duration)s");
+    // Format duration to 1 decimal place for cleaner logs
+    let formattedDuration: Float = Cast<Float>(RoundF(duration * 10.0)) / 10.0;
+    LogChannel(n"BTW", s"[CyberwareMalfunction] \(ToString(cyberwareName)) - Type: \(EnumInt(malfunctionType)) for \(formattedDuration)s");
     
     // Apply effects
     switch malfunctionType {

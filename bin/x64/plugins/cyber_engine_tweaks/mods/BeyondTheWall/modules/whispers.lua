@@ -4,16 +4,22 @@
 local Whispers = {}
 Whispers.__index = Whispers
 
+-- Configuration constants
+local DEFAULT_QUEUE_SIZE = 5
+local DEFAULT_WHISPER_DURATION = 5.0
+local DEFAULT_FADEOUT_DURATION = 1.0
+
 -- Constructor
 function Whispers:New(config)
     local instance = setmetatable({}, Whispers)
     instance.config = config
     instance.activeWhisper = nil
     instance.whisperStartTime = 0
-    instance.whisperDuration = 5.0
-    instance.fadeOutDuration = 1.0
+    instance.whisperDuration = DEFAULT_WHISPER_DURATION
+    instance.fadeOutDuration = DEFAULT_FADEOUT_DURATION
     instance.isEnabled = config.whispers and config.whispers.enabled or true
     instance.whisperQueue = {}
+    instance.maxQueueSize = config.whispers and config.whispers.maxQueueSize or DEFAULT_QUEUE_SIZE
     
     -- AI entity display names with glitch effects
     instance.entityNames = {
@@ -53,8 +59,8 @@ function Whispers:QueueWhisper(entity, message, isHostile)
     
     table.insert(self.whisperQueue, whisper)
     
-    -- Limit queue size
-    while #self.whisperQueue > 5 do
+    -- Limit queue size (uses configured max)
+    while #self.whisperQueue > self.maxQueueSize do
         table.remove(self.whisperQueue, 1)
     end
 end

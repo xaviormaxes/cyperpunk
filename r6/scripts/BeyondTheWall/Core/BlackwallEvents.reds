@@ -58,12 +58,22 @@ public class BlackwallEventsSystem extends ScriptableSystem {
   private let m_currentPulseActive: Bool;
   private let m_pulseEndTime: Float;
   
+  // Configuration constants (should match config.json events settings)
+  private let c_thinSpotDiscoveryRange: Float;
+  private let c_thinSpotCorruptionRange: Float;
+  private let c_maxEventHistory: Int32;
+  
   private func OnAttach() -> Void {
     this.m_lastEventTime = 0.0;
     this.m_eventCooldown = 60.0; // 1 minute between random events
     this.m_isEnabled = true;
     this.m_currentPulseActive = false;
     this.m_pulseEndTime = 0.0;
+    
+    // Initialize configuration constants
+    this.c_thinSpotDiscoveryRange = 50.0;
+    this.c_thinSpotCorruptionRange = 30.0;
+    this.c_maxEventHistory = 50;
     
     this.InitializeThinSpots();
     ArrayClear(this.m_eventHistory);
@@ -142,13 +152,13 @@ public class BlackwallEventsSystem extends ScriptableSystem {
       let spot: ref<BlackwallThinSpot> = this.m_thinSpots[i];
       let distance: Float = Vector4.Distance(playerPos, spot.position);
       
-      // Discovery range: 50 meters
-      if distance <= 50.0 && !spot.isDiscovered {
+      // Discovery range
+      if distance <= this.c_thinSpotDiscoveryRange && !spot.isDiscovered {
         this.DiscoverThinSpot(spot);
       }
       
-      // Passive corruption range: 30 meters
-      if distance <= 30.0 && spot.isDiscovered {
+      // Passive corruption range
+      if distance <= this.c_thinSpotCorruptionRange && spot.isDiscovered {
         this.ApplyThinSpotCorruption(spot, distance);
       }
       
@@ -187,7 +197,7 @@ public class BlackwallEventsSystem extends ScriptableSystem {
     }
     
     // Corruption falls off with distance
-    let distanceFactor: Float = 1.0 - (distance / 30.0);
+    let distanceFactor: Float = 1.0 - (distance / this.c_thinSpotCorruptionRange);
     let corruptionAmount: Float = spot.passiveCorruption * distanceFactor * 0.01; // Per tick
     
     corruptionSystem.AddCorruption(corruptionAmount, mastery);
@@ -262,8 +272,8 @@ public class BlackwallEventsSystem extends ScriptableSystem {
     record.position = position;
     ArrayPush(this.m_eventHistory, record);
     
-    // Keep only last 50 events
-    while ArraySize(this.m_eventHistory) > 50 {
+    // Keep only last N events (configured)
+    while ArraySize(this.m_eventHistory) > this.c_maxEventHistory {
       ArrayErase(this.m_eventHistory, 0);
     }
     

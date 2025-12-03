@@ -42,6 +42,9 @@ public class MoralConsequencesSystem extends ScriptableSystem {
   private let m_isMarkedByNetwatch: Bool;
   private let m_aiTrustLevel: Float;
   
+  // Configuration constant
+  private let c_choiceHistoryLimit: Int32;
+  
   private func OnAttach() -> Void {
     this.m_cooperationScore = 0.0;
     ArrayClear(this.m_choiceHistory);
@@ -50,6 +53,9 @@ public class MoralConsequencesSystem extends ScriptableSystem {
     this.m_isMarkedByNetwatch = false;
     this.m_aiTrustLevel = 0.0;
     
+    // Initialize configuration
+    this.c_choiceHistoryLimit = 100;
+    
     LogChannel(n"BTW", "[MoralConsequences] System initialized");
   }
   
@@ -57,8 +63,8 @@ public class MoralConsequencesSystem extends ScriptableSystem {
   public func RecordChoice(choiceType: BlackwallChoiceType) -> Void {
     ArrayPush(this.m_choiceHistory, choiceType);
     
-    // Keep only last 100 choices
-    while ArraySize(this.m_choiceHistory) > 100 {
+    // Keep only last N choices (configured)
+    while ArraySize(this.m_choiceHistory) > this.c_choiceHistoryLimit {
       ArrayErase(this.m_choiceHistory, 0);
     }
     

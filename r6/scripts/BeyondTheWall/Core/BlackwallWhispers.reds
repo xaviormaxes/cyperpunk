@@ -40,11 +40,19 @@ public class BlackwallWhispersSystem extends ScriptableSystem {
   private let m_currentEntityAffinity: BlackwallAIEntity;
   private let m_entityAffinityScore: array<Float>;
   
+  // Configuration constants (should match config.json whispers settings)
+  private let c_maxWhisperChance: Float;
+  private let c_choiceHistoryLimit: Int32;
+  
   private func OnAttach() -> Void {
     this.m_lastWhisperTime = 0.0;
     this.m_whisperCooldown = 30.0; // Minimum 30 seconds between whispers
     this.m_isEnabled = true;
     this.m_currentEntityAffinity = BlackwallAIEntity.Unknown;
+    
+    // Initialize configuration constants
+    this.c_maxWhisperChance = 0.15; // Max 15% chance at full corruption
+    this.c_choiceHistoryLimit = 100;
     
     this.InitializeWhispers();
     this.InitializeAffinityScores();
@@ -135,8 +143,8 @@ public class BlackwallWhispersSystem extends ScriptableSystem {
       return;
     }
     
-    // Higher corruption = higher chance of whisper
-    let whisperChance: Float = (corruptionLevel / 100.0) * 0.15; // Max 15% chance at full corruption
+    // Higher corruption = higher chance of whisper (uses configured max chance)
+    let whisperChance: Float = (corruptionLevel / 100.0) * this.c_maxWhisperChance;
     
     // Mastery reduces chance of hostile whispers
     let hostileReduction: Float = mastery / 200.0; // Up to 50% reduction at max mastery
