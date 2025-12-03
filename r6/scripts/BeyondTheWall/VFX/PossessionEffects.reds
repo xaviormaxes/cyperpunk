@@ -38,6 +38,11 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Apply eye glow effect to possessed enemy
   public func ApplyEyeGlow(puppet: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    if !IsDefined(puppet) {
+      LogChannel(n"BTW", "[PossessionEffects] Warning: Cannot apply eye glow - puppet is null");
+      return;
+    }
+
     let color: Color = PossessionVisualPresets.GetEyeGlowColor(state);
     let intensity: Float = PossessionVisualPresets.GetGlowIntensity(state);
 
@@ -52,11 +57,16 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Remove eye glow effect
   public func RemoveEyeGlow(puppet: ref<ScriptedPuppet>) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     // Stop all eye glow effects on puppet
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
-    effectSystem.BreakEffectLoopOnEntity(puppet, n"possession_eye_glow");
-
-    LogChannel(n"BTW", "[PossessionEffects] Eye glow removed");
+    if IsDefined(effectSystem) {
+      effectSystem.BreakEffectLoopOnEntity(puppet, n"possession_eye_glow");
+      LogChannel(n"BTW", "[PossessionEffects] Eye glow removed");
+    }
   }
 
   // Create eye glow effect instance
@@ -79,6 +89,10 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Apply particle effects for possession state
   public func ApplyParticleEffect(puppet: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     let particleName: CName = PossessionVisualPresets.GetParticleEffect(state);
 
     if !IsNameValid(particleName) {
@@ -87,6 +101,10 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
     // Spawn particle effect on puppet
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
+
     let effectTransform: WorldTransform;
     WorldTransform.SetWorldPosition(effectTransform, puppet.GetWorldPosition());
 
@@ -97,7 +115,14 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Remove particle effects
   public func RemoveParticleEffect(puppet: ref<ScriptedPuppet>) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Stop all possession particle effects
     let i: Int32 = 0;
@@ -111,7 +136,14 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Apply corruption aura (Overwhelmed state)
   public func ApplyCorruptionAura(puppet: ref<ScriptedPuppet>, radius: Float) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Create aura effect
     let auraEffect: ref<EffectInstance> = new EffectInstance();
@@ -129,16 +161,25 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Remove corruption aura
   public func RemoveCorruptionAura(puppet: ref<ScriptedPuppet>) -> Void {
-    let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
-    effectSystem.BreakEffectLoopOnEntity(puppet, n"possession_corruption_aura");
+    if !IsDefined(puppet) {
+      return;
+    }
 
-    LogChannel(n"BTW", "[PossessionEffects] Corruption aura removed");
+    let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if IsDefined(effectSystem) {
+      effectSystem.BreakEffectLoopOnEntity(puppet, n"possession_corruption_aura");
+      LogChannel(n"BTW", "[PossessionEffects] Corruption aura removed");
+    }
   }
 
   // Play possession spread effect
   public func PlaySpreadEffect(sourcePos: Vector4, targetPos: Vector4) -> Void {
     let gameInstance: GameInstance = GetGameInstance();
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(gameInstance);
+
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Create spread trail effect
     let spreadEffect: ref<EffectInstance> = new EffectInstance();
@@ -163,7 +204,14 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Play exorcism effect
   public func PlayExorcismEffect(puppet: ref<ScriptedPuppet>, progress: Float) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Create exorcism effect with progress
     let exorcismEffect: ref<EffectInstance> = new EffectInstance();
@@ -184,7 +232,14 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Play exorcism complete effect
   private func PlayExorcismCompleteEffect(puppet: ref<ScriptedPuppet>) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Bright expulsion effect
     let completeEffect: ref<EffectInstance> = new EffectInstance();
@@ -201,7 +256,14 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Play possession break effect
   public func PlayPossessionBreakEffect(puppet: ref<ScriptedPuppet>) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
+
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Flash effect
     let breakEffect: ref<EffectInstance> = new EffectInstance();
@@ -221,7 +283,13 @@ public class PossessionEffectsRenderer extends ScriptableSystem {
 
   // Play AI banishment effect (Oni no Kiru)
   public func PlayBanishmentEffect(puppet: ref<ScriptedPuppet>, duration: Float) -> Void {
+    if !IsDefined(puppet) {
+      return;
+    }
     let effectSystem: ref<EffectSystem> = GameInstance.GetEffectSystem(puppet.GetGame());
+    if !IsDefined(effectSystem) {
+      return;
+    }
 
     // Reality tear effect
     let banishEffect: ref<EffectInstance> = new EffectInstance();

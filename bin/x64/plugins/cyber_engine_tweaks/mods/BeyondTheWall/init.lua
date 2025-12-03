@@ -3,7 +3,7 @@
 -- Author: xaviormaxes
 -- Version: 0.1.0
 
--- Load configuration
+-- Load configuration (config.lua handles JSON parsing and defaults)
 local config = require("config")
 
 -- Load modules
@@ -147,9 +147,9 @@ function BeyondTheWall:SaveState()
         mastery = self.mastery:Serialize()
     }
 
-    local json = require("json")
+    -- Use config module's JSON encoder
     local success, result = pcall(function()
-        return json.encode(saveData)
+        return self.config.encodeJSON(saveData)
     end)
 
     if success then
@@ -179,9 +179,9 @@ function BeyondTheWall:LoadState()
     local content = file:read("*a")
     file:close()
 
-    local json = require("json")
+    -- Use config module's JSON parser
     local success, saveData = pcall(function()
-        return json.decode(content)
+        return self.config.parseJSON(content)
     end)
 
     if success and saveData then
