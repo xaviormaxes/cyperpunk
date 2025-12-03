@@ -66,6 +66,11 @@ public class PossessedEnemy extends NPCPuppet {
 
     // Apply stat modifiers
     let statsSystem: ref<StatsSystem> = GameInstance.GetStatsSystem(this.GetGame());
+    if !IsDefined(statsSystem) {
+      LogChannel(n"BTW", "[PossessedEnemy] Warning: StatsSystem not available");
+      return;
+    }
+
     let entityID: StatsObjectID = Cast<StatsObjectID>(this.GetEntityID());
 
     // +20% Health
@@ -90,6 +95,11 @@ public class PossessedEnemy extends NPCPuppet {
 
     // Apply stat modifiers
     let statsSystem: ref<StatsSystem> = GameInstance.GetStatsSystem(this.GetGame());
+    if !IsDefined(statsSystem) {
+      LogChannel(n"BTW", "[PossessedEnemy] Warning: StatsSystem not available");
+      return;
+    }
+
     let entityID: StatsObjectID = Cast<StatsObjectID>(this.GetEntityID());
 
     // +50% Health
@@ -116,6 +126,11 @@ public class PossessedEnemy extends NPCPuppet {
 
     // Apply stat modifiers
     let statsSystem: ref<StatsSystem> = GameInstance.GetStatsSystem(this.GetGame());
+    if !IsDefined(statsSystem) {
+      LogChannel(n"BTW", "[PossessedEnemy] Warning: StatsSystem not available");
+      return;
+    }
+
     let entityID: StatsObjectID = Cast<StatsObjectID>(this.GetEntityID());
 
     // +100% Health (double health)
@@ -365,7 +380,7 @@ public class CerberusUnit_AIControlled extends NPCPuppet {
 
   // Disable player cyberware on proximity
   public func OnPlayerProximity(player: ref<PlayerPuppet>) -> Void {
-    if this.m_canDisableCyberware {
+    if this.m_canDisableCyberware && IsDefined(player) {
       this.DisablePlayerCyberware(player);
     }
   }
@@ -377,19 +392,25 @@ public class CerberusUnit_AIControlled extends NPCPuppet {
     }
 
     let statsSystem: ref<StatsSystem> = GameInstance.GetStatsSystem(player.GetGame());
+    if !IsDefined(statsSystem) {
+      return;
+    }
+
     let playerID: StatsObjectID = Cast<StatsObjectID>(player.GetEntityID());
 
     // Apply cyberware malfunction debuff (10 seconds)
-    let statusEffect: ref<StatusEffect>;
     let statusEffectID: TweakDBID = t"BaseStatusEffect.Stunned";
 
     // Create EMP-like status effect
-    let empEffect: ref<StatusEffect> = GameInstance.GetStatusEffectSystem(player.GetGame()).ApplyStatusEffect(
-      player.GetEntityID(),
-      statusEffectID,
-      player.GetEntityID(),
-      player
-    );
+    let statusEffectSystem: ref<StatusEffectSystem> = GameInstance.GetStatusEffectSystem(player.GetGame());
+    if IsDefined(statusEffectSystem) {
+      statusEffectSystem.ApplyStatusEffect(
+        player.GetEntityID(),
+        statusEffectID,
+        player.GetEntityID(),
+        player
+      );
+    }
 
     // Reduce quickhack effectiveness temporarily
     let quickhackDebuff: Float = -50.0; // -50% quickhack damage for duration

@@ -234,7 +234,15 @@ public class PossessionSpreadSystem extends ScriptableSystem {
 
   // Apply stat modifiers to possessed enemy
   private func ApplyPossessionStats(target: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    if !IsDefined(target) {
+      return;
+    }
+
     let statsSystem: ref<StatsSystem> = GameInstance.GetStatsSystem(target.GetGame());
+    if !IsDefined(statsSystem) {
+      return;
+    }
+
     let entityID: EntityID = target.GetEntityID();
 
     // Health multiplier based on state
@@ -274,6 +282,10 @@ public class PossessionSpreadSystem extends ScriptableSystem {
 
   // Apply behavior modifications to possessed enemy
   private func ApplyPossessionBehavior(target: ref<ScriptedPuppet>, state: PossessionState) -> Void {
+    if !IsDefined(target) {
+      return;
+    }
+
     // Make enemy more aggressive
     let aiComponent: ref<AIHumanComponent> = target.GetAIControllerComponent() as AIHumanComponent;
     if IsDefined(aiComponent) {
